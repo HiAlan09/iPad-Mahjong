@@ -313,6 +313,7 @@
         const PatternBox = ({ size = "md", children }) => {
             const boxDims = {
                 sm: "w-[20px] h-[28px]",
+                river: "w-[24px] h-[33px] sm:w-[27px] sm:h-[37px]",
                 md: "w-[28px] h-[38px] sm:w-[30px] sm:h-[42px]",
                 lg: "w-[36px] h-[50px] sm:w-[40px] sm:h-[56px]",
             }[size] || "w-[28px] h-[38px]";
@@ -328,16 +329,17 @@
         const MinimalLine = ({ size = "md", length = "standard", extraClass = "" }) => {
             const widthClass = {
                 sm: "w-[2.4px]",
+                river: "w-[2.9px] sm:w-[3.3px]",
                 md: "w-[3.2px]",
                 lg: "w-[4px]",
             }[size] || "w-[3.2px]";
 
             // 精准像素阶梯高度，彻底避免 flex 容器中百分比高度折叠失效为横向虚影的 Bug
             const heightClass = {
-                long: { sm: "h-[19px]", md: "h-[25px]", lg: "h-[33px]" }[size] || "h-[25px]",
-                standard: { sm: "h-[9.5px]", md: "h-[12.5px]", lg: "h-[16px]" }[size] || "h-[12.5px]",
-                short: { sm: "h-[6.5px]", md: "h-[8.5px]", lg: "h-[11px]" }[size] || "h-[8.5px]",
-            }[length] || ({ sm: "h-[9.5px]", md: "h-[12.5px]", lg: "h-[16px]" }[size] || "h-[12.5px]");
+                long: { sm: "h-[19px]", river: "h-[22px] sm:h-[26px]", md: "h-[25px]", lg: "h-[33px]" }[size] || "h-[25px]",
+                standard: { sm: "h-[9.5px]", river: "h-[11px] sm:h-[13px]", md: "h-[12.5px]", lg: "h-[16px]" }[size] || "h-[12.5px]",
+                short: { sm: "h-[6.5px]", river: "h-[7.5px] sm:h-[9px]", md: "h-[8.5px]", lg: "h-[11px]" }[size] || "h-[8.5px]",
+            }[length] || ({ sm: "h-[9.5px]", river: "h-[11px] sm:h-[13px]", md: "h-[12.5px]", lg: "h-[16px]" }[size] || "h-[12.5px]");
 
             return (
                 <div 
@@ -353,6 +355,7 @@
         const MinimalCircle = ({ size = "md", extraClass = "" }) => {
             const sizePx = {
                 sm: "w-[3.6px] h-[3.6px]",
+                river: "w-[4.4px] h-[4.4px] sm:w-[4.9px] sm:h-[4.9px]",
                 md: "w-[4.8px] h-[4.8px] sm:w-[5.2px] sm:h-[5.2px]",
                 lg: "w-[6.2px] h-[6.2px] sm:w-[7px] sm:h-[7px]",
             }[size] || "w-[4.8px] h-[4.8px]";
@@ -371,6 +374,7 @@
         const WanTileView = ({ val, size = "md" }) => {
             const fontNumSize = {
                 sm: "text-sm",
+                river: "text-base sm:text-lg",
                 md: "text-2xl",
                 lg: "text-3xl",
             }[size] || "text-2xl";
@@ -551,6 +555,7 @@
             if (val === 1) {
                 const oneTongDim = {
                     sm: "w-[10px] h-[10px]",
+                    river: "w-[12px] h-[12px] sm:w-[13.5px] sm:h-[13.5px]",
                     md: "w-[14px] h-[14px] sm:w-[16px] sm:h-[16px]",
                     lg: "w-[18px] h-[18px] sm:w-[21px] sm:h-[21px]",
                 }[size] || "w-[14px] h-[14px]";
@@ -686,6 +691,7 @@
             const ziChar = ZI_NAMES[val];
             const fontZiSize = {
                 sm: "text-sm",
+                river: "text-base sm:text-lg",
                 md: "text-2xl",
                 lg: "text-3xl",
             }[size] || "text-2xl";
@@ -711,7 +717,7 @@
                 );
             }
             if (ziChar === '白') {
-                const boxDim = size === 'sm' ? 'w-4 h-5 border-[2px]' : size === 'lg' ? 'w-6 h-8 border-[2.5px]' : 'w-5 h-7 border-[2px]';
+                const boxDim = size === 'sm' ? 'w-4 h-5 border-[2px]' : size === 'river' ? 'w-4.5 h-6 border-[2px]' : size === 'lg' ? 'w-6 h-8 border-[2.5px]' : 'w-5 h-7 border-[2px]';
                 return (
                     <div className="flex items-center justify-center leading-none select-none h-full w-full">
                         <div 
@@ -755,6 +761,7 @@
         const MahjongTile = ({ tile, isSelected, onClick, size = "md", isDrawn = false, customClass = "", faceDown = false }) => {
             const sizeStyle = {
                 sm: "w-7 h-10 rounded text-xs",
+                river: "w-8 h-11.5 sm:w-9 sm:h-13 rounded-md shadow-md",
                 md: "w-10 h-14 sm:w-11 sm:h-15 rounded-md",
                 lg: "w-12 h-16 sm:w-14 sm:h-20 rounded-md",
             }[size] || "w-10 h-14 rounded-md";
@@ -966,49 +973,82 @@
 
         const QuantumCompass = ({ activeTurnIndex, wallCount, roundWind = "东" }) => {
             return (
-                <div className="quantum-compass w-36 h-36 rounded-2xl flex flex-col items-center justify-center p-2 relative shadow-2xl shrink-0 select-none border border-cyan-500/40">
-                    <div className="text-[10px] font-orbitron font-black tracking-widest text-cyan-400 mb-0.5 flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
+                <div className="quantum-compass w-44 h-44 sm:w-48 sm:h-48 rounded-3xl flex flex-col items-center justify-center p-2 relative shadow-[0_0_40px_rgba(0,240,255,0.22)] shrink-0 select-none border-2 border-cyan-500/50 backdrop-blur-md">
+                    {/* 背景旋转微光刻度圈 */}
+                    <div className="absolute inset-2 rounded-2xl border border-cyan-500/20 pointer-events-none"></div>
+
+                    <div className="text-[11px] font-orbitron font-black tracking-widest text-cyan-300 mb-1 flex items-center gap-1.5 z-10">
+                        <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
                         {roundWind}风圈 · RADAR
                     </div>
-                    <div className="grid grid-cols-3 grid-rows-3 gap-1 w-20 h-20 items-center justify-items-center my-0.5 font-bold text-xs font-orbitron">
+
+                    {/* 四方位八卦科技亮灯 */}
+                    <div className="grid grid-cols-3 grid-rows-3 gap-1.5 w-28 h-28 items-center justify-items-center my-0.5 font-bold text-xs font-orbitron z-10">
                         <div />
-                        <div className={`px-1.5 py-0.5 rounded transition-all ${activeTurnIndex === 2 ? 'bg-cyan-400 text-slate-950 font-black scale-110 shadow-[0_0_12px_#00f0ff]' : 'text-slate-500'}`}>北</div>
-                        <div />
-                        <div className={`px-1.5 py-0.5 rounded transition-all ${activeTurnIndex === 3 ? 'bg-cyan-400 text-slate-950 font-black scale-110 shadow-[0_0_12px_#00f0ff]' : 'text-slate-500'}`}>西</div>
-                        <div className="w-8 h-8 rounded-full bg-slate-950 flex flex-col items-center justify-center border border-cyan-500/50 shadow-inner">
-                            <span className="text-[11px] font-mono font-black text-cyan-300 leading-none">{wallCount}</span>
-                            <span className="text-[6px] text-slate-400 font-orbitron leading-none mt-0.5">TILES</span>
+                        <div className={`px-2 py-0.5 rounded-lg transition-all flex flex-col items-center ${activeTurnIndex === 2 ? 'bg-cyan-400 text-slate-950 font-black scale-110 shadow-[0_0_16px_#00f0ff]' : 'text-slate-500'}`}>
+                            <span>北</span>
+                            {activeTurnIndex === 2 && <span className="text-[8px] leading-none animate-pulse">▲</span>}
                         </div>
-                        <div className={`px-1.5 py-0.5 rounded transition-all ${activeTurnIndex === 1 ? 'bg-cyan-400 text-slate-950 font-black scale-110 shadow-[0_0_12px_#00f0ff]' : 'text-slate-500'}`}>东</div>
                         <div />
-                        <div className={`px-1.5 py-0.5 rounded transition-all ${activeTurnIndex === 0 ? 'bg-cyan-400 text-slate-950 font-black scale-110 shadow-[0_0_12px_#00f0ff]' : 'text-slate-500'}`}>南 (你)</div>
+                        
+                        <div className={`px-2 py-0.5 rounded-lg transition-all flex items-center gap-0.5 ${activeTurnIndex === 3 ? 'bg-cyan-400 text-slate-950 font-black scale-110 shadow-[0_0_16px_#00f0ff]' : 'text-slate-500'}`}>
+                            {activeTurnIndex === 3 && <span className="text-[8px] leading-none animate-pulse">◀</span>}
+                            <span>西</span>
+                        </div>
+                        
+                        {/* 中心磁核余牌计数器 */}
+                        <div className="w-12 h-12 rounded-full bg-slate-950/95 flex flex-col items-center justify-center border-2 border-cyan-400/60 shadow-[0_0_15px_rgba(0,240,255,0.4)_inset]">
+                            <span className="text-sm font-mono font-black text-cyan-300 leading-none">{wallCount}</span>
+                            <span className="text-[7px] text-slate-400 font-orbitron leading-none mt-0.5">TILES</span>
+                        </div>
+                        
+                        <div className={`px-2 py-0.5 rounded-lg transition-all flex items-center gap-0.5 ${activeTurnIndex === 1 ? 'bg-cyan-400 text-slate-950 font-black scale-110 shadow-[0_0_16px_#00f0ff]' : 'text-slate-500'}`}>
+                            <span>东</span>
+                            {activeTurnIndex === 1 && <span className="text-[8px] leading-none animate-pulse">▶</span>}
+                        </div>
+                        
+                        <div />
+                        <div className={`px-2 py-0.5 rounded-lg transition-all flex flex-col items-center ${activeTurnIndex === 0 ? 'bg-cyan-400 text-slate-950 font-black scale-110 shadow-[0_0_16px_#00f0ff]' : 'text-slate-500'}`}>
+                            {activeTurnIndex === 0 && <span className="text-[8px] leading-none animate-pulse">▼</span>}
+                            <span>南 (你)</span>
+                        </div>
                         <div />
                     </div>
                 </div>
             );
         };
 
-        const DiscardRiver = ({ discards, lastDiscardId, positionClass = "" }) => {
+        const DiscardRiver = ({ discards, lastDiscardId, positionClass = "", label = "" }) => {
             return (
-                <div className={`grid grid-cols-6 gap-1 p-1 bg-black/40 rounded-xl border border-cyan-900/40 min-h-[58px] min-w-[140px] max-w-[210px] content-start backdrop-blur-sm ${positionClass}`}>
-                    {discards.map((tile) => (
-                        <div key={tile.id} className="relative">
-                            <MahjongTile 
-                                tile={tile} 
-                                size="sm" 
-                                customClass={lastDiscardId === tile.id ? 'ring-2 ring-cyan-400 shadow-[0_0_10px_#00f0ff] scale-105' : 'opacity-85'} 
-                            />
-                            {lastDiscardId === tile.id && (
-                                <div className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-rose-500 animate-ping"></div>
-                            )}
-                        </div>
-                    ))}
-                    {discards.length === 0 && (
-                        <div className="col-span-6 text-center text-[10px] text-cyan-600/40 py-2 font-mono">
-                            POOL EMPTY
+                <div className={`flex flex-col bg-slate-950/65 rounded-2xl border border-cyan-500/30 p-2 shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-md min-w-[210px] sm:min-w-[240px] md:min-w-[260px] ${positionClass}`}>
+                    {label && (
+                        <div className="flex items-center justify-between text-[10px] font-orbitron font-bold text-cyan-400/80 mb-1 px-1 border-b border-cyan-900/40 pb-0.5">
+                            <span>{label}</span>
+                            <span className="text-[9px] text-slate-500 font-mono">{discards.length} 张</span>
                         </div>
                     )}
+                    <div className="grid grid-cols-6 gap-1 content-start min-h-[82px] sm:min-h-[92px]">
+                        {discards.map((tile) => {
+                            const isLatest = lastDiscardId === tile.id;
+                            return (
+                                <div key={tile.id} className="relative flex items-center justify-center">
+                                    <MahjongTile 
+                                        tile={tile} 
+                                        size="river" 
+                                        customClass={isLatest ? 'ring-2 ring-cyan-300 shadow-[0_0_12px_#00f0ff] scale-105 z-10' : 'opacity-90 hover:opacity-100'} 
+                                    />
+                                    {isLatest && (
+                                        <div className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-rose-500 border border-white animate-ping z-20"></div>
+                                    )}
+                                </div>
+                            );
+                        })}
+                        {discards.length === 0 && (
+                            <div className="col-span-6 flex items-center justify-center text-center text-[11px] text-cyan-600/30 h-[80px] font-mono tracking-wider">
+                                牌池待出 · AWAITING
+                            </div>
+                        )}
+                    </div>
                 </div>
             );
         };
@@ -1665,7 +1705,7 @@
                         </div>
                     </div>
 
-                    <div className="flex-1 flex flex-col p-2 sm:p-4 overflow-hidden relative cyber-table-felt min-h-0">
+                    <div className="flex-1 flex flex-col p-2 sm:p-3 overflow-hidden relative cyber-table-felt min-h-0">
                         {notification && (
                             <div className="absolute top-3 left-1/2 -translate-x-1/2 z-40 animate-pop pointer-events-none">
                                 <div className={`px-4 py-1.5 rounded-full shadow-2xl border text-xs font-bold flex items-center gap-2 backdrop-blur-md whitespace-nowrap ${
@@ -1679,75 +1719,98 @@
                             </div>
                         )}
 
-                        {/* 北家 */}
-                        <div className="flex flex-col items-center justify-center shrink-0 mb-1">
-                            <div className="flex items-center gap-2 mb-1">
-                                <span className="text-base leading-none">🐃</span>
-                                <span className="text-xs font-bold text-slate-300 font-orbitron">Chief Bogo (北)</span>
-                                <span className="text-[10px] text-cyan-400 bg-cyan-950 px-1.5 rounded border border-cyan-500/30">
-                                    手牌: {players[2]?.hand.length}
-                                </span>
-                            </div>
-                            <div className="flex gap-1 overflow-hidden">
-                                {Array.from({ length: players[2]?.hand.length || 13 }).map((_, i) => (
-                                    <MahjongTile key={i} tile={{}} size="sm" faceDown={true} />
-                                ))}
-                            </div>
-                        </div>
+                        {/* 大号中央赛博战术桌台 (Grand Cyber Mahjong Arena) */}
+                        <div className="flex-1 w-full max-w-[1280px] mx-auto flex flex-col justify-between p-2 sm:p-3.5 relative rounded-3xl border-2 border-cyan-500/35 bg-[#060e1b]/80 backdrop-blur-md shadow-[0_0_60px_rgba(0,240,255,0.08)_inset,0_16px_40px_rgba(0,0,0,0.85)] min-h-0 overflow-hidden">
+                            
+                            {/* 牌桌四角高科技光电折角标 */}
+                            <div className="absolute top-2 left-3 text-cyan-500/40 text-[9px] font-mono tracking-widest pointer-events-none">⌜ CYBER-FELT 01 ⌝</div>
+                            <div className="absolute top-2 right-3 text-cyan-500/40 text-[9px] font-mono tracking-widest pointer-events-none">⌞ MATRIX ARENA ⌟</div>
+                            <div className="absolute bottom-2 left-3 text-cyan-500/40 text-[9px] font-mono tracking-widest pointer-events-none">⌞ TACTICAL 136 ⌟</div>
+                            <div className="absolute bottom-2 right-3 text-cyan-500/40 text-[9px] font-mono tracking-widest pointer-events-none">⌜ QUANTUM HUD ⌝</div>
 
-                        {/* 中层四方台 */}
-                        <div className="flex-1 flex items-center justify-between px-2 min-h-0">
-                            {/* 西家 */}
-                            <div className="flex flex-col items-center justify-center shrink-0 max-w-[100px]">
-                                <div className="text-xs font-bold text-slate-300 mb-1 flex items-center gap-1 font-orbitron">
-                                    <span>🦥</span> Flash (西)
+                            {/* 顶排：北家 (Chief Bogo) */}
+                            <div className="flex flex-col items-center justify-center shrink-0">
+                                <div className={`flex items-center gap-2 mb-1 px-3 py-0.5 rounded-full border transition-all ${
+                                    turnIndex === 2 ? 'bg-cyan-500/25 border-cyan-400 text-cyan-200 ring-2 ring-cyan-400/50 shadow-[0_0_15px_rgba(0,240,255,0.4)]' : 'bg-slate-900/80 border-slate-700 text-slate-300'
+                                }`}>
+                                    <span className="text-base leading-none">🐃</span>
+                                    <span className="text-xs font-bold font-orbitron">Chief Bogo (北)</span>
+                                    <span className="text-[10px] text-cyan-300 bg-slate-950 px-2 py-0.2 rounded-full border border-cyan-500/30 font-mono">
+                                        手牌 {players[2]?.hand.length}
+                                    </span>
                                 </div>
-                                <div className="grid grid-cols-2 gap-1">
-                                    {Array.from({ length: Math.min(players[3]?.hand.length || 13, 14) }).map((_, i) => (
+                                <div className="flex gap-1 overflow-hidden">
+                                    {Array.from({ length: players[2]?.hand.length || 13 }).map((_, i) => (
                                         <MahjongTile key={i} tile={{}} size="sm" faceDown={true} />
                                     ))}
                                 </div>
                             </div>
 
-                            {/* 牌池与八卦罗盘 */}
-                            <div className="flex-1 flex flex-col items-center justify-center gap-2">
-                                <DiscardRiver 
-                                    discards={players[2]?.discards || []} 
-                                    lastDiscardId={lastDiscardInfo?.tile?.id} 
-                                />
+                            {/* 中间层：西家 + 宽广牌池与中央罗盘 + 东家 */}
+                            <div className="flex-1 flex items-center justify-between px-2 sm:px-4 my-1 min-h-0 gap-3">
+                                {/* 西家 (Flash) */}
+                                <div className="flex flex-col items-center justify-center shrink-0 max-w-[110px]">
+                                    <div className={`text-xs font-bold mb-1.5 flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border font-orbitron transition-all ${
+                                        turnIndex === 3 ? 'bg-cyan-500/25 border-cyan-400 text-cyan-200 ring-2 ring-cyan-400/50 shadow-[0_0_15px_rgba(0,240,255,0.4)]' : 'bg-slate-900/80 border-slate-700 text-slate-300'
+                                    }`}>
+                                        <span>🦥</span> Flash (西)
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-1">
+                                        {Array.from({ length: Math.min(players[3]?.hand.length || 13, 14) }).map((_, i) => (
+                                            <MahjongTile key={i} tile={{}} size="sm" faceDown={true} />
+                                        ))}
+                                    </div>
+                                </div>
 
-                                <div className="flex items-center justify-center gap-4">
+                                {/* 核心广阔牌桌竞技场：北、西、东、南四方牌池簇拥着中央大罗盘 */}
+                                <div className="flex-1 flex flex-col items-center justify-center gap-2 max-w-[820px] mx-auto">
+                                    {/* 北家牌池 */}
                                     <DiscardRiver 
-                                        discards={players[3]?.discards || []} 
-                                        lastDiscardId={lastDiscardInfo?.tile?.id} 
+                                        discards={players[2]?.discards || []} 
+                                        lastDiscardId={lastDiscardInfo?.tile?.id}
+                                        label="北席弃牌池" 
                                     />
 
-                                    <QuantumCompass 
-                                        activeTurnIndex={turnIndex} 
-                                        wallCount={wall.length} 
-                                    />
+                                    {/* 中间排：西家牌池 | 量子大罗盘 | 东家牌池 */}
+                                    <div className="flex items-center justify-center gap-3 sm:gap-5 w-full">
+                                        <DiscardRiver 
+                                            discards={players[3]?.discards || []} 
+                                            lastDiscardId={lastDiscardInfo?.tile?.id}
+                                            label="西席弃牌池" 
+                                        />
 
+                                        <QuantumCompass 
+                                            activeTurnIndex={turnIndex} 
+                                            wallCount={wall.length} 
+                                        />
+
+                                        <DiscardRiver 
+                                            discards={players[1]?.discards || []} 
+                                            lastDiscardId={lastDiscardInfo?.tile?.id}
+                                            label="东席弃牌池" 
+                                        />
+                                    </div>
+
+                                    {/* 南家(你)牌池 */}
                                     <DiscardRiver 
-                                        discards={players[1]?.discards || []} 
-                                        lastDiscardId={lastDiscardInfo?.tile?.id} 
+                                        discards={players[0]?.discards || []} 
+                                        lastDiscardId={lastDiscardInfo?.tile?.id}
+                                        label="南席 (你) 牌池" 
                                     />
                                 </div>
 
-                                <DiscardRiver 
-                                    discards={players[0]?.discards || []} 
-                                    lastDiscardId={lastDiscardInfo?.tile?.id} 
-                                />
-                            </div>
-
-                            {/* 东家 */}
-                            <div className="flex flex-col items-center justify-center shrink-0 max-w-[100px]">
-                                <div className="text-xs font-bold text-slate-300 mb-1 flex items-center gap-1 font-orbitron">
-                                    <span>{players[1]?.avatar}</span> {players[1]?.name?.split(' ')[0]} (东)
-                                </div>
-                                <div className="grid grid-cols-2 gap-1">
-                                    {Array.from({ length: Math.min(players[1]?.hand.length || 13, 14) }).map((_, i) => (
-                                        <MahjongTile key={i} tile={{}} size="sm" faceDown={true} />
-                                    ))}
+                                {/* 东家 (Nick / Judy) */}
+                                <div className="flex flex-col items-center justify-center shrink-0 max-w-[110px]">
+                                    <div className={`text-xs font-bold mb-1.5 flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border font-orbitron transition-all ${
+                                        turnIndex === 1 ? 'bg-cyan-500/25 border-cyan-400 text-cyan-200 ring-2 ring-cyan-400/50 shadow-[0_0_15px_rgba(0,240,255,0.4)]' : 'bg-slate-900/80 border-slate-700 text-slate-300'
+                                    }`}>
+                                        <span>{players[1]?.avatar}</span> {players[1]?.name?.split(' ')[0]} (东)
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-1">
+                                        {Array.from({ length: Math.min(players[1]?.hand.length || 13, 14) }).map((_, i) => (
+                                            <MahjongTile key={i} tile={{}} size="sm" faceDown={true} />
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>
