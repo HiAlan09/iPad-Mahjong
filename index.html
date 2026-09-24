@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="CyberMahjong">
-    <title>麻将 (Mahjong) - iPad 赛博豪华典藏版</title>
+    <title>麻将 (Mahjong) - 赛博纪元 iPad Pro 12.9" 豪华典藏版</title>
 
     <!-- Tailwind CSS, Google Fonts, React 18, Babel CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -46,7 +46,7 @@
         }
         .font-heiti {
             font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", sans-serif;
-            font-weight: 800;
+            font-weight: 900;
         }
 
         .custom-scrollbar::-webkit-scrollbar {
@@ -71,30 +71,31 @@
             background-size: 100% 100%, 28px 28px, 28px 28px;
         }
 
-        /* 纳米骨瓷 3D 麻将牌块（严格 1:1.44 纵横比，骨瓷质感与冰蓝极光底座） */
+        /* 纳米骨瓷 3D 麻将牌块 */
         .mj-tile-nano {
-            background: linear-gradient(170deg, #ffffff 0%, #f8fafc 55%, #e2e8f0 100%);
+            background: linear-gradient(170deg, #ffffff 0%, #f1f5f9 55%, #cbd5e1 100%);
             border-radius: 6px;
             box-shadow: 
                 0 1px 0 rgba(255, 255, 255, 0.95) inset,
-                0 -2px 0 rgba(15, 23, 42, 0.35) inset,
+                0 -2px 0 rgba(15, 23, 42, 0.4) inset,
                 -1px 0 0 rgba(255, 255, 255, 0.7) inset,
-                1px 0 0 rgba(15, 23, 42, 0.2) inset,
-                0 8px 16px -2px rgba(0, 0, 0, 0.75),
-                0 4px 6px -1px rgba(0, 0, 0, 0.45);
+                1px 0 0 rgba(15, 23, 42, 0.25) inset,
+                0 6px 14px -2px rgba(0, 0, 0, 0.75),
+                0 3px 5px -1px rgba(0, 0, 0, 0.45);
             border: 1px solid #94a3b8;
             position: relative;
             transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.3, 1), box-shadow 0.15s ease-out;
         }
 
+        /* 牌背墨蓝极光底板 */
         .mj-tile-nano::after {
             content: "";
             position: absolute;
             bottom: -3px;
             left: 1px;
             right: 1px;
-            height: 3px;
-            background: linear-gradient(90deg, #0284c7 0%, #00f0ff 50%, #0369a1 100%);
+            height: 3.5px;
+            background: linear-gradient(90deg, #0369a1 0%, #00f0ff 50%, #0284c7 100%);
             border-radius: 0 0 5px 5px;
             border-bottom: 1px solid #082f49;
         }
@@ -112,48 +113,37 @@
             transform: translateY(-4px) scale(0.98);
         }
 
+        /* 左右玩家 90 度旋转侧卧牌块 */
+        .mj-tile-side-horizontal {
+            width: 28px;
+            height: 18px;
+            background: linear-gradient(180deg, #0c2038 0%, #05101d 70%, #02070e 100%);
+            border: 1px solid #0284c7;
+            border-right: 3px solid #00f0ff;
+            border-radius: 3px;
+            box-shadow: 0 1px 0 rgba(0, 240, 255, 0.4) inset, 0 3px 6px rgba(0, 0, 0, 0.8);
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        /* 对家北席牌背 */
         .mj-tile-back-cyber {
             background: linear-gradient(145deg, #0c2038 0%, #05101d 60%, #02070e 100%);
             border: 1px solid #0284c7;
-            box-shadow: 
-                0 1px 0 rgba(0, 240, 255, 0.4) inset,
-                0 4px 8px rgba(0, 0, 0, 0.7);
-            border-radius: 5px;
+            box-shadow: 0 1px 0 rgba(0, 240, 255, 0.4) inset, 0 4px 8px rgba(0, 0, 0, 0.7);
+            border-radius: 6px;
         }
 
-        /* 侧边玩家横向卧倒麻将牌 (90度旋转省空间形态) */
-        .mj-tile-side-horizontal {
-            width: 26px;
-            height: 17px;
-            background: linear-gradient(180deg, #0c223c 0%, #061324 70%, #020813 100%);
-            border: 1px solid #0284c7;
-            border-radius: 3px;
-            box-shadow: 
-                0 1px 0 rgba(0, 240, 255, 0.3) inset,
-                0 2px 4px rgba(0, 0, 0, 0.6);
-            position: relative;
-        }
-        .mj-tile-side-horizontal::after {
-            content: "";
-            position: absolute;
-            right: -2px;
-            top: 1px;
-            bottom: 1px;
-            width: 2px;
-            background: #00f0ff;
-            border-radius: 0 2px 2px 0;
-            opacity: 0.7;
-        }
-
+        /* 量子八卦罗盘 */
         .quantum-compass {
             background: radial-gradient(circle at 50% 50%, #0d1e33 0%, #060e19 100%);
-            border: 2px solid rgba(0, 240, 255, 0.45);
+            border: 2px solid #00f0ff55;
             box-shadow: 0 0 30px rgba(0, 240, 255, 0.25), 0 0 12px rgba(0, 0, 0, 0.8) inset;
         }
 
         @keyframes cyberPulse {
             0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px #00f0ffaa); }
-            50% { transform: scale(1.05); filter: drop-shadow(0 0 20px #ff0077dd); }
+            50% { transform: scale(1.05); filter: drop-shadow(0 0 22px #ff0077dd); }
         }
         .cyber-action-pulse {
             animation: cyberPulse 1.4s infinite cubic-bezier(0.4, 0, 0.2, 1);
@@ -164,19 +154,31 @@
             100% { transform: scale(1); opacity: 1; }
         }
         .animate-pop {
-            animation: popIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes floatSlow {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-7px); }
-        }
-        .animate-float {
-            animation: floatSlow 4s ease-in-out infinite;
+            animation: popIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .text-glow-cyan {
             text-shadow: 0 0 8px rgba(0, 240, 255, 0.8), 0 0 20px rgba(0, 240, 255, 0.4);
+        }
+
+        /* 汉字细致科技发光描边 */
+        .cyber-char-stroke-cyan {
+            -webkit-text-stroke: 0.65px rgba(0, 240, 255, 0.8);
+            text-shadow: 0 0 4px rgba(0, 240, 255, 0.55), 0 0 10px rgba(0, 240, 255, 0.25);
+        }
+        .cyber-char-stroke-rose {
+            -webkit-text-stroke: 0.65px rgba(244, 63, 94, 0.85);
+            text-shadow: 0 0 5px rgba(244, 63, 94, 0.7), 0 0 12px rgba(244, 63, 94, 0.35);
+        }
+        .cyber-char-stroke-emerald {
+            -webkit-text-stroke: 0.65px rgba(16, 185, 129, 0.85);
+            text-shadow: 0 0 5px rgba(16, 185, 129, 0.7), 0 0 12px rgba(16, 185, 129, 0.35);
+        }
+
+        /* 轮到人类回合时底部主牌架全包围赛博极光高亮呼吸光圈 */
+        .active-human-rack {
+            border-color: #00f0ff !important;
+            box-shadow: 0 -8px 36px rgba(0, 240, 255, 0.45), 0 0 0 1.5px rgba(0, 240, 255, 0.6) inset !important;
         }
     </style>
 </head>
@@ -208,7 +210,7 @@
                     osc.type = 'sine';
                     osc.frequency.setValueAtTime(1400, now);
                     osc.frequency.exponentialRampToValueAtTime(360, now + 0.04);
-                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.setValueAtTime(0.28, now);
                     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
                     osc.connect(gain);
                     gain.connect(this.ctx.destination);
@@ -225,7 +227,7 @@
                     osc.type = 'triangle';
                     osc.frequency.setValueAtTime(520, now);
                     osc.frequency.exponentialRampToValueAtTime(120, now + 0.08);
-                    gain.gain.setValueAtTime(0.38, now);
+                    gain.gain.setValueAtTime(0.36, now);
                     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
                     osc.connect(gain);
                     gain.connect(this.ctx.destination);
@@ -306,473 +308,406 @@
         const Lightbulb = (p) => <IconBase {...p}><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /><path d="M9 18h6" /><path d="M10 22h4" /></IconBase>;
         const Trophy = (p) => <IconBase {...p}><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" /><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" /><path d="M4 22h16" /><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" /><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" /><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" /></IconBase>;
 
-        const ArcReactorSVG = ({ size = "md" }) => {
-            const dim = size === 'sm' ? 22 : size === 'lg' ? 44 : 30;
+        // 首页高能聚变反应堆专属矢量图
+        const ArcReactorSVG = ({ size = "lg" }) => {
+            const dim = size === 'sm' ? 24 : size === 'md' ? 44 : 68;
             return (
-                <svg width={dim} height={dim} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0 select-none">
-                    <circle cx="32" cy="32" r="30" stroke="#00f0ff" strokeWidth="1.5" strokeDasharray="4 2" />
+                <svg width={dim} height={dim} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0 select-none drop-shadow-[0_0_18px_rgba(0,240,255,0.7)]">
+                    {/* 外圈磁感应线圈与高压刻度 */}
+                    <circle cx="32" cy="32" r="30" stroke="#00f0ff" strokeWidth="1.5" strokeDasharray="4 2" opacity="0.85" />
                     <circle cx="32" cy="32" r="26" stroke="#0284c7" strokeWidth="3" fill="#061220" />
+                    {/* 8方位高能聚变电容电极 */}
                     {Array.from({ length: 8 }).map((_, i) => (
                         <rect 
                             key={i} 
-                            x="30" y="8" width="4" height="7" rx="1.5" 
+                            x="30" y="7" width="4" height="8" rx="1.5" 
                             fill="#f59e0b" 
                             stroke="#ffffff"
                             strokeWidth="0.6"
                             transform={`rotate(${i * 45} 32 32)`}
                         />
                     ))}
+                    {/* 内圈超导磁环 */}
                     <circle cx="32" cy="32" r="16" stroke="#f43f5e" strokeWidth="2.5" fill="#0b1728" />
                     <circle cx="32" cy="32" r="10" fill="#0284c7" />
-                    <circle cx="32" cy="32" r="6" fill="#ffffff" filter="drop-shadow(0 0 5px #00f0ff)" />
+                    {/* 白热聚变光心 */}
+                    <circle cx="32" cy="32" r="5.5" fill="#ffffff" filter="drop-shadow(0 0 8px #00f0ff)" />
                 </svg>
             );
         };
 
         const CHINESE_NUMS = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
         const ZI_NAMES = ["", "东", "南", "西", "北", "中", "发", "白"];
-        const ZI_ENGLISH = { 东: "EAST", 南: "SOUTH", 西: "WEST", 北: "NORTH", 中: "CORE", 发: "QUANTUM", 白: "" };
 
-        // 统一图案区域容器（比文字牌大，限定舒适比例显示框，确保条和筒均匀分布）
-        const PatternBox = ({ size = "md", children }) => {
-            const boxDims = {
-                sm: "w-[20px] h-[28px]",
-                river: "w-[24px] h-[33px] sm:w-[27px] sm:h-[37px]",
-                md: "w-[28px] h-[38px] sm:w-[30px] sm:h-[42px]",
-                lg: "w-[36px] h-[50px] sm:w-[40px] sm:h-[56px]",
-            }[size] || "w-[28px] h-[38px]";
-
-            return (
-                <div className={`${boxDims} flex items-center justify-center select-none mx-auto my-auto relative`}>
-                    {children}
-                </div>
-            );
-        };
-
-        // 极简纯黑圆角倒角线条（条/索专用：线宽稳定统一，两端饱满圆角倒角，带激光微光描边）
+        // 极简纯黑圆角倒角线条（严格保持各级尺寸下的饱满粗细与舒适长度）
         const MinimalLine = ({ size = "md", length = "standard", extraClass = "" }) => {
             const widthClass = {
-                sm: "w-[2.2px]",
-                river: "w-[2.8px] sm:w-[3px]",
-                md: "w-[3.2px]",
-                lg: "w-[3.8px]",
-            }[size] || "w-[3.2px]";
+                sm: "w-[2.6px]",
+                river: "w-[3.2px]",
+                md: "w-[3.8px]",
+                lg: "w-[4.4px]"
+            }[size] || "w-[3.8px]";
 
-            // 精准像素阶梯高度，彻底避免 flex 容器中百分比高度折叠失效为横向虚影的 Bug
             const heightClass = {
-                long: { sm: "h-[15px]", river: "h-[18px] sm:h-[20px]", md: "h-[22px]", lg: "h-[26px]" }[size] || "h-[22px]",
-                standard: { sm: "h-[8.5px]", river: "h-[10px] sm:h-[11.5px]", md: "h-[12px]", lg: "h-[14px]" }[size] || "h-[12px]",
-                short: { sm: "h-[6px]", river: "h-[7px] sm:h-[8px]", md: "h-[8.5px]", lg: "h-[10px]" }[size] || "h-[8.5px]",
-            }[length] || ({ sm: "h-[8.5px]", river: "h-[10px] sm:h-[11.5px]", md: "h-[12px]", lg: "h-[14px]" }[size] || "h-[12px]");
+                long: { sm: "h-[18px]", river: "h-[22px]", md: "h-[26px]", lg: "h-[32px]" },
+                standard: { sm: "h-[8.5px]", river: "h-[11px]", md: "h-[13px]", lg: "h-[16px]" },
+                short: { sm: "h-[7px]", river: "h-[9px]", md: "h-[10.5px]", lg: "h-[13px]" }
+            }[length]?.[size] || { sm: "h-[8.5px]", river: "h-[11px]", md: "h-[13px]", lg: "h-[16px]" }[size];
 
             return (
                 <div 
-                    className={`${widthClass} ${heightClass} rounded-full shrink-0 select-none bg-slate-950 ${extraClass}`}
-                    style={{
-                        boxShadow: '0 0 0 0.6px rgba(0, 240, 255, 0.4), inset 0 0 1px rgba(255, 255, 255, 0.3)'
-                    }}
+                    className={`${widthClass} ${heightClass} bg-slate-950 rounded-full shrink-0 select-none shadow-[0_0_2px_rgba(0,240,255,0.6)] ${extraClass}`}
                 />
             );
         };
 
-        // 极简纯黑实心小圆圈（筒/饼专用：紧凑小巧，带全息激光微光描边）
+        // 极简纯黑实心小圆圈（适度饱满，绝非芝麻细点）
         const MinimalCircle = ({ size = "md", extraClass = "" }) => {
-            const sizePx = {
-                sm: "w-[3.6px] h-[3.6px]",
-                river: "w-[4.4px] h-[4.4px] sm:w-[4.9px] sm:h-[4.9px]",
-                md: "w-[4.8px] h-[4.8px] sm:w-[5.2px] sm:h-[5.2px]",
-                lg: "w-[6.2px] h-[6.2px] sm:w-[7px] sm:h-[7px]",
-            }[size] || "w-[4.8px] h-[4.8px]";
+            const dimClass = {
+                sm: "w-[5px] h-[5px]",
+                river: "w-[6.5px] h-[6.5px]",
+                md: "w-[7.5px] h-[7.5px]",
+                lg: "w-[9px] h-[9px]"
+            }[size] || "w-[7.5px] h-[7.5px]";
 
             return (
                 <div 
-                    className={`rounded-full shrink-0 bg-slate-950 flex items-center justify-center select-none ${sizePx} ${extraClass}`}
-                    style={{
-                        boxShadow: '0 0 0 0.8px rgba(0, 240, 255, 0.85), 0 0 3px rgba(0, 240, 255, 0.55), inset 0 0 1px rgba(255, 255, 255, 0.3)'
-                    }}
+                    className={`${dimClass} bg-slate-950 rounded-full shrink-0 select-none shadow-[0_0_2px_rgba(0,240,255,0.6)] ${extraClass}`}
                 />
             );
         };
 
-        // 万字牌：严格按照风牌标准比例，所有数字统一纯黑（五万不特殊），英文代号采用赤红激光荧光
+        // 万字牌：纯正加粗黑体汉字数字（全同色）+ 下方英文赤红荧光
         const WanTileView = ({ val, size = "md" }) => {
             const fontNumSize = {
-                sm: "text-sm",
-                river: "text-base sm:text-lg",
+                sm: "text-base",
+                river: "text-xl",
                 md: "text-2xl",
-                lg: "text-3xl",
+                lg: "text-[28px]"
             }[size] || "text-2xl";
 
-            const englishTag = `${val} WAN`;
+            const fontEnSize = {
+                sm: "text-[5.5px]",
+                river: "text-[6.5px]",
+                md: "text-[7.5px]",
+                lg: "text-[8.5px]"
+            }[size] || "text-[7.5px]";
 
             return (
-                <div className="flex flex-col items-center justify-center leading-none select-none">
-                    <span className={`font-heiti font-black text-slate-950 leading-none ${fontNumSize}`}>
+                <div className="flex flex-col items-center justify-center leading-none select-none h-full py-0.5">
+                    <span className={`font-heiti font-black tracking-tighter text-slate-950 cyber-char-stroke-cyan ${fontNumSize}`}>
                         {CHINESE_NUMS[val]}
                     </span>
-                    <span 
-                        className="text-[6px] sm:text-[7px] font-orbitron font-extrabold tracking-wider leading-none mt-0.5 text-rose-500"
-                        style={{
-                            textShadow: '0 0 5px rgba(244, 63, 94, 0.9), 0 0 10px rgba(225, 29, 72, 0.6)'
-                        }}
-                    >
-                        {englishTag}
+                    <span className={`font-orbitron font-extrabold text-rose-500 tracking-wider mt-1 drop-shadow-[0_0_5px_rgba(244,63,94,0.75)] ${fontEnSize}`}>
+                        {val} WAN
                     </span>
                 </div>
             );
         };
 
-        // 条子（索）：与筒牌统一在 PatternBox 内均匀分布，完全横平竖直、绝无倾斜
+        // 条子（索）：全黑倒角圆角线条，三条舒展工整品字形
         const TiaoTileView = ({ val, size = "md" }) => {
             if (val === 1) {
                 return (
-                    <PatternBox size={size}>
-                        <div className="flex items-center justify-center w-full h-full">
-                            <MinimalLine size={size} length="long" />
-                        </div>
-                    </PatternBox>
+                    <div className="flex items-center justify-center h-full w-full">
+                        <MinimalLine size={size} length="long" />
+                    </div>
                 );
             }
             if (val === 2) {
                 return (
-                    <PatternBox size={size}>
-                        <div className="grid grid-cols-1 grid-rows-2 h-full items-center justify-items-center">
-                            <MinimalLine size={size} length="standard" />
-                            <MinimalLine size={size} length="standard" />
-                        </div>
-                    </PatternBox>
+                    <div className="flex flex-col items-center justify-center gap-2 sm:gap-2.5 h-full py-1">
+                        <MinimalLine size={size} length="standard" />
+                        <MinimalLine size={size} length="standard" />
+                    </div>
                 );
             }
             if (val === 3) {
+                // 三条重构：上方一根居中，下方两根适度横向展开，上下间距舒适
                 return (
-                    <PatternBox size={size}>
-                        <div className="grid grid-cols-1 grid-rows-2 h-full items-center justify-items-center">
+                    <div className="flex flex-col items-center justify-center h-full w-full py-1">
+                        <MinimalLine size={size} length="standard" extraClass="mb-1.5 sm:mb-2" />
+                        <div className="flex items-center justify-center gap-3 sm:gap-4">
                             <MinimalLine size={size} length="standard" />
-                            <div className="flex justify-between items-center w-[62%]">
-                                <MinimalLine size={size} length="standard" />
-                                <MinimalLine size={size} length="standard" />
-                            </div>
+                            <MinimalLine size={size} length="standard" />
                         </div>
-                    </PatternBox>
+                    </div>
                 );
             }
             if (val === 4) {
                 return (
-                    <PatternBox size={size}>
-                        <div className="grid grid-cols-1 grid-rows-2 w-[72%] h-full items-center justify-items-center">
-                            <div className="flex justify-between items-center w-full">
-                                <MinimalLine size={size} length="standard" />
-                                <MinimalLine size={size} length="standard" />
-                            </div>
-                            <div className="flex justify-between items-center w-full">
-                                <MinimalLine size={size} length="standard" />
-                                <MinimalLine size={size} length="standard" />
-                            </div>
+                    <div className="flex items-center justify-center gap-3 sm:gap-4 h-full py-1">
+                        <div className="flex flex-col gap-1.5 sm:gap-2">
+                            <MinimalLine size={size} length="standard" />
+                            <MinimalLine size={size} length="standard" />
                         </div>
-                    </PatternBox>
+                        <div className="flex flex-col gap-1.5 sm:gap-2">
+                            <MinimalLine size={size} length="standard" />
+                            <MinimalLine size={size} length="standard" />
+                        </div>
+                    </div>
                 );
             }
             if (val === 5) {
                 return (
-                    <PatternBox size={size}>
-                        <div className="grid grid-cols-1 grid-rows-3 w-full h-full items-center justify-items-center">
-                            <div className="flex justify-between items-center w-[72%]">
-                                <MinimalLine size={size} length="short" />
-                                <MinimalLine size={size} length="short" />
-                            </div>
-                            <div className="flex justify-center items-center w-full">
-                                <MinimalLine size={size} length="short" />
-                            </div>
-                            <div className="flex justify-between items-center w-[72%]">
-                                <MinimalLine size={size} length="short" />
-                                <MinimalLine size={size} length="short" />
-                            </div>
+                    <div className="flex items-center justify-center gap-2.5 sm:gap-3.5 h-full py-1">
+                        <div className="flex flex-col gap-1.5 sm:gap-2">
+                            <MinimalLine size={size} length="short" />
+                            <MinimalLine size={size} length="short" />
                         </div>
-                    </PatternBox>
+                        <MinimalLine size={size} length="short" />
+                        <div className="flex flex-col gap-1.5 sm:gap-2">
+                            <MinimalLine size={size} length="short" />
+                            <MinimalLine size={size} length="short" />
+                        </div>
+                    </div>
                 );
             }
             if (val === 6) {
                 return (
-                    <PatternBox size={size}>
-                        <div className="grid grid-cols-1 grid-rows-2 w-full h-full items-center justify-items-center">
-                            <div className="flex justify-between items-center w-[85%]">
-                                <MinimalLine size={size} length="standard" />
-                                <MinimalLine size={size} length="standard" />
-                                <MinimalLine size={size} length="standard" />
-                            </div>
-                            <div className="flex justify-between items-center w-[85%]">
-                                <MinimalLine size={size} length="standard" />
-                                <MinimalLine size={size} length="standard" />
-                                <MinimalLine size={size} length="standard" />
-                            </div>
+                    <div className="flex items-center justify-center gap-2 sm:gap-2.5 h-full py-1">
+                        <div className="flex flex-col gap-1.5 sm:gap-2">
+                            <MinimalLine size={size} length="short" />
+                            <MinimalLine size={size} length="short" />
                         </div>
-                    </PatternBox>
+                        <div className="flex flex-col gap-1.5 sm:gap-2">
+                            <MinimalLine size={size} length="short" />
+                            <MinimalLine size={size} length="short" />
+                        </div>
+                        <div className="flex flex-col gap-1.5 sm:gap-2">
+                            <MinimalLine size={size} length="short" />
+                            <MinimalLine size={size} length="short" />
+                        </div>
+                    </div>
                 );
             }
             if (val === 7) {
                 return (
-                    <PatternBox size={size}>
-                        <div className="grid grid-cols-1 grid-rows-2 w-full h-full items-center justify-items-center">
-                            <div className="flex justify-between items-center w-[68%]">
-                                <MinimalLine size={size} length="standard" />
-                                <MinimalLine size={size} length="standard" />
-                                <MinimalLine size={size} length="standard" />
-                            </div>
-                            <div className="flex justify-between items-center w-[92%]">
-                                <MinimalLine size={size} length="standard" />
-                                <MinimalLine size={size} length="standard" />
-                                <MinimalLine size={size} length="standard" />
-                                <MinimalLine size={size} length="standard" />
-                            </div>
+                    <div className="flex flex-col items-center justify-center gap-1.5 sm:gap-2 h-full py-0.5">
+                        <div className="flex items-center gap-2 sm:gap-2.5">
+                            <MinimalLine size={size} length="short" />
+                            <MinimalLine size={size} length="short" />
+                            <MinimalLine size={size} length="short" />
                         </div>
-                    </PatternBox>
+                        <div className="flex items-center gap-1.5 sm:gap-2">
+                            <MinimalLine size={size} length="short" />
+                            <MinimalLine size={size} length="short" />
+                            <MinimalLine size={size} length="short" />
+                            <MinimalLine size={size} length="short" />
+                        </div>
+                    </div>
                 );
             }
             if (val === 8) {
                 return (
-                    <PatternBox size={size}>
-                        <div className="grid grid-cols-1 grid-rows-2 w-[92%] h-full items-center justify-items-center">
-                            <div className="flex justify-between items-center w-full">
-                                <MinimalLine size={size} length="standard" />
-                                <MinimalLine size={size} length="standard" />
-                                <MinimalLine size={size} length="standard" />
-                                <MinimalLine size={size} length="standard" />
-                            </div>
-                            <div className="flex justify-between items-center w-full">
-                                <MinimalLine size={size} length="standard" />
-                                <MinimalLine size={size} length="standard" />
-                                <MinimalLine size={size} length="standard" />
-                                <MinimalLine size={size} length="standard" />
-                            </div>
+                    <div className="flex flex-col items-center justify-center gap-1.5 sm:gap-2 h-full py-0.5">
+                        <div className="flex items-center gap-1.5 sm:gap-2">
+                            {Array.from({ length: 4 }).map((_, i) => (
+                                <MinimalLine key={i} size={size} length="short" />
+                            ))}
                         </div>
-                    </PatternBox>
+                        <div className="flex items-center gap-1.5 sm:gap-2">
+                            {Array.from({ length: 4 }).map((_, i) => (
+                                <MinimalLine key={i} size={size} length="short" />
+                            ))}
+                        </div>
+                    </div>
                 );
             }
             if (val === 9) {
                 return (
-                    <PatternBox size={size}>
-                        <div className="grid grid-cols-1 grid-rows-3 w-[85%] h-full items-center justify-items-center">
-                            <div className="flex justify-between items-center w-full">
+                    <div className="flex flex-col items-center justify-center gap-1 sm:gap-1.5 h-full py-0.5">
+                        {[0, 1, 2].map((row) => (
+                            <div key={row} className="flex items-center gap-1.5 sm:gap-2">
                                 <MinimalLine size={size} length="short" />
                                 <MinimalLine size={size} length="short" />
                                 <MinimalLine size={size} length="short" />
                             </div>
-                            <div className="flex justify-between items-center w-full">
-                                <MinimalLine size={size} length="short" />
-                                <MinimalLine size={size} length="short" />
-                                <MinimalLine size={size} length="short" />
-                            </div>
-                            <div className="flex justify-between items-center w-full">
-                                <MinimalLine size={size} length="short" />
-                                <MinimalLine size={size} length="short" />
-                                <MinimalLine size={size} length="short" />
-                            </div>
-                        </div>
-                    </PatternBox>
+                        ))}
+                    </div>
                 );
             }
             return null;
         };
 
-        // 筒子（饼）：实心纯黑小圆点，在框定显示区域内横平竖直对称均匀分布
+        // 筒子（饼）：全纯黑实心圆点，三筒垂直居中，九筒紧凑
         const TongTileView = ({ val, size = "md" }) => {
             if (val === 1) {
                 const oneTongDim = {
-                    sm: "w-[7px] h-[7px]",
-                    river: "w-[8.5px] h-[8.5px] sm:w-[9.5px] sm:h-[9.5px]",
-                    md: "w-[10px] h-[10px] sm:w-[11.5px] sm:h-[11.5px]",
-                    lg: "w-[12px] h-[12px] sm:w-[14px] sm:h-[14px]",
-                }[size] || "w-[10px] h-[10px]";
+                    sm: "w-[13px] h-[13px]",
+                    river: "w-[16px] h-[16px]",
+                    md: "w-[18px] h-[18px]",
+                    lg: "w-[24px] h-[24px]"
+                }[size] || "w-[18px] h-[18px]";
 
                 return (
-                    <PatternBox size={size}>
-                        <div className="flex items-center justify-center w-full h-full">
-                            <div 
-                                className={`${oneTongDim} rounded-full bg-slate-950 shrink-0`}
-                                style={{
-                                    boxShadow: '0 0 0 0.8px rgba(0, 240, 255, 0.7), 0 0 3px rgba(0, 240, 255, 0.4), inset 0 0 1.5px rgba(255, 255, 255, 0.5)'
-                                }}
-                            />
+                    <div className="flex items-center justify-center h-full">
+                        <div className={`${oneTongDim} bg-slate-950 rounded-full flex items-center justify-center shadow-[0_0_3px_rgba(0,240,255,0.8)]`}>
+                            <div className="w-[30%] h-[30%] bg-cyan-400 rounded-full" />
                         </div>
-                    </PatternBox>
+                    </div>
                 );
             }
             if (val === 2) {
                 return (
-                    <PatternBox size={size}>
-                        <div className="grid grid-cols-1 grid-rows-2 h-full items-center justify-items-center">
-                            <MinimalCircle size={size} />
-                            <MinimalCircle size={size} />
-                        </div>
-                    </PatternBox>
+                    <div className="flex flex-col items-center justify-center gap-3 sm:gap-4 h-full py-1">
+                        <MinimalCircle size={size} />
+                        <MinimalCircle size={size} />
+                    </div>
                 );
             }
             if (val === 3) {
-                // 三筒：与六筒、九筒采用完全一致的 3 行纵向网格坐标，彻底消除高度公差
+                // 三筒：纵向严格垂直排列，高度与六筒九筒完全对齐
                 return (
-                    <PatternBox size={size}>
-                        <div className="grid grid-cols-1 grid-rows-3 h-full items-center justify-items-center">
-                            <MinimalCircle size={size} />
-                            <MinimalCircle size={size} />
-                            <MinimalCircle size={size} />
-                        </div>
-                    </PatternBox>
+                    <div className="flex flex-col items-center justify-center gap-2 sm:gap-2.5 h-full py-1">
+                        <MinimalCircle size={size} />
+                        <MinimalCircle size={size} />
+                        <MinimalCircle size={size} />
+                    </div>
                 );
             }
             if (val === 4) {
                 return (
-                    <PatternBox size={size}>
-                        <div className="grid grid-cols-2 grid-rows-2 w-[72%] h-full items-center justify-items-center">
-                            <MinimalCircle size={size} />
-                            <MinimalCircle size={size} />
-                            <MinimalCircle size={size} />
-                            <MinimalCircle size={size} />
-                        </div>
-                    </PatternBox>
+                    <div className="grid grid-cols-2 gap-x-3.5 sm:gap-x-4.5 gap-y-2.5 sm:gap-y-3.5 items-center justify-items-center h-full py-1">
+                        <MinimalCircle size={size} />
+                        <MinimalCircle size={size} />
+                        <MinimalCircle size={size} />
+                        <MinimalCircle size={size} />
+                    </div>
                 );
             }
             if (val === 5) {
-                // 五筒：正交 3x3 矩阵，与三筒、六筒、九筒高度行坐标严格一致
                 return (
-                    <PatternBox size={size}>
-                        <div className="grid grid-cols-3 grid-rows-3 w-[82%] h-full items-center justify-items-center">
+                    <div className="relative flex items-center justify-center h-full w-full py-1">
+                        <div className="grid grid-cols-2 gap-x-3.5 sm:gap-x-4.5 gap-y-3 sm:gap-y-4 items-center justify-items-center">
                             <MinimalCircle size={size} />
-                            <div />
                             <MinimalCircle size={size} />
-                            <div />
                             <MinimalCircle size={size} />
-                            <div />
-                            <MinimalCircle size={size} />
-                            <div />
                             <MinimalCircle size={size} />
                         </div>
-                    </PatternBox>
+                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <MinimalCircle size={size} />
+                        </div>
+                    </div>
                 );
             }
             if (val === 6) {
-                // 六筒：3 行 2 列网格，基准高度与三筒、九筒完全对齐
                 return (
-                    <PatternBox size={size}>
-                        <div className="grid grid-cols-2 grid-rows-3 w-[72%] h-full items-center justify-items-center">
-                            <MinimalCircle size={size} />
-                            <MinimalCircle size={size} />
-                            <MinimalCircle size={size} />
-                            <MinimalCircle size={size} />
-                            <MinimalCircle size={size} />
-                            <MinimalCircle size={size} />
-                        </div>
-                    </PatternBox>
+                    <div className="grid grid-cols-2 gap-x-3.5 sm:gap-x-4.5 gap-y-2 sm:gap-y-2.5 items-center justify-items-center h-full py-1">
+                        {Array.from({ length: 6 }).map((_, i) => (
+                            <MinimalCircle key={i} size={size} />
+                        ))}
+                    </div>
                 );
             }
             if (val === 7) {
-                // 七筒：顶部 3 点横平排，底部 4 点正交网格，全部竖直平正
                 return (
-                    <PatternBox size={size}>
-                        <div className="grid grid-cols-1 grid-rows-2 w-full h-full items-center justify-items-center">
-                            <div className="flex justify-between items-center w-[72%]">
-                                <MinimalCircle size={size} />
-                                <MinimalCircle size={size} />
-                                <MinimalCircle size={size} />
-                            </div>
-                            <div className="grid grid-cols-2 grid-rows-2 gap-x-3 gap-y-1 w-[60%] justify-items-center">
-                                <MinimalCircle size={size} />
-                                <MinimalCircle size={size} />
-                                <MinimalCircle size={size} />
-                                <MinimalCircle size={size} />
-                            </div>
+                    <div className="flex flex-col items-center justify-center gap-1.5 sm:gap-2 h-full py-0.5">
+                        <div className="flex items-center gap-2 sm:gap-2.5">
+                            <MinimalCircle size={size} />
+                            <MinimalCircle size={size} />
+                            <MinimalCircle size={size} />
                         </div>
-                    </PatternBox>
+                        <div className="grid grid-cols-2 gap-x-2.5 sm:gap-x-3 gap-y-1.5 sm:gap-y-2 items-center justify-items-center">
+                            <MinimalCircle size={size} />
+                            <MinimalCircle size={size} />
+                            <MinimalCircle size={size} />
+                            <MinimalCircle size={size} />
+                        </div>
+                    </div>
                 );
             }
             if (val === 8) {
                 return (
-                    <PatternBox size={size}>
-                        <div className="grid grid-cols-2 grid-rows-4 w-[68%] h-full items-center justify-items-center">
-                            {Array.from({ length: 8 }).map((_, i) => (
-                                <MinimalCircle key={i} size={size} />
-                            ))}
-                        </div>
-                    </PatternBox>
+                    <div className="grid grid-cols-2 gap-x-3.5 sm:gap-x-4.5 gap-y-1 sm:gap-y-1.5 items-center justify-items-center h-full py-0.5">
+                        {Array.from({ length: 8 }).map((_, i) => (
+                            <MinimalCircle key={i} size={size} />
+                        ))}
+                    </div>
                 );
             }
             if (val === 9) {
-                // 九筒：紧凑 3x3 矩阵，与三筒、六筒的 3 行纵向坐标保持绝对一致
+                // 九筒：紧凑凝聚 3x3 矩阵，收拢点距
                 return (
-                    <PatternBox size={size}>
-                        <div className="grid grid-cols-3 grid-rows-3 w-[82%] h-full items-center justify-items-center">
-                            {Array.from({ length: 9 }).map((_, i) => (
-                                <MinimalCircle key={i} size={size} />
-                            ))}
-                        </div>
-                    </PatternBox>
+                    <div className="grid grid-cols-3 gap-x-1.5 sm:gap-x-2 gap-y-1.5 sm:gap-y-2 items-center justify-items-center h-full py-1">
+                        {Array.from({ length: 9 }).map((_, i) => (
+                            <MinimalCircle key={i} size={size} />
+                        ))}
+                    </div>
                 );
             }
             return null;
         };
 
-        // 字牌（东南西北中发白）：严格复刻图一效果与代码规范
+        // 字牌（东南西北中发白）：严格对齐图一标准排版，无任何左上角小字
         const ZiTileView = ({ val, size = "md" }) => {
             const ziChar = ZI_NAMES[val];
             const fontZiSize = {
-                sm: "text-sm",
-                river: "text-base sm:text-lg",
+                sm: "text-base",
+                river: "text-xl",
                 md: "text-2xl",
-                lg: "text-3xl",
+                lg: "text-[28px]"
             }[size] || "text-2xl";
+
+            const fontEnSize = {
+                sm: "text-[5.5px]",
+                river: "text-[6.5px]",
+                md: "text-[7.5px]",
+                lg: "text-[8.5px]"
+            }[size] || "text-[7.5px]";
 
             if (ziChar === '中') {
                 return (
-                    <div className="flex flex-col items-center justify-center leading-none">
-                        <span className={`font-heiti font-black text-rose-600 leading-none drop-shadow-[0_0_6px_rgba(225,29,72,0.6)] ${fontZiSize}`}>
+                    <div className="flex flex-col items-center justify-center leading-none select-none h-full py-0.5">
+                        <span className={`font-heiti font-black text-rose-600 leading-none cyber-char-stroke-rose ${fontZiSize}`}>
                             中
                         </span>
-                        <span className="text-[6px] sm:text-[7px] font-orbitron font-extrabold text-rose-500 tracking-wider mt-0.5">CORE</span>
+                        <span className={`font-orbitron font-extrabold text-rose-500 tracking-wider mt-1 drop-shadow-[0_0_4px_rgba(244,63,94,0.7)] ${fontEnSize}`}>
+                            CORE
+                        </span>
                     </div>
                 );
             }
             if (ziChar === '发') {
                 return (
-                    <div className="flex flex-col items-center justify-center leading-none">
-                        <span className={`font-heiti font-black text-emerald-600 leading-none drop-shadow-[0_0_6px_rgba(5,150,105,0.6)] ${fontZiSize}`}>
+                    <div className="flex flex-col items-center justify-center leading-none select-none h-full py-0.5">
+                        <span className={`font-heiti font-black text-emerald-600 leading-none cyber-char-stroke-emerald ${fontZiSize}`}>
                             發
                         </span>
-                        <span className="text-[6px] sm:text-[7px] font-orbitron font-extrabold text-emerald-600 tracking-wider mt-0.5">QUANTUM</span>
+                        <span className={`font-orbitron font-extrabold text-emerald-500 tracking-wider mt-1 drop-shadow-[0_0_4px_rgba(16,185,129,0.7)] ${fontEnSize}`}>
+                            QUANTUM
+                        </span>
                     </div>
                 );
             }
             if (ziChar === '白') {
-                const boxDim = size === 'sm' ? 'w-4 h-5 border-[2px]' : size === 'river' ? 'w-4.5 h-6 border-[2px]' : size === 'lg' ? 'w-6 h-8 border-[2.5px]' : 'w-5 h-7 border-[2px]';
+                const boxDim = size === 'sm' ? 'w-4 h-5' : size === 'river' ? 'w-5 h-6' : size === 'lg' ? 'w-7 h-9' : 'w-6 h-8';
                 return (
-                    <div className="flex items-center justify-center leading-none select-none h-full w-full">
-                        <div 
-                            className={`${boxDim} rounded-md border-cyan-400 bg-cyan-950/25 flex items-center justify-center`}
-                            style={{
-                                boxShadow: '0 0 8px rgba(0,240,255,0.75), inset 0 0 5px rgba(0,240,255,0.35)'
-                            }}
-                        />
+                    <div className="flex flex-col items-center justify-center leading-none select-none h-full py-1">
+                        <div className={`${boxDim} rounded-md border-2 border-cyan-400 bg-cyan-950/20 flex items-center justify-center shadow-[0_0_8px_rgba(0,240,255,0.4)]`}>
+                            <div className="w-[70%] h-[70%] border border-cyan-300 border-dashed rounded-xs opacity-75"></div>
+                        </div>
                     </div>
                 );
             }
 
             const enMap = { 东: "EAST", 南: "SOUTH", 西: "WEST", 北: "NORTH" };
             return (
-                <div className="flex flex-col items-center justify-center leading-none">
-                    <span className={`font-heiti font-black text-slate-900 leading-none ${fontZiSize}`}>
+                <div className="flex flex-col items-center justify-center leading-none select-none h-full py-0.5">
+                    <span className={`font-heiti font-black text-slate-900 leading-none cyber-char-stroke-cyan ${fontZiSize}`}>
                         {ziChar}
                     </span>
-                    <span className="text-[6px] sm:text-[7px] font-orbitron font-extrabold text-slate-500 tracking-wider mt-0.5">
+                    <span className={`font-orbitron font-extrabold text-slate-500 tracking-wider mt-1 ${fontEnSize}`}>
                         {enMap[ziChar] || "WIND"}
                     </span>
                 </div>
             );
         };
 
-        // 牌面主容器：内部居中且透气
         const TileFace = ({ tile, size = "md" }) => {
             const { suit, val } = tile;
-
             return (
-                <div className="w-full h-full relative flex flex-col items-center justify-center p-0.5 overflow-hidden my-auto">
+                <div className="w-full h-full flex items-center justify-center">
                     {suit === 'wan' && <WanTileView val={val} size={size} />}
                     {suit === 'tiao' && <TiaoTileView val={val} size={size} />}
                     {suit === 'tong' && <TongTileView val={val} size={size} />}
@@ -781,19 +716,18 @@
             );
         };
 
-        // 麻将牌实体外壳容器（黄金 1:1.44 纵横比，绝不拉伸变形）
         const MahjongTile = ({ tile, isSelected, onClick, size = "md", isDrawn = false, customClass = "", faceDown = false }) => {
             const sizeStyle = {
-                sm: "w-[26px] h-[37px] rounded text-xs",
-                river: "w-[30px] h-[43px] sm:w-[34px] sm:h-[48px] rounded-md shadow-md",
-                md: "w-[38px] h-[54px] sm:w-[42px] sm:h-[60px] rounded-md",
-                lg: "w-[44px] h-[63px] sm:w-[50px] sm:h-[72px] rounded-md",
-            }[size] || "w-[38px] h-[54px] rounded-md";
+                sm: "w-7 h-10 rounded text-xs",
+                river: "w-9 h-13 sm:w-10 sm:h-14 rounded-md",
+                md: "w-10 h-14 sm:w-11 sm:h-15 rounded-md",
+                lg: "w-12 h-16 sm:w-14 sm:h-20 rounded-md",
+            }[size] || "w-10 h-14 rounded-md";
 
             if (faceDown) {
                 return (
                     <div className={`mj-tile-back-cyber relative shrink-0 ${sizeStyle} ${customClass} flex items-center justify-center shadow-md border border-cyan-500/40 overflow-hidden`}>
-                        <div className="w-2 h-2 rounded-full bg-cyan-400/20 border border-cyan-400/60 shadow-[0_0_6px_rgba(0,240,255,0.5)]"></div>
+                        <div className="w-2.5 h-2.5 rounded-full bg-cyan-400/20 border border-cyan-400/60 shadow-[0_0_6px_rgba(0,240,255,0.5)]"></div>
                     </div>
                 );
             }
@@ -803,9 +737,9 @@
                     onClick={onClick}
                     className={`mj-tile-nano flex flex-col items-center justify-center cursor-pointer shrink-0 ${sizeStyle} ${
                         isSelected ? 'mj-tile-selected' : ''
-                    } ${isDrawn ? 'ring-2 ring-cyan-400 shadow-[0_0_14px_rgba(0,240,255,0.8)]' : ''} ${customClass}`}
+                    } ${isDrawn ? 'ring-2 ring-cyan-400 shadow-[0_0_14px_rgba(0,240,255,0.85)]' : ''} ${customClass}`}
                 >
-                    <div className="w-full h-full flex flex-col items-center justify-center overflow-hidden">
+                    <div className="w-full h-full p-0.5 flex flex-col items-center justify-center overflow-hidden">
                         <TileFace tile={tile} size={size} />
                     </div>
                 </div>
@@ -828,7 +762,7 @@
         };
 
         const isStandardWin = (tiles) => {
-            if (tiles.length % 3 !== 2) return false;
+            if (!tiles || tiles.length % 3 !== 2) return { isWin: false, fan: 0 };
 
             const counts = {};
             tiles.forEach(t => {
@@ -848,7 +782,7 @@
                     tempCounts[pairKey] -= 2;
 
                     if (canDecomposeMelds(tempCounts)) {
-                        return { isWin: true, type: '平胡/自摸', fan: 1 };
+                        return { isWin: true, type: '标准胡牌', fan: 1 };
                     }
                 }
             }
@@ -887,7 +821,6 @@
                     counts[k3]++;
                 }
             }
-
             return false;
         };
 
@@ -964,100 +897,243 @@
             });
         };
 
-        // 真实 AI 策略：评估手牌每张牌的保留价值，选出最没用的牌打出（不再白给）
-        const evaluateAIDiscard = (rack) => {
-            const counts = {};
-            rack.forEach(t => {
+        const LEAGUE_TIERS = [
+            { min: 0, name: "赛博学徒", color: "text-slate-400", border: "border-slate-500", badge: "NOV" },
+            { min: 20000, name: "矩阵雀士", color: "text-cyan-400", border: "border-cyan-400", badge: "ADEPT" },
+            { min: 30000, name: "巡星雀杰", color: "text-amber-400", border: "border-amber-400", badge: "MASTER" },
+            { min: 45000, name: "量子雀圣", color: "text-purple-400", border: "border-purple-400", badge: "SAINT" },
+            { min: 60000, name: "赛博雀神", color: "text-rose-400", border: "border-rose-400", badge: "GOD" }
+        ];
+
+        const getTierByChips = (chips) => {
+            for (let i = LEAGUE_TIERS.length - 1; i >= 0; i--) {
+                if (chips >= LEAGUE_TIERS[i].min) return LEAGUE_TIERS[i];
+            }
+            return LEAGUE_TIERS[0];
+        };
+
+        const analyzeTacticalHand = (hand, discards = []) => {
+            if (!hand || hand.length % 3 !== 2) return null;
+
+            const seenCounts = {};
+            discards.forEach(t => {
                 const k = `${t.suit}_${t.val}`;
-                counts[k] = (counts[k] || 0) + 1;
+                seenCounts[k] = (seenCounts[k] || 0) + 1;
+            });
+            hand.forEach(t => {
+                const k = `${t.suit}_${t.val}`;
+                seenCounts[k] = (seenCounts[k] || 0) + 1;
             });
 
-            // 评分函数：评估单张牌与手牌其他牌的搭子价值
-            const getTileValue = (t) => {
+            const uniqueCandidates = [];
+            const seenIds = new Set();
+            hand.forEach(t => {
                 const k = `${t.suit}_${t.val}`;
-                let score = 0;
+                if (!seenIds.has(k)) {
+                    seenIds.add(k);
+                    uniqueCandidates.push(t);
+                }
+            });
 
-                // 刻子 (3张以上) 或 对子 (2张)
-                if (counts[k] >= 3) score += 90;
-                else if (counts[k] === 2) score += 45;
+            const analysisResults = [];
+            const suits = ['wan', 'tiao', 'tong'];
+            const allPossibleTiles = [];
+            suits.forEach(s => {
+                for (let v = 1; v <= 9; v++) allPossibleTiles.push({ suit: s, val: v, name: `${v}${s === 'wan'?'万':s === 'tiao'?'条':'筒'}` });
+            });
+            for (let v = 1; v <= 7; v++) allPossibleTiles.push({ suit: 'zi', val: v, name: ZI_NAMES[v] });
 
-                // 字牌无顺子，单张字牌价值最低
-                if (t.suit === 'zi') {
-                    return score; // 单张为 0
+            uniqueCandidates.forEach(discardTile => {
+                const remaining = hand.filter(t => t.id !== discardTile.id);
+                const currentTenpai = getTenpaiList(remaining);
+                let advanceTiles = [];
+                let totalAdvanceCount = 0;
+
+                if (currentTenpai.length > 0) {
+                    currentTenpai.forEach(waitTile => {
+                        const k = `${waitTile.suit}_${waitTile.val}`;
+                        const left = Math.max(0, 4 - (seenCounts[k] || 0));
+                        totalAdvanceCount += left;
+                        advanceTiles.push({ ...waitTile, leftCount: left });
+                    });
+                } else {
+                    allPossibleTiles.forEach(cand => {
+                        const test = [...remaining, cand];
+                        const testTenpai = getTenpaiList(test);
+                        if (testTenpai.length > 0) {
+                            const k = `${cand.suit}_${cand.val}`;
+                            const left = Math.max(0, 4 - (seenCounts[k] || 0));
+                            if (left > 0) {
+                                totalAdvanceCount += left;
+                                advanceTiles.push({ ...cand, leftCount: left });
+                            }
+                        }
+                    });
                 }
 
-                // 顺子搭子评估
-                const hasLeft1 = rack.some(x => x.suit === t.suit && x.val === t.val - 1);
-                const hasRight1 = rack.some(x => x.suit === t.suit && x.val === t.val + 1);
-                const hasLeft2 = rack.some(x => x.suit === t.suit && x.val === t.val - 2);
-                const hasRight2 = rack.some(x => x.suit === t.suit && x.val === t.val + 2);
+                analysisResults.push({
+                    discard: discardTile,
+                    isDirectTenpai: currentTenpai.length > 0,
+                    tenpaiList: currentTenpai,
+                    advanceTiles: advanceTiles.slice(0, 8),
+                    totalAdvanceCount,
+                    efficiencyScore: totalAdvanceCount * (currentTenpai.length > 0 ? 3 : 1)
+                });
+            });
 
-                if (hasLeft1 && hasRight1) score += 60; // 两头顺 (例 3-4-5)
-                if (hasLeft1 || hasRight1) score += 30; // 连号搭子 (例 4-5)
-                if (hasLeft2 || hasRight2) score += 15; // 嵌张/边张搭子 (例 3-5)
+            analysisResults.sort((a, b) => b.efficiencyScore - a.efficiencyScore);
+            const bestChoice = analysisResults[0] || null;
 
-                // 中张牌 (3~7) 价值高于幺九牌 (1, 9)
-                if (t.val >= 3 && t.val <= 7) score += 10;
-                else score += 2;
+            const suitCounts = { wan: 0, tiao: 0, tong: 0, zi: 0 };
+            hand.forEach(t => suitCounts[t.suit]++);
+            const maxNonZi = Math.max(suitCounts.wan, suitCounts.tiao, suitCounts.tong);
+            const pureSuit = Object.keys(suitCounts).find(k => k !== 'zi' && suitCounts[k] === maxNonZi);
+            const pureRatio = Math.round((maxNonZi / 14) * 100);
 
-                return score;
+            return {
+                bestChoice,
+                allResults: analysisResults,
+                pureRatio,
+                pureSuit: pureSuit === 'wan' ? '万字' : pureSuit === 'tiao' ? '条子' : '筒子'
             };
+        };
 
-            // 找到价值最低的一张牌打出
-            let minScore = 9999;
-            let bestDiscard = rack[0];
+        const TacticalBrainModal = ({ hand, discards, onClose, onSelectDiscard }) => {
+            const result = useMemo(() => analyzeTacticalHand(hand, discards), [hand, discards]);
 
-            for (const tile of rack) {
-                const val = getTileValue(tile);
-                if (val < minScore) {
-                    minScore = val;
-                    bestDiscard = tile;
-                }
-            }
+            return (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 safe-top-padding">
+                    <div className="bg-slate-900 border-2 border-cyan-400 rounded-3xl w-full max-w-xl max-h-[85vh] flex flex-col shadow-[0_0_50px_rgba(0,240,255,0.35)] overflow-hidden animate-pop">
+                        <div className="px-6 py-3.5 bg-slate-950 border-b border-cyan-500/40 flex items-center justify-between">
+                            <div className="flex items-center gap-2.5">
+                                <div className="p-1.5 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-400/50">
+                                    <Cpu size={18} />
+                                </div>
+                                <div>
+                                    <div className="text-sm font-black text-cyan-200 font-orbitron">量子战术脑机 · 算路终端</div>
+                                    <div className="text-[10px] text-cyan-400/70 font-mono">NEURAL SHANTEN & EFFICIENCY ADVISOR</div>
+                                </div>
+                            </div>
+                            <button onClick={onClose} className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800">
+                                <XIcon size={18} />
+                            </button>
+                        </div>
 
-            return bestDiscard;
+                        <div className="flex-1 overflow-y-auto custom-scrollbar p-5 space-y-4 text-xs">
+                            {result?.bestChoice ? (
+                                <div className="p-4 rounded-2xl bg-cyan-950/40 border border-cyan-400/60 shadow-[0_0_20px_rgba(0,240,255,0.15)] space-y-2">
+                                    <div className="flex items-center justify-between">
+                                        <span className="font-orbitron font-black text-cyan-300 text-xs flex items-center gap-1.5">
+                                            <Sparkles size={14} className="text-cyan-400" />
+                                            神之一手 · 智能推荐打法
+                                        </span>
+                                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-cyan-400 text-slate-950">
+                                            进张效率最高
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center justify-between pt-1">
+                                        <div>
+                                            <div className="text-sm font-black text-white">
+                                                推荐打出：【{result.bestChoice.discard.name}】
+                                            </div>
+                                            <p className="text-[11px] text-slate-300 mt-0.5">
+                                                {result.bestChoice.isDirectTenpai 
+                                                    ? `✦ 打出后直接进入【听牌】！全场剩余可用胡牌共 ${result.bestChoice.totalAdvanceCount} 张！` 
+                                                    : `✦ 打出后有效进张共 ${result.bestChoice.totalAdvanceCount} 张，向听效率最优。`}
+                                            </p>
+                                        </div>
+                                        <button
+                                            onClick={() => {
+                                                onSelectDiscard(result.bestChoice.discard);
+                                                onClose();
+                                            }}
+                                            className="px-4 py-2 bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 text-slate-950 font-black rounded-xl text-xs active:scale-95 shadow-md whitespace-nowrap"
+                                        >
+                                            立即采纳打出
+                                        </button>
+                                    </div>
+                                </div>
+                            ) : null}
+
+                            <div className="p-3.5 rounded-2xl bg-slate-800/60 border border-slate-700/80 space-y-2">
+                                <div className="font-bold text-slate-300 flex items-center justify-between text-[11px]">
+                                    <span>备选舍牌进张效率排名</span>
+                                    <span className="text-[10px] text-slate-400 font-mono">ADVANCE TILES</span>
+                                </div>
+                                <div className="space-y-1.5 max-h-40 overflow-y-auto custom-scrollbar">
+                                    {result?.allResults.map((item, idx) => (
+                                        <div key={idx} className="flex items-center justify-between p-2 rounded-xl bg-slate-900/80 border border-slate-700 text-[11px]">
+                                            <span className="font-black text-cyan-200">
+                                                打出【{item.discard.name}】
+                                            </span>
+                                            <span className="text-slate-300 font-mono">
+                                                {item.isDirectTenpai ? (
+                                                    <span className="text-rose-400 font-bold">听牌 ({item.totalAdvanceCount}张)</span>
+                                                ) : (
+                                                    `进张 ${item.totalAdvanceCount} 张`
+                                                )}
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="p-3.5 rounded-2xl bg-slate-800/40 border border-slate-700 space-y-1">
+                                <div className="font-bold text-amber-300 flex items-center gap-1.5">
+                                    <Lightbulb size={13} />
+                                    <span>大番路线战术研判</span>
+                                </div>
+                                <p className="text-[11px] text-slate-300">
+                                    当前手牌 {result?.pureSuit} 集中度达到 <b>{result?.pureRatio}%</b>。若要追求【清一色 (6番)】或【混一色 (3番)】，可果断清理其余两门杂色孤张。
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="p-3 bg-slate-950 border-t border-slate-800 text-right">
+                            <button onClick={onClose} className="px-5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-xl text-xs">
+                                退出算路
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
         };
 
         const QuantumCompass = ({ activeTurnIndex, wallCount, roundWind = "东" }) => {
             return (
-                <div className="quantum-compass w-44 h-44 sm:w-48 sm:h-48 rounded-3xl flex flex-col items-center justify-center p-2 relative shadow-[0_0_40px_rgba(0,240,255,0.22)] shrink-0 select-none border-2 border-cyan-500/50 backdrop-blur-md">
-                    {/* 背景旋转微光刻度圈 */}
-                    <div className="absolute inset-2 rounded-2xl border border-cyan-500/20 pointer-events-none"></div>
-
-                    <div className="text-[11px] font-orbitron font-black tracking-widest text-cyan-300 mb-1 flex items-center gap-1.5 z-10">
+                <div className="quantum-compass w-44 h-44 sm:w-48 sm:h-48 rounded-3xl flex flex-col items-center justify-center p-2 relative shadow-2xl shrink-0 select-none border border-cyan-500/40">
+                    <div className="text-[11px] font-orbitron font-black tracking-widest text-cyan-400 mb-1 flex items-center gap-1.5">
                         <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
                         {roundWind}风圈 · RADAR
                     </div>
-
-                    {/* 四方位八卦科技亮灯 */}
-                    <div className="grid grid-cols-3 grid-rows-3 gap-1.5 w-28 h-28 items-center justify-items-center my-0.5 font-bold text-xs font-orbitron z-10">
+                    {/* 纯粹四方位展示，完全移除（你） */}
+                    <div className="grid grid-cols-3 grid-rows-3 gap-1.5 w-24 h-24 items-center justify-items-center my-0.5 font-bold text-xs font-orbitron">
                         <div />
                         <div className={`px-2 py-0.5 rounded-lg transition-all flex flex-col items-center ${activeTurnIndex === 2 ? 'bg-cyan-400 text-slate-950 font-black scale-110 shadow-[0_0_16px_#00f0ff]' : 'text-slate-500'}`}>
                             <span>北</span>
                             {activeTurnIndex === 2 && <span className="text-[8px] leading-none animate-pulse">▲</span>}
                         </div>
                         <div />
-                        
+
                         <div className={`px-2 py-0.5 rounded-lg transition-all flex items-center gap-0.5 ${activeTurnIndex === 3 ? 'bg-cyan-400 text-slate-950 font-black scale-110 shadow-[0_0_16px_#00f0ff]' : 'text-slate-500'}`}>
                             {activeTurnIndex === 3 && <span className="text-[8px] leading-none animate-pulse">◀</span>}
                             <span>西</span>
                         </div>
-                        
-                        {/* 中心磁核余牌计数器 */}
-                        <div className="w-12 h-12 rounded-full bg-slate-950/95 flex flex-col items-center justify-center border-2 border-cyan-400/60 shadow-[0_0_15px_rgba(0,240,255,0.4)_inset]">
+
+                        <div className="w-10 h-10 rounded-full bg-slate-950 flex flex-col items-center justify-center border border-cyan-500/50 shadow-inner">
                             <span className="text-sm font-mono font-black text-cyan-300 leading-none">{wallCount}</span>
                             <span className="text-[7px] text-slate-400 font-orbitron leading-none mt-0.5">TILES</span>
                         </div>
-                        
+
                         <div className={`px-2 py-0.5 rounded-lg transition-all flex items-center gap-0.5 ${activeTurnIndex === 1 ? 'bg-cyan-400 text-slate-950 font-black scale-110 shadow-[0_0_16px_#00f0ff]' : 'text-slate-500'}`}>
                             <span>东</span>
                             {activeTurnIndex === 1 && <span className="text-[8px] leading-none animate-pulse">▶</span>}
                         </div>
-                        
+
                         <div />
                         <div className={`px-2 py-0.5 rounded-lg transition-all flex flex-col items-center ${activeTurnIndex === 0 ? 'bg-cyan-400 text-slate-950 font-black scale-110 shadow-[0_0_16px_#00f0ff]' : 'text-slate-500'}`}>
                             {activeTurnIndex === 0 && <span className="text-[8px] leading-none animate-pulse">▼</span>}
-                            <span>南 (你)</span>
+                            <span>南</span>
                         </div>
                         <div />
                     </div>
@@ -1065,107 +1141,87 @@
             );
         };
 
-        const DiscardRiver = ({ discards, lastDiscardId, positionClass = "", label = "" }) => {
+        const DiscardRiver = ({ discards, lastDiscardId, label = "弃牌池" }) => {
             return (
-                <div className={`flex flex-col bg-slate-950/70 rounded-2xl border border-cyan-500/35 p-2 shadow-[0_4px_24px_rgba(0,0,0,0.65)] backdrop-blur-md min-w-[210px] sm:min-w-[240px] md:min-w-[265px] ${positionClass}`}>
-                    {label && (
-                        <div className="flex items-center justify-between text-[10px] font-orbitron font-bold text-cyan-400/90 mb-1.5 px-1 border-b border-cyan-900/50 pb-0.5">
-                            <span>{label}</span>
-                            <span className="text-[9px] text-slate-400 font-mono">{discards.length} 张</span>
+                <div className="flex flex-col items-center bg-black/45 rounded-2xl p-1.5 sm:p-2 border border-cyan-500/25 min-h-[92px] w-[180px] sm:w-[200px] backdrop-blur-md shadow-inner">
+                    <div className="flex items-center justify-between w-full px-1 mb-1">
+                        <span className="text-[9px] sm:text-[10px] font-orbitron font-bold text-cyan-400/80">{label}</span>
+                        <span className="text-[9px] font-mono text-slate-500">{discards.length} 张</span>
+                    </div>
+                    <div className="grid grid-cols-6 gap-1 w-full content-start justify-items-center">
+                        {discards.map((tile) => (
+                            <div key={tile.id} className="relative">
+                                <MahjongTile 
+                                    tile={tile} 
+                                    size="river" 
+                                    customClass={lastDiscardId === tile.id ? 'ring-2 ring-cyan-400 shadow-[0_0_14px_#00f0ff] scale-105 z-10' : 'opacity-90'} 
+                                />
+                                {lastDiscardId === tile.id && (
+                                    <div className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-rose-500 animate-ping"></div>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                    {discards.length === 0 && (
+                        <div className="flex-1 flex items-center justify-center text-[10px] text-cyan-600/30 font-mono tracking-wider">
+                            AWAITING
                         </div>
                     )}
-                    <div className="grid grid-cols-6 gap-1 content-start min-h-[90px] sm:min-h-[102px]">
-                        {discards.map((tile) => {
-                            const isLatest = lastDiscardId === tile.id;
-                            return (
-                                <div key={tile.id} className="relative flex items-center justify-center">
-                                    <MahjongTile 
-                                        tile={tile} 
-                                        size="river" 
-                                        customClass={isLatest ? 'ring-2 ring-cyan-300 shadow-[0_0_12px_#00f0ff] scale-105 z-10' : 'opacity-90 hover:opacity-100'} 
-                                    />
-                                    {isLatest && (
-                                        <div className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-rose-500 border border-white animate-ping z-20"></div>
-                                    )}
-                                </div>
-                            );
-                        })}
-                        {discards.length === 0 && (
-                            <div className="col-span-6 flex items-center justify-center text-center text-[11px] text-cyan-600/40 h-[88px] font-mono tracking-wider">
-                                牌池待出 · AWAITING
-                            </div>
-                        )}
-                    </div>
                 </div>
             );
         };
 
-        const MahjongRulesModal = ({ onClose }) => {
-            return (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 safe-top-padding">
-                    <div className="bg-slate-900 border-2 border-cyan-500/50 rounded-3xl w-full max-w-2xl max-h-[85vh] flex flex-col shadow-2xl overflow-hidden animate-pop">
-                        <div className="px-6 py-4 bg-slate-800 border-b border-slate-700 flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                                <div className="p-2 bg-cyan-500/20 text-cyan-400 rounded-xl border border-cyan-500/40">
-                                    <BookOpen size={24} />
-                                </div>
-                                <div>
-                                    <h2 className="text-xl font-black text-white font-orbitron">赛博国标竞技规则档案</h2>
-                                    <p className="text-xs text-cyan-300/80">Cyber Mahjong Protocol Guide</p>
-                                </div>
+        const MahjongRulesModal = ({ onClose }) => (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 safe-top-padding">
+                <div className="bg-slate-900 border-2 border-cyan-500/50 rounded-3xl w-full max-w-2xl max-h-[85vh] flex flex-col shadow-2xl overflow-hidden animate-pop">
+                    <div className="px-6 py-4 bg-slate-800 border-b border-slate-700 flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                            <div className="p-2 bg-cyan-500/20 text-cyan-400 rounded-xl border border-cyan-500/40">
+                                <BookOpen size={24} />
                             </div>
-                            <button onClick={onClose} className="p-2 text-slate-400 hover:text-white rounded-full hover:bg-slate-700">
-                                <XIcon size={22} />
-                            </button>
-                        </div>
-                        <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-4 text-slate-300 text-sm leading-relaxed">
-                            <div className="p-3.5 bg-slate-800/80 rounded-2xl border border-cyan-500/30 space-y-1">
-                                <div className="font-black text-cyan-300 text-base">一、基础胡牌公式 (3n + 2)</div>
-                                <p className="text-xs text-slate-300">
-                                    麻将标准手牌为 13 张，摸入第 14 张或抢杠/荣和他人舍牌时，手牌凑齐 <b>4 个面子 (顺子或刻子) + 1 个雀头 (两张相同的对子)</b> 即可胡牌！
-                                </p>
-                            </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <div className="p-3 bg-slate-800/60 rounded-xl border border-slate-700">
-                                    <span className="font-bold text-white text-xs block mb-1">⚡ 吃牌 (Chi)</span>
-                                    <p className="text-xs text-slate-400">仅限上家打出牌时，与手牌中两张牌组成顺子 (如手中 2、3 万，吃上家 1 万或 4 万)。</p>
-                                </div>
-                                <div className="p-3 bg-slate-800/60 rounded-xl border border-slate-700">
-                                    <span className="font-bold text-white text-xs block mb-1">⚡ 碰牌 (Peng)</span>
-                                    <p className="text-xs text-slate-400">任何玩家打出与你手中对子相同的牌时均可碰牌，碰牌后组成刻子并公开置于牌桌右侧。</p>
-                                </div>
-                                <div className="p-3 bg-slate-800/60 rounded-xl border border-slate-700">
-                                    <span className="font-bold text-white text-xs block mb-1">⚡ 杠牌 (Gang)</span>
-                                    <p className="text-xs text-slate-400">凑齐 4 张相同的牌，分为暗杠、明杠及点杠。杠后需从牌尾补摸一张牌！</p>
-                                </div>
-                                <div className="p-3 bg-slate-800/60 rounded-xl border border-slate-700">
-                                    <span className="font-bold text-white text-xs block mb-1">⚡ 听牌 (Tenpai)</span>
-                                    <p className="text-xs text-slate-400">距离胡牌仅差最后一张牌的状态，点击「听牌提示」即可直接查阅听牌列表！</p>
-                                </div>
-                            </div>
-                            <div className="p-3.5 bg-cyan-950/40 rounded-2xl border border-cyan-500/40 space-y-1">
-                                <div className="font-black text-cyan-300 text-sm font-orbitron">二、经典番型一览表</div>
-                                <ul className="list-disc list-inside text-xs text-slate-300 space-y-1">
-                                    <li><b>平胡 / 自摸 (1番)</b>：全顺子或自己从牌墙摸到胡牌。</li>
-                                    <li><b>门前清 (1番)</b>：没有任何吃牌、碰牌、明杠副露。</li>
-                                    <li><b>断幺九 (1番)</b>：手中没有任何 1、9 及字牌。</li>
-                                    <li><b>混一色 (3番)</b>：由同一门花色加字牌组成。</li>
-                                    <li><b>碰碰胡 (3番)</b>：全部由刻子与将牌组成。</li>
-                                    <li><b>七对子 (4番)</b>：由 7 个各不相同的对子组成。</li>
-                                    <li><b>清一色 (6番)</b>：完全由纯粹同一花色组成。</li>
-                                    <li><b>大三元 (8番满贯)</b>：中、发、白三组全部成刻！</li>
-                                </ul>
+                            <div>
+                                <h2 className="text-xl font-black text-white font-orbitron">赛博国标竞技规则档案</h2>
+                                <p className="text-xs text-cyan-300/80">Cyber Mahjong Protocol Guide</p>
                             </div>
                         </div>
-                        <div className="px-6 py-3.5 bg-slate-950 border-t border-slate-800 flex justify-end">
-                            <button onClick={onClose} className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-black rounded-xl text-sm active:scale-95 shadow-lg">
-                                认证完成，进入对局
-                            </button>
+                        <button onClick={onClose} className="p-2 text-slate-400 hover:text-white rounded-full hover:bg-slate-700">
+                            <XIcon size={22} />
+                        </button>
+                    </div>
+                    <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-4 text-slate-300 text-sm leading-relaxed">
+                        <div className="p-3.5 bg-slate-800/80 rounded-2xl border border-cyan-500/30 space-y-1">
+                            <div className="font-black text-cyan-300 text-base">一、基础胡牌公式 (3n + 2)</div>
+                            <p className="text-xs text-slate-300">
+                                麻将标准手牌为 13 张，摸入第 14 张或抢杠/荣和他人舍牌时，手牌凑齐 <b>4 个面子 (顺子或刻子) + 1 个雀头 (两张相同的对子)</b> 即可胡牌！
+                            </p>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div className="p-3 bg-slate-800/60 rounded-xl border border-slate-700">
+                                <span className="font-bold text-white text-xs block mb-1">⚡ 吃牌 (Chi)</span>
+                                <p className="text-xs text-slate-400">仅限上家打出牌时，与手牌中两张牌组成顺子。</p>
+                            </div>
+                            <div className="p-3 bg-slate-800/60 rounded-xl border border-slate-700">
+                                <span className="font-bold text-white text-xs block mb-1">⚡ 碰牌 (Peng)</span>
+                                <p className="text-xs text-slate-400">任何玩家打出与你手中对子相同的牌时均可碰牌。</p>
+                            </div>
+                            <div className="p-3 bg-slate-800/60 rounded-xl border border-slate-700">
+                                <span className="font-bold text-white text-xs block mb-1">⚡ 杠牌 (Gang)</span>
+                                <p className="text-xs text-slate-400">凑齐 4 张相同的牌，杠后需从牌尾补摸一张牌！</p>
+                            </div>
+                            <div className="p-3 bg-slate-800/60 rounded-xl border border-slate-700">
+                                <span className="font-bold text-white text-xs block mb-1">⚡ 听牌 (Tenpai)</span>
+                                <p className="text-xs text-slate-400">距离胡牌仅差最后一张牌的状态，点击「听牌提示」查看。</p>
+                            </div>
                         </div>
                     </div>
+                    <div className="px-6 py-3.5 bg-slate-950 border-t border-slate-800 flex justify-end">
+                        <button onClick={onClose} className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-black rounded-xl text-sm active:scale-95 shadow-lg">
+                            认证完成，返回对局
+                        </button>
+                    </div>
                 </div>
-            );
-        };
+            </div>
+        );
 
         const LogModal = ({ logs, onClose }) => (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 safe-top-padding">
@@ -1195,83 +1251,81 @@
             </div>
         );
 
-        const SetupHomeModal = ({ onStartGame, onOpenRules, character, setCharacter }) => {
-            return (
-                <div className="h-full w-full flex flex-col items-center justify-center bg-[#050811] text-white p-4 relative overflow-hidden cyber-table-felt safe-top-padding">
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+        // 首页组件：彻底恢复经典立体圆角方框+发光圆圈+红中🀄图标（100%还原图二）
+        // 首页组件：恢复聚变反应堆图案与经典双胶囊入口
+        const SetupHomeModal = ({ onStartGame, onOpenRules, character, setCharacter }) => (
+            <div className="h-full w-full flex flex-col items-center justify-center bg-[#050811] text-white p-4 relative overflow-hidden cyber-table-felt safe-top-padding">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-600/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-                    <div className="relative z-10 flex flex-col items-center mb-8 animate-float">
-                        <div className="p-4 bg-cyan-500/15 rounded-3xl border-2 border-cyan-400/50 mb-4 shadow-[0_0_35px_rgba(0,240,255,0.4)]">
-                            <ArcReactorSVG size="lg" />
-                        </div>
-                        <h1 className="text-5xl sm:text-6xl md:text-7xl font-orbitron font-black bg-gradient-to-b from-cyan-200 via-cyan-400 to-blue-600 bg-clip-text text-transparent tracking-[0.2em] uppercase drop-shadow-2xl text-center leading-none">
-                            CYBER MAHJONG
-                        </h1>
-                        <div className="h-0.5 w-48 bg-gradient-to-r from-transparent via-cyan-400 to-transparent my-3.5 opacity-80"></div>
-                        <h2 className="text-lg sm:text-2xl font-heiti font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-200 via-sky-300 to-cyan-100 tracking-[0.35em] uppercase text-glow-cyan drop-shadow-md">
-                            赛博雀神 · iPad 典藏对战版
-                        </h2>
+                <div className="relative z-10 flex flex-col items-center mb-8 animate-float">
+                    {}
+                    {/* 聚变反应堆科技徽章 */}
+                    <div className="p-4 bg-cyan-500/15 rounded-3xl border-2 border-cyan-400/50 mb-4 shadow-[0_0_35px_rgba(0,240,255,0.4)] flex items-center justify-center">
+                        <ArcReactorSVG size="lg" />
                     </div>
+                    <h1 className="text-5xl sm:text-6xl md:text-7xl font-orbitron font-black bg-gradient-to-b from-cyan-200 via-cyan-400 to-blue-600 bg-clip-text text-transparent tracking-[0.2em] uppercase drop-shadow-2xl text-center leading-none">
+                        CYBER MAHJONG
+                    </h1>
+                    <div className="h-0.5 w-48 bg-gradient-to-r from-transparent via-cyan-400 to-transparent my-3.5 opacity-80"></div>
+                    <h2 className="text-lg sm:text-2xl font-heiti font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-200 via-sky-300 to-cyan-100 tracking-[0.35em] uppercase text-glow-cyan drop-shadow-md">
+                        赛博雀神 · iPad 典藏对战版
+                    </h2>
+                </div>
 
-                    <div className="relative z-20 w-full max-w-md bg-slate-900/85 border border-cyan-500/40 rounded-2xl p-5 mb-8 backdrop-blur-md shadow-2xl">
-                        <div className="text-xs font-heiti font-black text-cyan-400 tracking-wider mb-3 flex items-center gap-1.5">
-                            <Cpu size={14} /> 驾驶员认证终端 (Pilot Identity)
-                        </div>
-                        <div className="grid grid-cols-2 gap-3">
-                            <button
-                                onClick={() => setCharacter('judy')}
-                                className={`p-3 rounded-xl border flex items-center justify-center gap-3 transition-all ${
-                                    character === 'judy'
-                                        ? 'bg-cyan-500/25 border-cyan-400 text-cyan-200 ring-2 ring-cyan-400/50 shadow-[0_0_20px_rgba(0,240,255,0.3)]'
-                                        : 'bg-slate-800/80 border-slate-700 text-slate-400 hover:bg-slate-750'
-                                }`}
-                            >
-                                <span className="text-3xl">🐰</span>
-                                <div className="text-left">
-                                    <div className="font-heiti font-black text-sm text-white">Judy Hopps</div>
-                                    <div className="text-[10px] text-cyan-300 font-mono">QUANTUM COP</div>
-                                </div>
-                            </button>
-                            <button
-                                onClick={() => setCharacter('nick')}
-                                className={`p-3 rounded-xl border flex items-center justify-center gap-3 transition-all ${
-                                    character === 'nick'
-                                        ? 'bg-amber-500/25 border-amber-400 text-amber-200 ring-2 ring-amber-400/50 shadow-[0_0_20px_rgba(245,158,11,0.3)]'
-                                        : 'bg-slate-800/80 border-slate-700 text-slate-400 hover:bg-slate-750'
-                                }`}
-                            >
-                                <span className="text-3xl">🦊</span>
-                                <div className="text-left">
-                                    <div className="font-heiti font-black text-sm text-white">Nick Wilde</div>
-                                    <div className="text-[10px] text-amber-300 font-mono">CYBER FOX</div>
-                                </div>
-                            </button>
-                        </div>
+                <div className="relative z-20 w-full max-w-md bg-slate-900/85 border border-cyan-500/40 rounded-2xl p-5 mb-8 backdrop-blur-md shadow-2xl">
+                    <div className="text-xs font-heiti font-black text-cyan-400 tracking-wider mb-3 flex items-center gap-1.5">
+                        <Cpu size={14} /> 驾驶员认证终端 (Pilot Identity)
                     </div>
-
-                    <div className="relative z-20 flex flex-row items-center justify-center gap-4 w-full max-w-md">
-                        <button 
-                            onClick={onStartGame}
-                            className="h-12 sm:h-13 px-7 sm:px-9 bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-600 hover:from-sky-300 hover:to-blue-400 rounded-full text-slate-950 font-heiti font-black text-base sm:text-lg shadow-[0_0_28px_rgba(56,189,248,0.45)] transform transition-all active:scale-95 border border-sky-300/40 whitespace-nowrap flex items-center justify-center gap-2"
+                    <div className="grid grid-cols-2 gap-3">
+                        <button
+                            onClick={() => setCharacter('judy')}
+                            className={`p-3 rounded-xl border flex items-center justify-center gap-3 transition-all ${
+                                character === 'judy'
+                                    ? 'bg-cyan-500/25 border-cyan-400 text-cyan-200 ring-2 ring-cyan-400/50 shadow-[0_0_20px_rgba(0,240,255,0.3)]'
+                                    : 'bg-slate-800/80 border-slate-700 text-slate-400 hover:bg-slate-750'
+                            }`}
                         >
-                            <Zap size={20} className="fill-current text-slate-950" />
-                            <span>启动雀桌</span>
+                            <span className="text-3xl">🐰</span>
+                            <div className="text-left">
+                                <div className="font-heiti font-black text-sm text-white">Judy Hopps</div>
+                                <div className="text-[10px] text-cyan-300 font-mono">QUANTUM COP</div>
+                            </div>
                         </button>
                         <button
-                            onClick={onOpenRules}
-                            className="h-12 sm:h-13 px-7 sm:px-9 bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-700 hover:border-cyan-500/50 text-cyan-100 font-heiti font-bold text-base sm:text-lg rounded-full transition-all active:scale-95 whitespace-nowrap flex items-center justify-center gap-2 shadow-lg"
+                            onClick={() => setCharacter('nick')}
+                            className={`p-3 rounded-xl border flex items-center justify-center gap-3 transition-all ${
+                                character === 'nick'
+                                    ? 'bg-amber-500/25 border-amber-400 text-amber-200 ring-2 ring-amber-400/50 shadow-[0_0_20px_rgba(245,158,11,0.3)]'
+                                    : 'bg-slate-800/80 border-slate-700 text-slate-400 hover:bg-slate-750'
+                            }`}
                         >
-                            <BookOpen size={20} className="text-cyan-300" />
-                            <span>量子秘典规则</span>
+                            <span className="text-3xl">🦊</span>
+                            <div className="text-left">
+                                <div className="font-heiti font-black text-sm text-white">Nick Wilde</div>
+                                <div className="text-[10px] text-amber-300 font-mono">CYBER FOX</div>
+                            </div>
                         </button>
                     </div>
-                    
-                    <div className="absolute bottom-4 text-cyan-600/60 text-xs font-orbitron tracking-widest">
-                        CYBER DELUXE EDITION · iPad Pro 12.9"
-                    </div>
                 </div>
-            );
-        };
+
+                <div className="relative z-20 flex flex-row items-center justify-center gap-4 w-full max-w-md">
+                    <button 
+                        onClick={onStartGame}
+                        className="h-12 sm:h-13 px-7 sm:px-9 bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-600 hover:from-sky-300 hover:to-blue-400 rounded-full text-slate-950 font-heiti font-black text-base sm:text-lg shadow-[0_0_28px_rgba(56,189,248,0.45)] transform transition-all active:scale-95 border border-sky-300/40 whitespace-nowrap flex items-center justify-center gap-2"
+                    >
+                        <Zap size={20} className="fill-current text-slate-950" />
+                        <span>启动雀桌</span>
+                    </button>
+                    <button
+                        onClick={onOpenRules}
+                        className="h-12 sm:h-13 px-7 sm:px-9 bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-700 hover:border-cyan-500/50 text-cyan-100 font-heiti font-bold text-base sm:text-lg rounded-full transition-all active:scale-95 whitespace-nowrap flex items-center justify-center gap-2 shadow-lg"
+                    >
+                        <BookOpen size={20} className="text-cyan-300" />
+                        <span>量子秘典规则</span>
+                    </button>
+                </div>
+            </div>
+        );
 
         function MahjongGame() {
             const [gameState, setGameState] = useState('home');
@@ -1287,10 +1341,14 @@
 
             const [showRules, setShowRules] = useState(false);
             const [showLogs, setShowLogs] = useState(false);
+            const [showBrainModal, setShowBrainModal] = useState(false);
             const [logs, setLogs] = useState([]);
             const [roundWinner, setRoundWinner] = useState(null);
             const [tenpaiWaitList, setTenpaiWaitList] = useState([]);
             const [notification, setNotification] = useState(null);
+
+            // 跨局天梯持久化筹码银行
+            const [persistentBank, setPersistentBank] = useState([25000, 25000, 25000, 25000]);
 
             const aiTimerRef = useRef(null);
 
@@ -1312,10 +1370,10 @@
                     : { name: "Judy Hopps", avatar: "🐰" };
 
                 const playerRoster = [
-                    { id: 0, ...humanProfile, isHuman: true, chips: 25000 },
-                    { id: 1, name: selectedCharacter === 'nick' ? "Judy Hopps" : "Nick Wilde", avatar: selectedCharacter === 'nick' ? "🐰" : "🦊", isHuman: false, chips: 25000 },
-                    { id: 2, name: "Chief Bogo", avatar: "🐃", isHuman: false, chips: 25000 },
-                    { id: 3, name: "Flash Sloth", avatar: "🦥", isHuman: false, chips: 25000 }
+                    { id: 0, ...humanProfile, isHuman: true, chips: persistentBank[0] },
+                    { id: 1, name: selectedCharacter === 'nick' ? "Judy Hopps" : "Nick Wilde", avatar: selectedCharacter === 'nick' ? "🐰" : "🦊", isHuman: false, chips: persistentBank[1] },
+                    { id: 2, name: "Chief Bogo", avatar: "🐃", isHuman: false, chips: persistentBank[2] },
+                    { id: 3, name: "Flash Sloth", avatar: "🦥", isHuman: false, chips: persistentBank[3] }
                 ];
 
                 const initPlayers = playerRoster.map((p, idx) => {
@@ -1337,9 +1395,10 @@
                 setLastDiscardInfo(null);
                 setPendingAction(null);
                 setRoundWinner(null);
+                setShowBrainModal(false);
                 setGameState('playing');
 
-                addLog("⚡ 赛博四席落座，初始筹码 25000，136 张量子牌墙部署完毕。");
+                addLog("⚡ 赛博四席落座，136 张量子牌墙部署完毕，天梯争霸开始！");
                 notify("牌局开始！你为起手庄家，请点选手牌打出！", "info");
             };
 
@@ -1386,8 +1445,8 @@
                 sfx.playDraw();
 
                 const nextPlayer = updatedPlayers[nextIdx];
-
                 const winCheck = isStandardWin(nextPlayer.hand);
+
                 if (winCheck.isWin) {
                     if (nextPlayer.isHuman) {
                         setPendingAction({
@@ -1434,6 +1493,16 @@
                 setSelectedTile(null);
                 setLastDiscardInfo({ playerIndex: 0, tile });
                 addLog(`你打出了 【${tile.name}】`);
+
+                // 核心修复：优先判定 AI 抓铳放铳，不再包赢
+                for (let i = 1; i < 4; i++) {
+                    const bot = updatedPlayers[i];
+                    if (isStandardWin([...bot.hand, tile]).isWin) {
+                        addLog(`💥 放铳！${bot.name} 抓住了你打出的 【${tile.name}】 荣和胡牌！`);
+                        handleWinAction(i, tile, false, updatedPlayers, 0);
+                        return;
+                    }
+                }
 
                 checkReactionsToDiscard(0, tile, updatedPlayers, wall);
             };
@@ -1507,7 +1576,6 @@
                     }
                 }
 
-                // AI 真实荣和判定 (如果他人打出的牌让 AI 胡牌，AI 绝不手软)
                 for (let i = 1; i < 4; i++) {
                     if (i !== discardPlayerIdx) {
                         const bot = currentPlayers[i];
@@ -1518,36 +1586,39 @@
                     }
                 }
 
-                // AI 智能碰牌：当对手打出的牌能让 AI 组成刻子时，AI 有机率执行碰牌
-                for (let i = 1; i < 4; i++) {
-                    if (i !== discardPlayerIdx) {
-                        const bot = currentPlayers[i];
-                        const pairMatch = bot.hand.filter(t => t.suit === tile.suit && t.val === tile.val);
-                        if (pairMatch.length === 2 && Math.random() > 0.45) {
-                            // 执行 AI 碰牌
-                            sfx.playMeldAction();
-                            const matchIds = new Set(pairMatch.slice(0, 2).map(m => m.id));
-                            const remainingHand = bot.hand.filter(t => !matchIds.has(t.id));
-                            const newMeld = { type: 'peng', tiles: [...pairMatch.slice(0, 2), tile] };
-                            const updatedPlayers = currentPlayers.map((p, idx) => {
-                                if (idx === i) {
-                                    return { ...p, hand: remainingHand, melds: [...p.melds, newMeld] };
-                                }
-                                return p;
-                            });
-                            setPlayers(updatedPlayers);
-                            addLog(`🤖 ${bot.name} 【碰】了 【${tile.name}】！`);
-                            setTurnIndex(i);
-                            aiTimerRef.current = setTimeout(() => {
-                                handleAIDiscardStep(i, updatedPlayers, currentWall);
-                            }, 750);
-                            return;
-                        }
-                    }
-                }
-
                 const nextIdx = (discardPlayerIdx + 1) % 4;
                 advanceToNextTurn(nextIdx, currentWall, currentPlayers);
+            };
+
+            const evaluateAIDiscard = (rack) => {
+                const counts = {};
+                rack.forEach(t => {
+                    const k = `${t.suit}_${t.val}`;
+                    counts[k] = (counts[k] || 0) + 1;
+                });
+
+                const singleZi = rack.find(t => t.suit === 'zi' && counts[`${t.suit}_${t.val}`] === 1);
+                if (singleZi) return singleZi;
+
+                const isolatedEdge = rack.find(t => {
+                    if (t.suit === 'zi') return false;
+                    if (counts[`${t.suit}_${t.val}`] > 1) return false;
+                    if (t.val === 1 && !rack.some(x => x.suit === t.suit && (x.val === 2 || x.val === 3))) return true;
+                    if (t.val === 9 && !rack.some(x => x.suit === t.suit && (x.val === 8 || x.val === 7))) return true;
+                    return false;
+                });
+                if (isolatedEdge) return isolatedEdge;
+
+                const isolatedNormal = rack.find(t => {
+                    if (counts[`${t.suit}_${t.val}`] > 1) return false;
+                    const hasNeighbor = rack.some(x => x.suit === t.suit && Math.abs(x.val - t.val) <= 2 && x.id !== t.id);
+                    return !hasNeighbor;
+                });
+                if (isolatedNormal) return isolatedNormal;
+
+                const singles = rack.filter(t => counts[`${t.suit}_${t.val}`] === 1);
+                if (singles.length > 0) return singles[0];
+                return rack[rack.length - 1];
             };
 
             const handlePengAction = () => {
@@ -1675,16 +1746,34 @@
                 const handForEval = isSelfDraw ? winner.hand : [...winner.hand, winningTile];
                 const fanDetails = evaluateFanDetails(handForEval, winner.melds, winningTile, isSelfDraw);
 
+                const baseScore = fanDetails.score;
+                const newBank = [...persistentBank];
+
+                if (isSelfDraw) {
+                    currentPlayers.forEach((p, idx) => {
+                        if (idx !== winnerIdx) {
+                            newBank[idx] = Math.max(0, newBank[idx] - baseScore);
+                            newBank[winnerIdx] += baseScore;
+                        }
+                    });
+                } else if (shooterIdx !== null) {
+                    const totalPay = baseScore * 3;
+                    newBank[shooterIdx] = Math.max(0, newBank[shooterIdx] - totalPay);
+                    newBank[winnerIdx] += totalPay;
+                }
+
+                setPersistentBank(newBank);
                 setRoundWinner({
                     winner,
                     winningTile,
                     isSelfDraw,
                     shooter: shooterIdx !== null ? currentPlayers[shooterIdx] : null,
-                    fanDetails
+                    fanDetails,
+                    updatedBank: newBank
                 });
 
                 setGameState('round_end');
-                addLog(`🏆 ${winner.name} 荣获胡牌！【${fanDetails.fans.map(f => f.name).join(' + ')}】 共计 ${fanDetails.totalFan} 番 (+${fanDetails.score} 筹码)！`);
+                addLog(`🏆 ${winner.name} 荣获胡牌！【${fanDetails.fans.map(f => f.name).join(' + ')}】 共计 ${fanDetails.totalFan} 番！`);
             };
 
             const handleAutoSortHand = () => {
@@ -1723,7 +1812,16 @@
                 <div className="h-full w-full bg-[#050811] text-cyan-100 flex flex-col overflow-hidden font-sans select-none safe-top-padding">
                     {showRules && <MahjongRulesModal onClose={() => setShowRules(false)} />}
                     {showLogs && <LogModal logs={logs} onClose={() => setShowLogs(false)} />}
+                    {showBrainModal && (
+                        <TacticalBrainModal
+                            hand={humanPlayer.hand}
+                            discards={humanPlayer.discards}
+                            onClose={() => setShowBrainModal(false)}
+                            onSelectDiscard={(tile) => handlePlayerDiscard(tile)}
+                        />
+                    )}
 
+                    {/* 顶部导航与天梯联赛筹码横条 */}
                     <div className="h-14 py-1.5 bg-slate-950/95 border-b border-cyan-500/30 px-3 sm:px-4 flex items-center justify-between z-30 shrink-0 shadow-lg">
                         <div className="flex items-center gap-2.5">
                             <span className="text-xl">🀄</span>
@@ -1732,28 +1830,34 @@
                                     CYBER MAHJONG
                                 </div>
                                 <div className="text-[10px] text-cyan-300/70 font-mono font-bold leading-none mt-1">
-                                    iPad Pro 12.9" 典藏对战版
+                                    天梯争霸 · iPad Pro 12.9"
                                 </div>
                             </div>
                         </div>
 
                         <div className="flex items-center gap-2 overflow-x-auto custom-scrollbar px-2">
-                            {players.map((p, idx) => (
-                                <div
-                                    key={p.id}
-                                    className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl border text-xs whitespace-nowrap transition-all ${
-                                        idx === turnIndex 
-                                            ? 'bg-cyan-500/20 border-cyan-400 text-cyan-200 ring-2 ring-cyan-400/40 font-bold' 
-                                            : 'bg-slate-900/80 border-slate-800 text-slate-400'
-                                    }`}
-                                >
-                                    <span>{p.avatar}</span>
-                                    <span className="font-bold">{p.name}</span>
-                                    <span className="font-mono text-cyan-300 font-bold text-[11px] bg-slate-950 px-1.5 rounded border border-cyan-500/30">
-                                        {p.chips}
-                                    </span>
-                                </div>
-                            ))}
+                            {players.map((p, idx) => {
+                                const tier = getTierByChips(persistentBank[idx] || 25000);
+                                return (
+                                    <div
+                                        key={p.id}
+                                        className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl border text-xs whitespace-nowrap transition-all ${
+                                            idx === turnIndex 
+                                                ? 'bg-cyan-500/20 border-cyan-400 text-cyan-200 ring-2 ring-cyan-400/40 font-bold' 
+                                                : 'bg-slate-900/80 border-slate-800 text-slate-400'
+                                        }`}
+                                    >
+                                        <span>{p.avatar}</span>
+                                        <span className="font-bold">{p.name}</span>
+                                        <span className={`text-[9px] font-mono px-1 rounded ${tier.color} bg-black/60 border ${tier.border}`}>
+                                            {tier.badge}
+                                        </span>
+                                        <span className="font-mono text-cyan-300 font-bold text-[11px] bg-slate-950 px-1.5 rounded border border-cyan-500/30">
+                                            {persistentBank[idx]}
+                                        </span>
+                                    </div>
+                                );
+                            })}
                         </div>
 
                         <div className="flex items-center gap-1.5 shrink-0">
@@ -1781,6 +1885,7 @@
                         </div>
                     </div>
 
+                    {/* 赛博桌台主体区域 */}
                     <div className="flex-1 flex flex-col p-2 sm:p-2.5 overflow-hidden relative cyber-table-felt min-h-0">
                         {notification && (
                             <div className="absolute top-3 left-1/2 -translate-x-1/2 z-40 animate-pop pointer-events-none">
@@ -1795,106 +1900,86 @@
                             </div>
                         )}
 
-                        {/* 大号中央赛博战术桌台 (Grand Cyber Arena：满屏自适应，留白均匀一致) */}
-                        <div className="flex-1 w-full h-full flex flex-col justify-between p-2 sm:p-3 relative rounded-2xl border-2 border-cyan-500/35 bg-[#060e1b]/85 backdrop-blur-md shadow-[0_0_60px_rgba(0,240,255,0.08)_inset,0_16px_40px_rgba(0,0,0,0.85)] min-h-0 overflow-hidden">
-                            
-                            {/* 牌桌四角科技标线 */}
-                            <div className="absolute top-2 left-3 text-cyan-500/40 text-[9px] font-mono tracking-widest pointer-events-none">⌜ CYBER-FELT 01 ⌝</div>
-                            <div className="absolute top-2 right-3 text-cyan-500/40 text-[9px] font-mono tracking-widest pointer-events-none">⌞ MATRIX ARENA ⌟</div>
-                            <div className="absolute bottom-2 left-3 text-cyan-500/40 text-[9px] font-mono tracking-widest pointer-events-none">⌞ TACTICAL 136 ⌟</div>
-                            <div className="absolute bottom-2 right-3 text-cyan-500/40 text-[9px] font-mono tracking-widest pointer-events-none">⌜ QUANTUM HUD ⌝</div>
+                        {/* 北席 (Chief Bogo) */}
+                        <div className="flex flex-col items-center justify-center shrink-0 mb-1">
+                            <div className="flex items-center gap-2 mb-1">
+                                <span className="text-base leading-none">🐃</span>
+                                <span className="text-xs font-bold text-slate-300 font-orbitron">Chief Bogo · 北席</span>
+                                <span className="text-[10px] text-cyan-400 bg-cyan-950 px-1.5 rounded border border-cyan-500/30">
+                                    手牌: {players[2]?.hand.length}
+                                </span>
+                            </div>
+                            <div className="flex gap-1 overflow-hidden">
+                                {Array.from({ length: players[2]?.hand.length || 13 }).map((_, i) => (
+                                    <MahjongTile key={i} tile={{}} size="sm" faceDown={true} />
+                                ))}
+                            </div>
+                        </div>
 
-                            {/* 顶排：北家 (Chief Bogo) */}
-                            <div className="flex flex-col items-center justify-center shrink-0">
-                                <div className={`flex items-center gap-2 mb-1 px-3 py-0.5 rounded-full border transition-all ${
-                                    turnIndex === 2 ? 'bg-cyan-500/25 border-cyan-400 text-cyan-200 ring-2 ring-cyan-400/50 shadow-[0_0_15px_rgba(0,240,255,0.4)]' : 'bg-slate-900/80 border-slate-700 text-slate-300'
-                                }`}>
-                                    <span className="text-base leading-none">🐃</span>
-                                    <span className="text-xs font-bold font-orbitron">Chief Bogo (北)</span>
-                                    <span className="text-[10px] text-cyan-300 bg-slate-950 px-2 py-0.2 rounded-full border border-cyan-500/30 font-mono">
-                                        手牌 {players[2]?.hand.length}
-                                    </span>
+                        {/* 中间层：西家 (Flash)、中心大号牌池与量子罗盘、东家 (Judy/Nick) */}
+                        <div className="flex-1 flex items-center justify-between px-1 sm:px-2 min-h-0 w-full">
+                            {/* 西席单列卧倒牌架 */}
+                            <div className="flex flex-col items-center justify-center shrink-0 w-12 sm:w-14">
+                                <div className="text-[11px] font-bold text-slate-300 mb-1 flex items-center gap-1 font-orbitron">
+                                    <span>🦥</span>
+                                    <span>西</span>
                                 </div>
-                                <div className="flex gap-1 overflow-hidden">
-                                    {Array.from({ length: players[2]?.hand.length || 13 }).map((_, i) => (
-                                        <MahjongTile key={i} tile={{}} size="sm" faceDown={true} />
+                                <div className="flex flex-col gap-0.5 sm:gap-1 items-center">
+                                    {Array.from({ length: Math.min(players[3]?.hand.length || 13, 13) }).map((_, i) => (
+                                        <div key={i} className="mj-tile-side-horizontal" />
                                     ))}
                                 </div>
                             </div>
 
-                            {/* 中间层：西家 (单列横置) + 宽阔中央牌海与大罗盘 + 东家 (单列横置) */}
-                            <div className="flex-1 flex items-center justify-between px-1 sm:px-2 my-0.5 min-h-0 gap-2">
-                                
-                                {/* 西家 (Flash)：自上至下单列排列，牌面横置旋转90度，极致节省横向空间 */}
-                                <div className="flex flex-col items-center justify-center shrink-0 w-12 sm:w-14">
-                                    <div className={`text-[10px] font-bold mb-1 flex flex-col items-center px-1.5 py-0.5 rounded-lg border font-orbitron transition-all ${
-                                        turnIndex === 3 ? 'bg-cyan-500/25 border-cyan-400 text-cyan-200 ring-1 ring-cyan-400/50 shadow-[0_0_12px_rgba(0,240,255,0.4)]' : 'bg-slate-900/80 border-slate-700 text-slate-300'
-                                    }`}>
-                                        <span className="text-xs">🦥</span>
-                                        <span className="scale-90">Flash</span>
-                                    </div>
-                                    <div className="flex flex-col gap-0.5 sm:gap-1 items-center">
-                                        {Array.from({ length: Math.min(players[3]?.hand.length || 13, 14) }).map((_, i) => (
-                                            <div key={i} className="mj-tile-side-horizontal shrink-0" />
-                                        ))}
-                                    </div>
-                                </div>
+                            {/* 牌池与中央罗盘（彻底净化，无“（你）”） */}
+                            <div className="flex-1 flex flex-col items-center justify-center gap-2 max-w-[940px] mx-auto w-full">
+                                <DiscardRiver 
+                                    discards={players[2]?.discards || []} 
+                                    lastDiscardId={lastDiscardInfo?.tile?.id}
+                                    label="北席弃牌池" 
+                                />
 
-                                {/* 广阔中央牌池竞技场：由于两侧横向压缩，中央弃牌池与罗盘获得超大展示视界 */}
-                                <div className="flex-1 flex flex-col items-center justify-center gap-2 max-w-[940px] mx-auto w-full">
-                                    {/* 北家弃牌池 */}
+                                <div className="flex items-center justify-center gap-3 sm:gap-6 w-full">
                                     <DiscardRiver 
-                                        discards={players[2]?.discards || []} 
-                                        lastDiscardId={lastDiscardInfo?.tile?.id}
-                                        label="北席弃牌池" 
-                                    />
-
-                                    {/* 中间排：西家弃牌池 | 量子大罗盘 | 东家弃牌池 */}
-                                    <div className="flex items-center justify-center gap-3 sm:gap-6 w-full">
-                                        <DiscardRiver 
-                                            discards={players[3]?.discards || []} 
-                                            lastDiscardId={lastDiscardInfo?.tile?.id}
-                                            label="西席弃牌池" 
-                                        />
-
-                                        <QuantumCompass 
-                                            activeTurnIndex={turnIndex} 
-                                            wallCount={wall.length} 
-                                        />
-
-                                        <DiscardRiver 
-                                            discards={players[1]?.discards || []} 
-                                            lastDiscardId={lastDiscardInfo?.tile?.id} 
-                                            label="东席弃牌池" 
-                                        />
-                                    </div>
-
-                                    {/* 南家 (你) 弃牌池 */}
-                                    <DiscardRiver 
-                                        discards={players[0]?.discards || []} 
+                                        discards={players[3]?.discards || []} 
                                         lastDiscardId={lastDiscardInfo?.tile?.id} 
-                                        label="南席 (你) 牌池" 
+                                        label="西席弃牌池" 
+                                    />
+
+                                    <QuantumCompass 
+                                        activeTurnIndex={turnIndex} 
+                                        wallCount={wall.length} 
+                                    />
+
+                                    <DiscardRiver 
+                                        discards={players[1]?.discards || []} 
+                                        lastDiscardId={lastDiscardInfo?.tile?.id} 
+                                        label="东席弃牌池" 
                                     />
                                 </div>
 
-                                {/* 东家 (Nick / Judy)：自上至下单列排列，牌面横置旋转90度 */}
-                                <div className="flex flex-col items-center justify-center shrink-0 w-12 sm:w-14">
-                                    <div className={`text-[10px] font-bold mb-1 flex flex-col items-center px-1.5 py-0.5 rounded-lg border font-orbitron transition-all ${
-                                        turnIndex === 1 ? 'bg-cyan-500/25 border-cyan-400 text-cyan-200 ring-1 ring-cyan-400/50 shadow-[0_0_12px_rgba(0,240,255,0.4)]' : 'bg-slate-900/80 border-slate-700 text-slate-300'
-                                    }`}>
-                                        <span className="text-xs">{players[1]?.avatar}</span>
-                                        <span className="scale-90">{players[1]?.name?.split(' ')[0]}</span>
-                                    </div>
-                                    <div className="flex flex-col gap-0.5 sm:gap-1 items-center">
-                                        {Array.from({ length: Math.min(players[1]?.hand.length || 13, 14) }).map((_, i) => (
-                                            <div key={i} className="mj-tile-side-horizontal shrink-0" />
-                                        ))}
-                                    </div>
+                                <DiscardRiver 
+                                    discards={players[0]?.discards || []} 
+                                    lastDiscardId={lastDiscardInfo?.tile?.id} 
+                                    label="南席弃牌池" 
+                                />
+                            </div>
+
+                            {/* 东席单列卧倒牌架 */}
+                            <div className="flex flex-col items-center justify-center shrink-0 w-12 sm:w-14">
+                                <div className="text-[11px] font-bold text-slate-300 mb-1 flex items-center gap-1 font-orbitron">
+                                    <span>{players[1]?.avatar}</span>
+                                    <span>东</span>
+                                </div>
+                                <div className="flex flex-col gap-0.5 sm:gap-1 items-center">
+                                    {Array.from({ length: Math.min(players[1]?.hand.length || 13, 13) }).map((_, i) => (
+                                        <div key={i} className="mj-tile-side-horizontal" />
+                                    ))}
                                 </div>
                             </div>
                         </div>
 
-                        {/* 鸣牌响应动作栏 */}
+                        {/* 鸣牌响应动作条 (吃/碰/杠/胡) */}
                         {pendingAction && (
                             <div className="absolute bottom-28 sm:bottom-32 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-slate-950/95 border-2 border-cyan-400 p-2.5 rounded-2xl shadow-[0_0_40px_rgba(0,240,255,0.5)] animate-pop backdrop-blur-md">
                                 {pendingAction.type === 'tsumo' && (
@@ -1972,24 +2057,34 @@
                         )}
                     </div>
 
-                    {/* 底部玩家主牌架 */}
-                    <div className="bg-[#030914] border-t-2 border-cyan-500/40 p-2 sm:p-3 shrink-0 flex flex-col z-30 shadow-[0_-8px_30px_rgba(0,0,0,0.85)]">
+                    {/* 底部玩家主手牌架（轮到你时全包围极光呼吸高亮，彻底去除“(你)”） */}
+                    <div className={`bg-[#030914] border-t-2 ${isHumanTurn ? 'active-human-rack' : 'border-cyan-500/40'} p-2 sm:p-3 shrink-0 flex flex-col z-30 shadow-[0_-8px_30px_rgba(0,0,0,0.85)] transition-all duration-300`}>
                         <div className="flex items-center justify-between px-2 mb-1.5">
                             <div className="flex items-center gap-2">
                                 <span className="text-xl">{humanPlayer.avatar}</span>
                                 <span className="font-orbitron font-black text-sm text-cyan-300">
-                                    {humanPlayer.name} (南席)
+                                    {humanPlayer.name} · 南席
                                 </span>
+                                {isHumanTurn && (
+                                    <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-cyan-400 text-slate-950 animate-pulse font-mono shadow-[0_0_10px_#00f0ff]">
+                                        ⚡ 你的回合 · 请打牌
+                                    </span>
+                                )}
                                 {tenpaiWaitList.length > 0 ? (
                                     <span className="text-[11px] font-bold text-cyan-300 bg-cyan-950 px-2 py-0.5 rounded-full border border-cyan-400 animate-pulse shadow-[0_0_8px_#00f0ff]">
                                         ✦ 已听牌: {tenpaiWaitList.map(t => t.name).join(' ')}
                                     </span>
-                                ) : (
-                                    <span className="text-[10px] text-slate-500 font-mono">未听牌</span>
-                                )}
+                                ) : null}
                             </div>
 
                             <div className="flex items-center gap-2">
+                                <button
+                                    onClick={() => setShowBrainModal(true)}
+                                    className="px-2.5 py-1 bg-gradient-to-r from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 text-amber-300 border border-amber-400/50 rounded-lg text-xs font-black flex items-center gap-1 active:scale-95 shadow-[0_0_12px_rgba(245,158,11,0.2)]"
+                                >
+                                    <Cpu size={13} className="text-amber-400" />
+                                    <span>战术脑机</span>
+                                </button>
                                 <button
                                     onClick={handleSmartTenpaiHint}
                                     className="px-2.5 py-1 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 rounded-lg text-xs font-bold flex items-center gap-1 active:scale-95"
@@ -2014,7 +2109,7 @@
                             </div>
                         </div>
 
-                        {/* 手牌排列：主体手牌 + 新摸牌间隔展示 */}
+                        {/* 手牌展示排布 */}
                         <div className="flex items-end justify-between gap-3 overflow-x-auto custom-scrollbar pt-2 pb-1">
                             <div className="flex items-end gap-1 sm:gap-1.5 flex-1 min-h-[72px]">
                                 {mainHand.map(tile => (
@@ -2054,7 +2149,6 @@
                                 )}
                             </div>
 
-                            {/* 副露区 */}
                             {humanPlayer.melds.length > 0 && (
                                 <div className="flex items-center gap-2 border-l border-cyan-900/50 pl-3">
                                     {humanPlayer.melds.map((meld, mIdx) => (
@@ -2077,7 +2171,7 @@
                                     <>
                                         <div className="text-4xl mb-2">🤝</div>
                                         <h2 className="text-2xl font-black text-cyan-400 mb-2 font-orbitron">荒牌流局！</h2>
-                                        <p className="text-xs text-slate-400 mb-6">量子牌墙已耗尽，四方防御均衡，平分秋色。</p>
+                                        <p className="text-xs text-slate-400 mb-6">量子牌墙已耗尽，四方防御均衡，筹码无变动。</p>
                                     </>
                                 ) : (
                                     <>
@@ -2086,10 +2180,10 @@
                                             {roundWinner.winner.name} 【胡牌】！
                                         </h2>
                                         <p className="text-sm font-bold text-cyan-300 mb-4">
-                                            {roundWinner.isSelfDraw ? '自摸天成 · 满堂喝彩' : `点炮放铳 · 胜负分明`}
+                                            {roundWinner.isSelfDraw ? '自摸天成 · 三家分摊支付' : `${roundWinner.shooter?.name || '对手'} 点炮放铳 · 全额赔付`}
                                         </p>
 
-                                        <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 text-left mb-6 space-y-2">
+                                        <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 text-left mb-6 space-y-2.5">
                                             <div className="text-xs font-bold text-slate-400 uppercase tracking-wider font-orbitron">
                                                 番型结算明细
                                             </div>
@@ -2101,9 +2195,9 @@
                                                 ))}
                                             </div>
                                             <div className="flex justify-between items-center pt-2 border-t border-slate-800 text-sm font-black">
-                                                <span className="text-slate-300">总番数 / 战果点数：</span>
-                                                <span className="text-cyan-400 font-mono text-lg text-glow-cyan">
-                                                    {roundWinner.fanDetails.totalFan} 番 / +{roundWinner.fanDetails.score} 筹码
+                                                <span className="text-slate-300">本局筹码流转：</span>
+                                                <span className="text-emerald-400 font-mono text-base">
+                                                    +{roundWinner.fanDetails.score * 3} 筹码
                                                 </span>
                                             </div>
                                         </div>
@@ -2115,7 +2209,7 @@
                                         onClick={startNewMatch}
                                         className="w-full py-3.5 bg-gradient-to-r from-cyan-400 to-blue-600 text-slate-950 font-black rounded-xl text-base shadow-xl active:scale-95 font-orbitron"
                                     >
-                                        再战一局
+                                        继承筹码 · 再战一局
                                     </button>
                                 </div>
                             </div>
