@@ -161,18 +161,21 @@
             text-shadow: 0 0 8px rgba(0, 240, 255, 0.8), 0 0 20px rgba(0, 240, 255, 0.4);
         }
 
-        /* 汉字细致科技发光描边 */
+        /* 汉字纯外层发光描边（paint-order 确保描边严格位于最外轮廓，绝不侵蚀字型内部） */
         .cyber-char-stroke-cyan {
-            -webkit-text-stroke: 0.65px rgba(0, 240, 255, 0.8);
-            text-shadow: 0 0 4px rgba(0, 240, 255, 0.55), 0 0 10px rgba(0, 240, 255, 0.25);
+            paint-order: stroke fill;
+            -webkit-text-stroke: 1.6px rgba(0, 240, 255, 0.85);
+            text-shadow: 0 0 5px rgba(0, 240, 255, 0.5), 0 0 10px rgba(0, 240, 255, 0.2);
         }
         .cyber-char-stroke-rose {
-            -webkit-text-stroke: 0.65px rgba(244, 63, 94, 0.85);
-            text-shadow: 0 0 5px rgba(244, 63, 94, 0.7), 0 0 12px rgba(244, 63, 94, 0.35);
+            paint-order: stroke fill;
+            -webkit-text-stroke: 1.8px rgba(244, 63, 94, 0.9);
+            text-shadow: 0 0 6px rgba(244, 63, 94, 0.6), 0 0 12px rgba(244, 63, 94, 0.25);
         }
         .cyber-char-stroke-emerald {
-            -webkit-text-stroke: 0.65px rgba(16, 185, 129, 0.85);
-            text-shadow: 0 0 5px rgba(16, 185, 129, 0.7), 0 0 12px rgba(16, 185, 129, 0.35);
+            paint-order: stroke fill;
+            -webkit-text-stroke: 1.8px rgba(16, 185, 129, 0.9);
+            text-shadow: 0 0 6px rgba(16, 185, 129, 0.6), 0 0 12px rgba(16, 185, 129, 0.25);
         }
 
         /* 轮到人类回合时底部主牌架全包围赛博极光高亮呼吸光圈 */
@@ -1143,12 +1146,12 @@
 
         const DiscardRiver = ({ discards, lastDiscardId, label = "弃牌池" }) => {
             return (
-                <div className="flex flex-col items-center bg-black/45 rounded-2xl p-1.5 sm:p-2 border border-cyan-500/25 min-h-[92px] w-[180px] sm:w-[200px] backdrop-blur-md shadow-inner">
-                    <div className="flex items-center justify-between w-full px-1 mb-1">
-                        <span className="text-[9px] sm:text-[10px] font-orbitron font-bold text-cyan-400/80">{label}</span>
-                        <span className="text-[9px] font-mono text-slate-500">{discards.length} 张</span>
+                <div className="flex flex-col items-center bg-black/45 rounded-2xl p-2 sm:p-2.5 border border-cyan-500/25 min-h-[96px] w-[260px] sm:w-[300px] md:w-[340px] lg:w-[370px] backdrop-blur-md shadow-inner transition-all">
+                    <div className="flex items-center justify-between w-full px-1.5 mb-1.5">
+                        <span className="text-[10px] sm:text-[11px] font-orbitron font-bold text-cyan-400/80">{label}</span>
+                        <span className="text-[10px] font-mono text-slate-500">{discards.length} 张</span>
                     </div>
-                    <div className="grid grid-cols-6 gap-1 w-full content-start justify-items-center">
+                    <div className="grid grid-cols-6 gap-1.5 sm:gap-2 w-full content-start justify-items-center">
                         {discards.map((tile) => (
                             <div key={tile.id} className="relative">
                                 <MahjongTile 
@@ -1931,15 +1934,15 @@
                                 </div>
                             </div>
 
-                            {/* 牌池与中央罗盘（彻底净化，无“（你）”） */}
-                            <div className="flex-1 flex flex-col items-center justify-center gap-2 max-w-[940px] mx-auto w-full">
+                            {/* 牌池与中央罗盘（横向舒展适应 iPad Pro 12.9" 屏幕） */}
+                            <div className="flex-1 flex flex-col items-center justify-center gap-2 sm:gap-3 max-w-[1080px] lg:max-w-[1140px] mx-auto w-full">
                                 <DiscardRiver 
                                     discards={players[2]?.discards || []} 
                                     lastDiscardId={lastDiscardInfo?.tile?.id}
                                     label="北席弃牌池" 
                                 />
 
-                                <div className="flex items-center justify-center gap-3 sm:gap-6 w-full">
+                                <div className="flex items-center justify-center gap-4 sm:gap-6 lg:gap-8 w-full">
                                     <DiscardRiver 
                                         discards={players[3]?.discards || []} 
                                         lastDiscardId={lastDiscardInfo?.tile?.id} 
