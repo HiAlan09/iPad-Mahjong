@@ -118,7 +118,31 @@
             box-shadow: 
                 0 1px 0 rgba(0, 240, 255, 0.4) inset,
                 0 4px 8px rgba(0, 0, 0, 0.7);
-            border-radius: 6px;
+            border-radius: 5px;
+        }
+
+        /* 侧边玩家横向卧倒麻将牌 (90度旋转省空间形态) */
+        .mj-tile-side-horizontal {
+            width: 26px;
+            height: 17px;
+            background: linear-gradient(180deg, #0c223c 0%, #061324 70%, #020813 100%);
+            border: 1px solid #0284c7;
+            border-radius: 3px;
+            box-shadow: 
+                0 1px 0 rgba(0, 240, 255, 0.3) inset,
+                0 2px 4px rgba(0, 0, 0, 0.6);
+            position: relative;
+        }
+        .mj-tile-side-horizontal::after {
+            content: "";
+            position: absolute;
+            right: -2px;
+            top: 1px;
+            bottom: 1px;
+            width: 2px;
+            background: #00f0ff;
+            border-radius: 0 2px 2px 0;
+            opacity: 0.7;
         }
 
         .quantum-compass {
@@ -328,24 +352,24 @@
         // 极简纯黑圆角倒角线条（条/索专用：线宽稳定统一，两端饱满圆角倒角，带激光微光描边）
         const MinimalLine = ({ size = "md", length = "standard", extraClass = "" }) => {
             const widthClass = {
-                sm: "w-[2.4px]",
-                river: "w-[2.9px] sm:w-[3.3px]",
+                sm: "w-[2.2px]",
+                river: "w-[2.8px] sm:w-[3px]",
                 md: "w-[3.2px]",
-                lg: "w-[4px]",
+                lg: "w-[3.8px]",
             }[size] || "w-[3.2px]";
 
             // 精准像素阶梯高度，彻底避免 flex 容器中百分比高度折叠失效为横向虚影的 Bug
             const heightClass = {
-                long: { sm: "h-[19px]", river: "h-[22px] sm:h-[26px]", md: "h-[25px]", lg: "h-[33px]" }[size] || "h-[25px]",
-                standard: { sm: "h-[9.5px]", river: "h-[11px] sm:h-[13px]", md: "h-[12.5px]", lg: "h-[16px]" }[size] || "h-[12.5px]",
-                short: { sm: "h-[6.5px]", river: "h-[7.5px] sm:h-[9px]", md: "h-[8.5px]", lg: "h-[11px]" }[size] || "h-[8.5px]",
-            }[length] || ({ sm: "h-[9.5px]", river: "h-[11px] sm:h-[13px]", md: "h-[12.5px]", lg: "h-[16px]" }[size] || "h-[12.5px]");
+                long: { sm: "h-[15px]", river: "h-[18px] sm:h-[20px]", md: "h-[22px]", lg: "h-[26px]" }[size] || "h-[22px]",
+                standard: { sm: "h-[8.5px]", river: "h-[10px] sm:h-[11.5px]", md: "h-[12px]", lg: "h-[14px]" }[size] || "h-[12px]",
+                short: { sm: "h-[6px]", river: "h-[7px] sm:h-[8px]", md: "h-[8.5px]", lg: "h-[10px]" }[size] || "h-[8.5px]",
+            }[length] || ({ sm: "h-[8.5px]", river: "h-[10px] sm:h-[11.5px]", md: "h-[12px]", lg: "h-[14px]" }[size] || "h-[12px]");
 
             return (
                 <div 
                     className={`${widthClass} ${heightClass} rounded-full shrink-0 select-none bg-slate-950 ${extraClass}`}
                     style={{
-                        boxShadow: '0 0 0 0.8px rgba(0, 240, 255, 0.85), 0 0 3px rgba(0, 240, 255, 0.55), inset 0 0 1px rgba(255, 255, 255, 0.3)'
+                        boxShadow: '0 0 0 0.6px rgba(0, 240, 255, 0.4), inset 0 0 1px rgba(255, 255, 255, 0.3)'
                     }}
                 />
             );
@@ -554,11 +578,11 @@
         const TongTileView = ({ val, size = "md" }) => {
             if (val === 1) {
                 const oneTongDim = {
-                    sm: "w-[10px] h-[10px]",
-                    river: "w-[12px] h-[12px] sm:w-[13.5px] sm:h-[13.5px]",
-                    md: "w-[14px] h-[14px] sm:w-[16px] sm:h-[16px]",
-                    lg: "w-[18px] h-[18px] sm:w-[21px] sm:h-[21px]",
-                }[size] || "w-[14px] h-[14px]";
+                    sm: "w-[7px] h-[7px]",
+                    river: "w-[8.5px] h-[8.5px] sm:w-[9.5px] sm:h-[9.5px]",
+                    md: "w-[10px] h-[10px] sm:w-[11.5px] sm:h-[11.5px]",
+                    lg: "w-[12px] h-[12px] sm:w-[14px] sm:h-[14px]",
+                }[size] || "w-[10px] h-[10px]";
 
                 return (
                     <PatternBox size={size}>
@@ -566,7 +590,7 @@
                             <div 
                                 className={`${oneTongDim} rounded-full bg-slate-950 shrink-0`}
                                 style={{
-                                    boxShadow: '0 0 0 1px rgba(0, 240, 255, 0.85), 0 0 4px rgba(0, 240, 255, 0.6), inset 0 0 2px rgba(255, 255, 255, 0.4)'
+                                    boxShadow: '0 0 0 0.8px rgba(0, 240, 255, 0.7), 0 0 3px rgba(0, 240, 255, 0.4), inset 0 0 1.5px rgba(255, 255, 255, 0.5)'
                                 }}
                             />
                         </div>
@@ -760,16 +784,16 @@
         // 麻将牌实体外壳容器（黄金 1:1.44 纵横比，绝不拉伸变形）
         const MahjongTile = ({ tile, isSelected, onClick, size = "md", isDrawn = false, customClass = "", faceDown = false }) => {
             const sizeStyle = {
-                sm: "w-7 h-10 rounded text-xs",
-                river: "w-8 h-11.5 sm:w-9 sm:h-13 rounded-md shadow-md",
-                md: "w-10 h-14 sm:w-11 sm:h-15 rounded-md",
-                lg: "w-12 h-16 sm:w-14 sm:h-20 rounded-md",
-            }[size] || "w-10 h-14 rounded-md";
+                sm: "w-[26px] h-[37px] rounded text-xs",
+                river: "w-[30px] h-[43px] sm:w-[34px] sm:h-[48px] rounded-md shadow-md",
+                md: "w-[38px] h-[54px] sm:w-[42px] sm:h-[60px] rounded-md",
+                lg: "w-[44px] h-[63px] sm:w-[50px] sm:h-[72px] rounded-md",
+            }[size] || "w-[38px] h-[54px] rounded-md";
 
             if (faceDown) {
                 return (
                     <div className={`mj-tile-back-cyber relative shrink-0 ${sizeStyle} ${customClass} flex items-center justify-center shadow-md border border-cyan-500/40 overflow-hidden`}>
-                        <div className="w-2.5 h-2.5 rounded-full bg-cyan-400/20 border border-cyan-400/60 shadow-[0_0_6px_rgba(0,240,255,0.5)]"></div>
+                        <div className="w-2 h-2 rounded-full bg-cyan-400/20 border border-cyan-400/60 shadow-[0_0_6px_rgba(0,240,255,0.5)]"></div>
                     </div>
                 );
             }
@@ -940,6 +964,7 @@
             });
         };
 
+        // 真实 AI 策略：评估手牌每张牌的保留价值，选出最没用的牌打出（不再白给）
         const evaluateAIDiscard = (rack) => {
             const counts = {};
             rack.forEach(t => {
@@ -947,28 +972,50 @@
                 counts[k] = (counts[k] || 0) + 1;
             });
 
-            const singleZi = rack.find(t => t.suit === 'zi' && counts[`${t.suit}_${t.val}`] === 1);
-            if (singleZi) return singleZi;
+            // 评分函数：评估单张牌与手牌其他牌的搭子价值
+            const getTileValue = (t) => {
+                const k = `${t.suit}_${t.val}`;
+                let score = 0;
 
-            const isolatedEdge = rack.find(t => {
-                if (t.suit === 'zi') return false;
-                if (counts[`${t.suit}_${t.val}`] > 1) return false;
-                if (t.val === 1 && !rack.some(x => x.suit === t.suit && (x.val === 2 || x.val === 3))) return true;
-                if (t.val === 9 && !rack.some(x => x.suit === t.suit && (x.val === 8 || x.val === 7))) return true;
-                return false;
-            });
-            if (isolatedEdge) return isolatedEdge;
+                // 刻子 (3张以上) 或 对子 (2张)
+                if (counts[k] >= 3) score += 90;
+                else if (counts[k] === 2) score += 45;
 
-            const isolatedNormal = rack.find(t => {
-                if (counts[`${t.suit}_${t.val}`] > 1) return false;
-                const hasNeighbor = rack.some(x => x.suit === t.suit && Math.abs(x.val - t.val) <= 2 && x.id !== t.id);
-                return !hasNeighbor;
-            });
-            if (isolatedNormal) return isolatedNormal;
+                // 字牌无顺子，单张字牌价值最低
+                if (t.suit === 'zi') {
+                    return score; // 单张为 0
+                }
 
-            const singles = rack.filter(t => counts[`${t.suit}_${t.val}`] === 1);
-            if (singles.length > 0) return singles[0];
-            return rack[rack.length - 1];
+                // 顺子搭子评估
+                const hasLeft1 = rack.some(x => x.suit === t.suit && x.val === t.val - 1);
+                const hasRight1 = rack.some(x => x.suit === t.suit && x.val === t.val + 1);
+                const hasLeft2 = rack.some(x => x.suit === t.suit && x.val === t.val - 2);
+                const hasRight2 = rack.some(x => x.suit === t.suit && x.val === t.val + 2);
+
+                if (hasLeft1 && hasRight1) score += 60; // 两头顺 (例 3-4-5)
+                if (hasLeft1 || hasRight1) score += 30; // 连号搭子 (例 4-5)
+                if (hasLeft2 || hasRight2) score += 15; // 嵌张/边张搭子 (例 3-5)
+
+                // 中张牌 (3~7) 价值高于幺九牌 (1, 9)
+                if (t.val >= 3 && t.val <= 7) score += 10;
+                else score += 2;
+
+                return score;
+            };
+
+            // 找到价值最低的一张牌打出
+            let minScore = 9999;
+            let bestDiscard = rack[0];
+
+            for (const tile of rack) {
+                const val = getTileValue(tile);
+                if (val < minScore) {
+                    minScore = val;
+                    bestDiscard = tile;
+                }
+            }
+
+            return bestDiscard;
         };
 
         const QuantumCompass = ({ activeTurnIndex, wallCount, roundWind = "东" }) => {
@@ -1020,14 +1067,14 @@
 
         const DiscardRiver = ({ discards, lastDiscardId, positionClass = "", label = "" }) => {
             return (
-                <div className={`flex flex-col bg-slate-950/65 rounded-2xl border border-cyan-500/30 p-2 shadow-[0_4px_20px_rgba(0,0,0,0.6)] backdrop-blur-md min-w-[210px] sm:min-w-[240px] md:min-w-[260px] ${positionClass}`}>
+                <div className={`flex flex-col bg-slate-950/70 rounded-2xl border border-cyan-500/35 p-2 shadow-[0_4px_24px_rgba(0,0,0,0.65)] backdrop-blur-md min-w-[210px] sm:min-w-[240px] md:min-w-[265px] ${positionClass}`}>
                     {label && (
-                        <div className="flex items-center justify-between text-[10px] font-orbitron font-bold text-cyan-400/80 mb-1 px-1 border-b border-cyan-900/40 pb-0.5">
+                        <div className="flex items-center justify-between text-[10px] font-orbitron font-bold text-cyan-400/90 mb-1.5 px-1 border-b border-cyan-900/50 pb-0.5">
                             <span>{label}</span>
-                            <span className="text-[9px] text-slate-500 font-mono">{discards.length} 张</span>
+                            <span className="text-[9px] text-slate-400 font-mono">{discards.length} 张</span>
                         </div>
                     )}
-                    <div className="grid grid-cols-6 gap-1 content-start min-h-[82px] sm:min-h-[92px]">
+                    <div className="grid grid-cols-6 gap-1 content-start min-h-[90px] sm:min-h-[102px]">
                         {discards.map((tile) => {
                             const isLatest = lastDiscardId === tile.id;
                             return (
@@ -1044,7 +1091,7 @@
                             );
                         })}
                         {discards.length === 0 && (
-                            <div className="col-span-6 flex items-center justify-center text-center text-[11px] text-cyan-600/30 h-[80px] font-mono tracking-wider">
+                            <div className="col-span-6 flex items-center justify-center text-center text-[11px] text-cyan-600/40 h-[88px] font-mono tracking-wider">
                                 牌池待出 · AWAITING
                             </div>
                         )}
@@ -1460,11 +1507,40 @@
                     }
                 }
 
+                // AI 真实荣和判定 (如果他人打出的牌让 AI 胡牌，AI 绝不手软)
                 for (let i = 1; i < 4; i++) {
                     if (i !== discardPlayerIdx) {
                         const bot = currentPlayers[i];
                         if (isStandardWin([...bot.hand, tile]).isWin) {
                             handleWinAction(i, tile, false, currentPlayers, discardPlayerIdx);
+                            return;
+                        }
+                    }
+                }
+
+                // AI 智能碰牌：当对手打出的牌能让 AI 组成刻子时，AI 有机率执行碰牌
+                for (let i = 1; i < 4; i++) {
+                    if (i !== discardPlayerIdx) {
+                        const bot = currentPlayers[i];
+                        const pairMatch = bot.hand.filter(t => t.suit === tile.suit && t.val === tile.val);
+                        if (pairMatch.length === 2 && Math.random() > 0.45) {
+                            // 执行 AI 碰牌
+                            sfx.playMeldAction();
+                            const matchIds = new Set(pairMatch.slice(0, 2).map(m => m.id));
+                            const remainingHand = bot.hand.filter(t => !matchIds.has(t.id));
+                            const newMeld = { type: 'peng', tiles: [...pairMatch.slice(0, 2), tile] };
+                            const updatedPlayers = currentPlayers.map((p, idx) => {
+                                if (idx === i) {
+                                    return { ...p, hand: remainingHand, melds: [...p.melds, newMeld] };
+                                }
+                                return p;
+                            });
+                            setPlayers(updatedPlayers);
+                            addLog(`🤖 ${bot.name} 【碰】了 【${tile.name}】！`);
+                            setTurnIndex(i);
+                            aiTimerRef.current = setTimeout(() => {
+                                handleAIDiscardStep(i, updatedPlayers, currentWall);
+                            }, 750);
                             return;
                         }
                     }
@@ -1705,7 +1781,7 @@
                         </div>
                     </div>
 
-                    <div className="flex-1 flex flex-col p-2 sm:p-3 overflow-hidden relative cyber-table-felt min-h-0">
+                    <div className="flex-1 flex flex-col p-2 sm:p-2.5 overflow-hidden relative cyber-table-felt min-h-0">
                         {notification && (
                             <div className="absolute top-3 left-1/2 -translate-x-1/2 z-40 animate-pop pointer-events-none">
                                 <div className={`px-4 py-1.5 rounded-full shadow-2xl border text-xs font-bold flex items-center gap-2 backdrop-blur-md whitespace-nowrap ${
@@ -1719,10 +1795,10 @@
                             </div>
                         )}
 
-                        {/* 大号中央赛博战术桌台 (Grand Cyber Mahjong Arena) */}
-                        <div className="flex-1 w-full max-w-[1280px] mx-auto flex flex-col justify-between p-2 sm:p-3.5 relative rounded-3xl border-2 border-cyan-500/35 bg-[#060e1b]/80 backdrop-blur-md shadow-[0_0_60px_rgba(0,240,255,0.08)_inset,0_16px_40px_rgba(0,0,0,0.85)] min-h-0 overflow-hidden">
+                        {/* 大号中央赛博战术桌台 (Grand Cyber Arena：满屏自适应，留白均匀一致) */}
+                        <div className="flex-1 w-full h-full flex flex-col justify-between p-2 sm:p-3 relative rounded-2xl border-2 border-cyan-500/35 bg-[#060e1b]/85 backdrop-blur-md shadow-[0_0_60px_rgba(0,240,255,0.08)_inset,0_16px_40px_rgba(0,0,0,0.85)] min-h-0 overflow-hidden">
                             
-                            {/* 牌桌四角高科技光电折角标 */}
+                            {/* 牌桌四角科技标线 */}
                             <div className="absolute top-2 left-3 text-cyan-500/40 text-[9px] font-mono tracking-widest pointer-events-none">⌜ CYBER-FELT 01 ⌝</div>
                             <div className="absolute top-2 right-3 text-cyan-500/40 text-[9px] font-mono tracking-widest pointer-events-none">⌞ MATRIX ARENA ⌟</div>
                             <div className="absolute bottom-2 left-3 text-cyan-500/40 text-[9px] font-mono tracking-widest pointer-events-none">⌞ TACTICAL 136 ⌟</div>
@@ -1746,33 +1822,35 @@
                                 </div>
                             </div>
 
-                            {/* 中间层：西家 + 宽广牌池与中央罗盘 + 东家 */}
-                            <div className="flex-1 flex items-center justify-between px-2 sm:px-4 my-1 min-h-0 gap-3">
-                                {/* 西家 (Flash) */}
-                                <div className="flex flex-col items-center justify-center shrink-0 max-w-[110px]">
-                                    <div className={`text-xs font-bold mb-1.5 flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border font-orbitron transition-all ${
-                                        turnIndex === 3 ? 'bg-cyan-500/25 border-cyan-400 text-cyan-200 ring-2 ring-cyan-400/50 shadow-[0_0_15px_rgba(0,240,255,0.4)]' : 'bg-slate-900/80 border-slate-700 text-slate-300'
+                            {/* 中间层：西家 (单列横置) + 宽阔中央牌海与大罗盘 + 东家 (单列横置) */}
+                            <div className="flex-1 flex items-center justify-between px-1 sm:px-2 my-0.5 min-h-0 gap-2">
+                                
+                                {/* 西家 (Flash)：自上至下单列排列，牌面横置旋转90度，极致节省横向空间 */}
+                                <div className="flex flex-col items-center justify-center shrink-0 w-12 sm:w-14">
+                                    <div className={`text-[10px] font-bold mb-1 flex flex-col items-center px-1.5 py-0.5 rounded-lg border font-orbitron transition-all ${
+                                        turnIndex === 3 ? 'bg-cyan-500/25 border-cyan-400 text-cyan-200 ring-1 ring-cyan-400/50 shadow-[0_0_12px_rgba(0,240,255,0.4)]' : 'bg-slate-900/80 border-slate-700 text-slate-300'
                                     }`}>
-                                        <span>🦥</span> Flash (西)
+                                        <span className="text-xs">🦥</span>
+                                        <span className="scale-90">Flash</span>
                                     </div>
-                                    <div className="grid grid-cols-2 gap-1">
+                                    <div className="flex flex-col gap-0.5 sm:gap-1 items-center">
                                         {Array.from({ length: Math.min(players[3]?.hand.length || 13, 14) }).map((_, i) => (
-                                            <MahjongTile key={i} tile={{}} size="sm" faceDown={true} />
+                                            <div key={i} className="mj-tile-side-horizontal shrink-0" />
                                         ))}
                                     </div>
                                 </div>
 
-                                {/* 核心广阔牌桌竞技场：北、西、东、南四方牌池簇拥着中央大罗盘 */}
-                                <div className="flex-1 flex flex-col items-center justify-center gap-2 max-w-[820px] mx-auto">
-                                    {/* 北家牌池 */}
+                                {/* 广阔中央牌池竞技场：由于两侧横向压缩，中央弃牌池与罗盘获得超大展示视界 */}
+                                <div className="flex-1 flex flex-col items-center justify-center gap-2 max-w-[940px] mx-auto w-full">
+                                    {/* 北家弃牌池 */}
                                     <DiscardRiver 
                                         discards={players[2]?.discards || []} 
                                         lastDiscardId={lastDiscardInfo?.tile?.id}
                                         label="北席弃牌池" 
                                     />
 
-                                    {/* 中间排：西家牌池 | 量子大罗盘 | 东家牌池 */}
-                                    <div className="flex items-center justify-center gap-3 sm:gap-5 w-full">
+                                    {/* 中间排：西家弃牌池 | 量子大罗盘 | 东家弃牌池 */}
+                                    <div className="flex items-center justify-center gap-3 sm:gap-6 w-full">
                                         <DiscardRiver 
                                             discards={players[3]?.discards || []} 
                                             lastDiscardId={lastDiscardInfo?.tile?.id}
@@ -1786,29 +1864,30 @@
 
                                         <DiscardRiver 
                                             discards={players[1]?.discards || []} 
-                                            lastDiscardId={lastDiscardInfo?.tile?.id}
+                                            lastDiscardId={lastDiscardInfo?.tile?.id} 
                                             label="东席弃牌池" 
                                         />
                                     </div>
 
-                                    {/* 南家(你)牌池 */}
+                                    {/* 南家 (你) 弃牌池 */}
                                     <DiscardRiver 
                                         discards={players[0]?.discards || []} 
-                                        lastDiscardId={lastDiscardInfo?.tile?.id}
+                                        lastDiscardId={lastDiscardInfo?.tile?.id} 
                                         label="南席 (你) 牌池" 
                                     />
                                 </div>
 
-                                {/* 东家 (Nick / Judy) */}
-                                <div className="flex flex-col items-center justify-center shrink-0 max-w-[110px]">
-                                    <div className={`text-xs font-bold mb-1.5 flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border font-orbitron transition-all ${
-                                        turnIndex === 1 ? 'bg-cyan-500/25 border-cyan-400 text-cyan-200 ring-2 ring-cyan-400/50 shadow-[0_0_15px_rgba(0,240,255,0.4)]' : 'bg-slate-900/80 border-slate-700 text-slate-300'
+                                {/* 东家 (Nick / Judy)：自上至下单列排列，牌面横置旋转90度 */}
+                                <div className="flex flex-col items-center justify-center shrink-0 w-12 sm:w-14">
+                                    <div className={`text-[10px] font-bold mb-1 flex flex-col items-center px-1.5 py-0.5 rounded-lg border font-orbitron transition-all ${
+                                        turnIndex === 1 ? 'bg-cyan-500/25 border-cyan-400 text-cyan-200 ring-1 ring-cyan-400/50 shadow-[0_0_12px_rgba(0,240,255,0.4)]' : 'bg-slate-900/80 border-slate-700 text-slate-300'
                                     }`}>
-                                        <span>{players[1]?.avatar}</span> {players[1]?.name?.split(' ')[0]} (东)
+                                        <span className="text-xs">{players[1]?.avatar}</span>
+                                        <span className="scale-90">{players[1]?.name?.split(' ')[0]}</span>
                                     </div>
-                                    <div className="grid grid-cols-2 gap-1">
+                                    <div className="flex flex-col gap-0.5 sm:gap-1 items-center">
                                         {Array.from({ length: Math.min(players[1]?.hand.length || 13, 14) }).map((_, i) => (
-                                            <MahjongTile key={i} tile={{}} size="sm" faceDown={true} />
+                                            <div key={i} className="mj-tile-side-horizontal shrink-0" />
                                         ))}
                                     </div>
                                 </div>
