@@ -1,0 +1,1990 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="CyberMahjong">
+    <title>麻将 (Mahjong) - iPad 赛博豪华典藏版</title>
+
+    <!-- Tailwind CSS, Google Fonts, React 18, Babel CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Rajdhani:wght@600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        html, body {
+            height: 100dvh;
+            width: 100vw;
+            overflow: hidden;
+            background-color: #050811;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", sans-serif;
+        }
+
+        #root {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .safe-top-padding {
+            padding-top: max(env(safe-area-inset-top), 8px);
+        }
+
+        .font-orbitron {
+            font-family: 'Orbitron', monospace;
+        }
+        .font-heiti {
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", sans-serif;
+            font-weight: 800;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(10, 16, 30, 0.6);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #1e3a5f;
+            border-radius: 4px;
+        }
+
+        /* 赛博深空量子战术底桌 */
+        .cyber-table-felt {
+            background-color: #070d1a;
+            background-image: 
+                radial-gradient(ellipse at 50% 50%, rgba(14, 53, 90, 0.45) 0%, rgba(4, 8, 16, 0.95) 80%),
+                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 28px 28px, 28px 28px;
+        }
+
+        /* 纳米骨瓷 3D 麻将牌块（严格 1:1.44 纵横比，骨瓷质感与冰蓝极光底座） */
+        .mj-tile-nano {
+            background: linear-gradient(170deg, #ffffff 0%, #f8fafc 55%, #e2e8f0 100%);
+            border-radius: 6px;
+            box-shadow: 
+                0 1px 0 rgba(255, 255, 255, 0.95) inset,
+                0 -2px 0 rgba(15, 23, 42, 0.35) inset,
+                -1px 0 0 rgba(255, 255, 255, 0.7) inset,
+                1px 0 0 rgba(15, 23, 42, 0.2) inset,
+                0 8px 16px -2px rgba(0, 0, 0, 0.75),
+                0 4px 6px -1px rgba(0, 0, 0, 0.45);
+            border: 1px solid #94a3b8;
+            position: relative;
+            transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.3, 1), box-shadow 0.15s ease-out;
+        }
+
+        .mj-tile-nano::after {
+            content: "";
+            position: absolute;
+            bottom: -3px;
+            left: 1px;
+            right: 1px;
+            height: 3px;
+            background: linear-gradient(90deg, #0284c7 0%, #00f0ff 50%, #0369a1 100%);
+            border-radius: 0 0 5px 5px;
+            border-bottom: 1px solid #082f49;
+        }
+
+        .mj-tile-selected {
+            transform: translateY(-16px) scale(1.05);
+            box-shadow: 
+                0 0 0 2px #00f0ff,
+                0 0 24px rgba(0, 240, 255, 0.75),
+                0 14px 28px -4px rgba(0, 0, 0, 0.85);
+            z-index: 30;
+        }
+
+        .mj-tile-nano:active {
+            transform: translateY(-4px) scale(0.98);
+        }
+
+        .mj-tile-back-cyber {
+            background: linear-gradient(145deg, #0c2038 0%, #05101d 60%, #02070e 100%);
+            border: 1px solid #0284c7;
+            box-shadow: 
+                0 1px 0 rgba(0, 240, 255, 0.4) inset,
+                0 4px 8px rgba(0, 0, 0, 0.7);
+            border-radius: 6px;
+        }
+
+        .quantum-compass {
+            background: radial-gradient(circle at 50% 50%, #0d1e33 0%, #060e19 100%);
+            border: 2px solid rgba(0, 240, 255, 0.45);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.25), 0 0 12px rgba(0, 0, 0, 0.8) inset;
+        }
+
+        @keyframes cyberPulse {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px #00f0ffaa); }
+            50% { transform: scale(1.05); filter: drop-shadow(0 0 20px #ff0077dd); }
+        }
+        .cyber-action-pulse {
+            animation: cyberPulse 1.4s infinite cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.92); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-pop {
+            animation: popIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-7px); }
+        }
+        .animate-float {
+            animation: floatSlow 4s ease-in-out infinite;
+        }
+
+        .text-glow-cyan {
+            text-shadow: 0 0 8px rgba(0, 240, 255, 0.8), 0 0 20px rgba(0, 240, 255, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-[#050811] text-cyan-50 select-none">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef, useMemo } = React;
+
+        class CyberMahjongSFX {
+            constructor() {
+                this.ctx = null;
+            }
+            init() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    this.ctx = new AudioContext();
+                }
+                if (this.ctx && this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+            }
+            playTileClick() {
+                try {
+                    this.init();
+                    const now = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(1400, now);
+                    osc.frequency.exponentialRampToValueAtTime(360, now + 0.04);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.04);
+                } catch(e) {}
+            }
+            playDiscard() {
+                try {
+                    this.init();
+                    const now = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(520, now);
+                    osc.frequency.exponentialRampToValueAtTime(120, now + 0.08);
+                    gain.gain.setValueAtTime(0.38, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.08);
+                } catch(e) {}
+            }
+            playDraw() {
+                try {
+                    this.init();
+                    const now = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(440, now);
+                    osc.frequency.linearRampToValueAtTime(880, now + 0.06);
+                    gain.gain.setValueAtTime(0.16, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.06);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.06);
+                } catch(e) {}
+            }
+            playMeldAction() {
+                try {
+                    this.init();
+                    const now = this.ctx.currentTime;
+                    [587.33, 880, 1174.66].forEach((freq, idx) => {
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.type = 'sawtooth';
+                        osc.frequency.setValueAtTime(freq, now + idx * 0.04);
+                        gain.gain.setValueAtTime(0.18, now + idx * 0.04);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.04 + 0.08);
+                        osc.connect(gain);
+                        gain.connect(this.ctx.destination);
+                        osc.start(now + idx * 0.04);
+                        osc.stop(now + idx * 0.04 + 0.08);
+                    });
+                } catch(e) {}
+            }
+            playVictoryHu() {
+                try {
+                    this.init();
+                    const now = this.ctx.currentTime;
+                    const chord = [523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98];
+                    chord.forEach((freq, i) => {
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, now + i * 0.07);
+                        gain.gain.setValueAtTime(0.28, now + i * 0.07);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.07 + 0.6);
+                        osc.connect(gain);
+                        gain.connect(this.ctx.destination);
+                        osc.start(now + i * 0.07);
+                        osc.stop(now + i * 0.07 + 0.6);
+                    });
+                } catch(e) {}
+            }
+        }
+        const sfx = new CyberMahjongSFX();
+
+        const IconBase = ({ children, size = 20, className = "", ...props }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={className} {...props}>
+                {children}
+            </svg>
+        );
+
+        const Cpu = (p) => <IconBase {...p}><rect x="4" y="4" width="16" height="16" rx="2" /><rect x="9" y="9" width="6" height="6" /><line x1="9" y1="1" x2="9" y2="4" /><line x1="15" y1="1" x2="15" y2="4" /><line x1="9" y1="20" x2="9" y2="23" /><line x1="15" y1="20" x2="15" y2="23" /><line x1="20" y1="9" x2="23" y2="9" /><line x1="20" y1="14" x2="23" y2="14" /><line x1="1" y1="9" x2="4" y2="9" /><line x1="1" y1="14" x2="4" y2="14" /></IconBase>;
+        const Zap = (p) => <IconBase {...p}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></IconBase>;
+        const BookOpen = (p) => <IconBase {...p}><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></IconBase>;
+        const XIcon = (p) => <IconBase {...p}><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></IconBase>;
+        const MessageSquare = (p) => <IconBase {...p}><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></IconBase>;
+        const HomeIcon = (p) => <IconBase {...p}><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></IconBase>;
+        const Sparkles = (p) => <IconBase {...p}><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275-1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" /></IconBase>;
+        const Lightbulb = (p) => <IconBase {...p}><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /><path d="M9 18h6" /><path d="M10 22h4" /></IconBase>;
+        const Trophy = (p) => <IconBase {...p}><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" /><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" /><path d="M4 22h16" /><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" /><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" /><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" /></IconBase>;
+
+        const ArcReactorSVG = ({ size = "md" }) => {
+            const dim = size === 'sm' ? 22 : size === 'lg' ? 44 : 30;
+            return (
+                <svg width={dim} height={dim} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0 select-none">
+                    <circle cx="32" cy="32" r="30" stroke="#00f0ff" strokeWidth="1.5" strokeDasharray="4 2" />
+                    <circle cx="32" cy="32" r="26" stroke="#0284c7" strokeWidth="3" fill="#061220" />
+                    {Array.from({ length: 8 }).map((_, i) => (
+                        <rect 
+                            key={i} 
+                            x="30" y="8" width="4" height="7" rx="1.5" 
+                            fill="#f59e0b" 
+                            stroke="#ffffff"
+                            strokeWidth="0.6"
+                            transform={`rotate(${i * 45} 32 32)`}
+                        />
+                    ))}
+                    <circle cx="32" cy="32" r="16" stroke="#f43f5e" strokeWidth="2.5" fill="#0b1728" />
+                    <circle cx="32" cy="32" r="10" fill="#0284c7" />
+                    <circle cx="32" cy="32" r="6" fill="#ffffff" filter="drop-shadow(0 0 5px #00f0ff)" />
+                </svg>
+            );
+        };
+
+        const CHINESE_NUMS = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
+        const ZI_NAMES = ["", "东", "南", "西", "北", "中", "发", "白"];
+        const ZI_ENGLISH = { 东: "EAST", 南: "SOUTH", 西: "WEST", 北: "NORTH", 中: "CORE", 发: "QUANTUM", 白: "" };
+
+        // 统一图案区域容器（比文字牌大，限定舒适比例显示框，确保条和筒均匀分布）
+        const PatternBox = ({ size = "md", children }) => {
+            const boxDims = {
+                sm: "w-[20px] h-[28px]",
+                md: "w-[28px] h-[38px] sm:w-[30px] sm:h-[42px]",
+                lg: "w-[36px] h-[50px] sm:w-[40px] sm:h-[56px]",
+            }[size] || "w-[28px] h-[38px]";
+
+            return (
+                <div className={`${boxDims} flex items-center justify-center select-none mx-auto my-auto relative`}>
+                    {children}
+                </div>
+            );
+        };
+
+        // 极简纯黑圆角倒角线条（条/索专用：线宽稳定统一，两端饱满圆角倒角，带激光微光描边）
+        const MinimalLine = ({ size = "md", length = "standard", extraClass = "" }) => {
+            const widthClass = {
+                sm: "w-[2.4px]",
+                md: "w-[3.2px]",
+                lg: "w-[4px]",
+            }[size] || "w-[3.2px]";
+
+            // 精准像素阶梯高度，彻底避免 flex 容器中百分比高度折叠失效为横向虚影的 Bug
+            const heightClass = {
+                long: { sm: "h-[19px]", md: "h-[25px]", lg: "h-[33px]" }[size] || "h-[25px]",
+                standard: { sm: "h-[9.5px]", md: "h-[12.5px]", lg: "h-[16px]" }[size] || "h-[12.5px]",
+                short: { sm: "h-[6.5px]", md: "h-[8.5px]", lg: "h-[11px]" }[size] || "h-[8.5px]",
+            }[length] || ({ sm: "h-[9.5px]", md: "h-[12.5px]", lg: "h-[16px]" }[size] || "h-[12.5px]");
+
+            return (
+                <div 
+                    className={`${widthClass} ${heightClass} rounded-full shrink-0 select-none bg-slate-950 ${extraClass}`}
+                    style={{
+                        boxShadow: '0 0 0 0.8px rgba(0, 240, 255, 0.85), 0 0 3px rgba(0, 240, 255, 0.55), inset 0 0 1px rgba(255, 255, 255, 0.3)'
+                    }}
+                />
+            );
+        };
+
+        // 极简纯黑实心小圆圈（筒/饼专用：紧凑小巧，带全息激光微光描边）
+        const MinimalCircle = ({ size = "md", extraClass = "" }) => {
+            const sizePx = {
+                sm: "w-[3.6px] h-[3.6px]",
+                md: "w-[4.8px] h-[4.8px] sm:w-[5.2px] sm:h-[5.2px]",
+                lg: "w-[6.2px] h-[6.2px] sm:w-[7px] sm:h-[7px]",
+            }[size] || "w-[4.8px] h-[4.8px]";
+
+            return (
+                <div 
+                    className={`rounded-full shrink-0 bg-slate-950 flex items-center justify-center select-none ${sizePx} ${extraClass}`}
+                    style={{
+                        boxShadow: '0 0 0 0.8px rgba(0, 240, 255, 0.85), 0 0 3px rgba(0, 240, 255, 0.55), inset 0 0 1px rgba(255, 255, 255, 0.3)'
+                    }}
+                />
+            );
+        };
+
+        // 万字牌：严格按照风牌标准比例，所有数字统一纯黑（五万不特殊），英文代号采用赤红激光荧光
+        const WanTileView = ({ val, size = "md" }) => {
+            const fontNumSize = {
+                sm: "text-sm",
+                md: "text-2xl",
+                lg: "text-3xl",
+            }[size] || "text-2xl";
+
+            const englishTag = `${val} WAN`;
+
+            return (
+                <div className="flex flex-col items-center justify-center leading-none select-none">
+                    <span className={`font-heiti font-black text-slate-950 leading-none ${fontNumSize}`}>
+                        {CHINESE_NUMS[val]}
+                    </span>
+                    <span 
+                        className="text-[6px] sm:text-[7px] font-orbitron font-extrabold tracking-wider leading-none mt-0.5 text-rose-500"
+                        style={{
+                            textShadow: '0 0 5px rgba(244, 63, 94, 0.9), 0 0 10px rgba(225, 29, 72, 0.6)'
+                        }}
+                    >
+                        {englishTag}
+                    </span>
+                </div>
+            );
+        };
+
+        // 条子（索）：与筒牌统一在 PatternBox 内均匀分布，完全横平竖直、绝无倾斜
+        const TiaoTileView = ({ val, size = "md" }) => {
+            if (val === 1) {
+                return (
+                    <PatternBox size={size}>
+                        <div className="flex items-center justify-center w-full h-full">
+                            <MinimalLine size={size} length="long" />
+                        </div>
+                    </PatternBox>
+                );
+            }
+            if (val === 2) {
+                return (
+                    <PatternBox size={size}>
+                        <div className="grid grid-cols-1 grid-rows-2 h-full items-center justify-items-center">
+                            <MinimalLine size={size} length="standard" />
+                            <MinimalLine size={size} length="standard" />
+                        </div>
+                    </PatternBox>
+                );
+            }
+            if (val === 3) {
+                return (
+                    <PatternBox size={size}>
+                        <div className="grid grid-cols-1 grid-rows-2 h-full items-center justify-items-center">
+                            <MinimalLine size={size} length="standard" />
+                            <div className="flex justify-between items-center w-[62%]">
+                                <MinimalLine size={size} length="standard" />
+                                <MinimalLine size={size} length="standard" />
+                            </div>
+                        </div>
+                    </PatternBox>
+                );
+            }
+            if (val === 4) {
+                return (
+                    <PatternBox size={size}>
+                        <div className="grid grid-cols-1 grid-rows-2 w-[72%] h-full items-center justify-items-center">
+                            <div className="flex justify-between items-center w-full">
+                                <MinimalLine size={size} length="standard" />
+                                <MinimalLine size={size} length="standard" />
+                            </div>
+                            <div className="flex justify-between items-center w-full">
+                                <MinimalLine size={size} length="standard" />
+                                <MinimalLine size={size} length="standard" />
+                            </div>
+                        </div>
+                    </PatternBox>
+                );
+            }
+            if (val === 5) {
+                return (
+                    <PatternBox size={size}>
+                        <div className="grid grid-cols-1 grid-rows-3 w-full h-full items-center justify-items-center">
+                            <div className="flex justify-between items-center w-[72%]">
+                                <MinimalLine size={size} length="short" />
+                                <MinimalLine size={size} length="short" />
+                            </div>
+                            <div className="flex justify-center items-center w-full">
+                                <MinimalLine size={size} length="short" />
+                            </div>
+                            <div className="flex justify-between items-center w-[72%]">
+                                <MinimalLine size={size} length="short" />
+                                <MinimalLine size={size} length="short" />
+                            </div>
+                        </div>
+                    </PatternBox>
+                );
+            }
+            if (val === 6) {
+                return (
+                    <PatternBox size={size}>
+                        <div className="grid grid-cols-1 grid-rows-2 w-full h-full items-center justify-items-center">
+                            <div className="flex justify-between items-center w-[85%]">
+                                <MinimalLine size={size} length="standard" />
+                                <MinimalLine size={size} length="standard" />
+                                <MinimalLine size={size} length="standard" />
+                            </div>
+                            <div className="flex justify-between items-center w-[85%]">
+                                <MinimalLine size={size} length="standard" />
+                                <MinimalLine size={size} length="standard" />
+                                <MinimalLine size={size} length="standard" />
+                            </div>
+                        </div>
+                    </PatternBox>
+                );
+            }
+            if (val === 7) {
+                return (
+                    <PatternBox size={size}>
+                        <div className="grid grid-cols-1 grid-rows-2 w-full h-full items-center justify-items-center">
+                            <div className="flex justify-between items-center w-[68%]">
+                                <MinimalLine size={size} length="standard" />
+                                <MinimalLine size={size} length="standard" />
+                                <MinimalLine size={size} length="standard" />
+                            </div>
+                            <div className="flex justify-between items-center w-[92%]">
+                                <MinimalLine size={size} length="standard" />
+                                <MinimalLine size={size} length="standard" />
+                                <MinimalLine size={size} length="standard" />
+                                <MinimalLine size={size} length="standard" />
+                            </div>
+                        </div>
+                    </PatternBox>
+                );
+            }
+            if (val === 8) {
+                return (
+                    <PatternBox size={size}>
+                        <div className="grid grid-cols-1 grid-rows-2 w-[92%] h-full items-center justify-items-center">
+                            <div className="flex justify-between items-center w-full">
+                                <MinimalLine size={size} length="standard" />
+                                <MinimalLine size={size} length="standard" />
+                                <MinimalLine size={size} length="standard" />
+                                <MinimalLine size={size} length="standard" />
+                            </div>
+                            <div className="flex justify-between items-center w-full">
+                                <MinimalLine size={size} length="standard" />
+                                <MinimalLine size={size} length="standard" />
+                                <MinimalLine size={size} length="standard" />
+                                <MinimalLine size={size} length="standard" />
+                            </div>
+                        </div>
+                    </PatternBox>
+                );
+            }
+            if (val === 9) {
+                return (
+                    <PatternBox size={size}>
+                        <div className="grid grid-cols-1 grid-rows-3 w-[85%] h-full items-center justify-items-center">
+                            <div className="flex justify-between items-center w-full">
+                                <MinimalLine size={size} length="short" />
+                                <MinimalLine size={size} length="short" />
+                                <MinimalLine size={size} length="short" />
+                            </div>
+                            <div className="flex justify-between items-center w-full">
+                                <MinimalLine size={size} length="short" />
+                                <MinimalLine size={size} length="short" />
+                                <MinimalLine size={size} length="short" />
+                            </div>
+                            <div className="flex justify-between items-center w-full">
+                                <MinimalLine size={size} length="short" />
+                                <MinimalLine size={size} length="short" />
+                                <MinimalLine size={size} length="short" />
+                            </div>
+                        </div>
+                    </PatternBox>
+                );
+            }
+            return null;
+        };
+
+        // 筒子（饼）：实心纯黑小圆点，在框定显示区域内横平竖直对称均匀分布
+        const TongTileView = ({ val, size = "md" }) => {
+            if (val === 1) {
+                const oneTongDim = {
+                    sm: "w-[10px] h-[10px]",
+                    md: "w-[14px] h-[14px] sm:w-[16px] sm:h-[16px]",
+                    lg: "w-[18px] h-[18px] sm:w-[21px] sm:h-[21px]",
+                }[size] || "w-[14px] h-[14px]";
+
+                return (
+                    <PatternBox size={size}>
+                        <div className="flex items-center justify-center w-full h-full">
+                            <div 
+                                className={`${oneTongDim} rounded-full bg-slate-950 shrink-0`}
+                                style={{
+                                    boxShadow: '0 0 0 1px rgba(0, 240, 255, 0.85), 0 0 4px rgba(0, 240, 255, 0.6), inset 0 0 2px rgba(255, 255, 255, 0.4)'
+                                }}
+                            />
+                        </div>
+                    </PatternBox>
+                );
+            }
+            if (val === 2) {
+                return (
+                    <PatternBox size={size}>
+                        <div className="grid grid-cols-1 grid-rows-2 h-full items-center justify-items-center">
+                            <MinimalCircle size={size} />
+                            <MinimalCircle size={size} />
+                        </div>
+                    </PatternBox>
+                );
+            }
+            if (val === 3) {
+                // 三筒：与六筒、九筒采用完全一致的 3 行纵向网格坐标，彻底消除高度公差
+                return (
+                    <PatternBox size={size}>
+                        <div className="grid grid-cols-1 grid-rows-3 h-full items-center justify-items-center">
+                            <MinimalCircle size={size} />
+                            <MinimalCircle size={size} />
+                            <MinimalCircle size={size} />
+                        </div>
+                    </PatternBox>
+                );
+            }
+            if (val === 4) {
+                return (
+                    <PatternBox size={size}>
+                        <div className="grid grid-cols-2 grid-rows-2 w-[72%] h-full items-center justify-items-center">
+                            <MinimalCircle size={size} />
+                            <MinimalCircle size={size} />
+                            <MinimalCircle size={size} />
+                            <MinimalCircle size={size} />
+                        </div>
+                    </PatternBox>
+                );
+            }
+            if (val === 5) {
+                // 五筒：正交 3x3 矩阵，与三筒、六筒、九筒高度行坐标严格一致
+                return (
+                    <PatternBox size={size}>
+                        <div className="grid grid-cols-3 grid-rows-3 w-[82%] h-full items-center justify-items-center">
+                            <MinimalCircle size={size} />
+                            <div />
+                            <MinimalCircle size={size} />
+                            <div />
+                            <MinimalCircle size={size} />
+                            <div />
+                            <MinimalCircle size={size} />
+                            <div />
+                            <MinimalCircle size={size} />
+                        </div>
+                    </PatternBox>
+                );
+            }
+            if (val === 6) {
+                // 六筒：3 行 2 列网格，基准高度与三筒、九筒完全对齐
+                return (
+                    <PatternBox size={size}>
+                        <div className="grid grid-cols-2 grid-rows-3 w-[72%] h-full items-center justify-items-center">
+                            <MinimalCircle size={size} />
+                            <MinimalCircle size={size} />
+                            <MinimalCircle size={size} />
+                            <MinimalCircle size={size} />
+                            <MinimalCircle size={size} />
+                            <MinimalCircle size={size} />
+                        </div>
+                    </PatternBox>
+                );
+            }
+            if (val === 7) {
+                // 七筒：顶部 3 点横平排，底部 4 点正交网格，全部竖直平正
+                return (
+                    <PatternBox size={size}>
+                        <div className="grid grid-cols-1 grid-rows-2 w-full h-full items-center justify-items-center">
+                            <div className="flex justify-between items-center w-[72%]">
+                                <MinimalCircle size={size} />
+                                <MinimalCircle size={size} />
+                                <MinimalCircle size={size} />
+                            </div>
+                            <div className="grid grid-cols-2 grid-rows-2 gap-x-3 gap-y-1 w-[60%] justify-items-center">
+                                <MinimalCircle size={size} />
+                                <MinimalCircle size={size} />
+                                <MinimalCircle size={size} />
+                                <MinimalCircle size={size} />
+                            </div>
+                        </div>
+                    </PatternBox>
+                );
+            }
+            if (val === 8) {
+                return (
+                    <PatternBox size={size}>
+                        <div className="grid grid-cols-2 grid-rows-4 w-[68%] h-full items-center justify-items-center">
+                            {Array.from({ length: 8 }).map((_, i) => (
+                                <MinimalCircle key={i} size={size} />
+                            ))}
+                        </div>
+                    </PatternBox>
+                );
+            }
+            if (val === 9) {
+                // 九筒：紧凑 3x3 矩阵，与三筒、六筒的 3 行纵向坐标保持绝对一致
+                return (
+                    <PatternBox size={size}>
+                        <div className="grid grid-cols-3 grid-rows-3 w-[82%] h-full items-center justify-items-center">
+                            {Array.from({ length: 9 }).map((_, i) => (
+                                <MinimalCircle key={i} size={size} />
+                            ))}
+                        </div>
+                    </PatternBox>
+                );
+            }
+            return null;
+        };
+
+        // 字牌（东南西北中发白）：严格复刻图一效果与代码规范
+        const ZiTileView = ({ val, size = "md" }) => {
+            const ziChar = ZI_NAMES[val];
+            const fontZiSize = {
+                sm: "text-sm",
+                md: "text-2xl",
+                lg: "text-3xl",
+            }[size] || "text-2xl";
+
+            if (ziChar === '中') {
+                return (
+                    <div className="flex flex-col items-center justify-center leading-none">
+                        <span className={`font-heiti font-black text-rose-600 leading-none drop-shadow-[0_0_6px_rgba(225,29,72,0.6)] ${fontZiSize}`}>
+                            中
+                        </span>
+                        <span className="text-[6px] sm:text-[7px] font-orbitron font-extrabold text-rose-500 tracking-wider mt-0.5">CORE</span>
+                    </div>
+                );
+            }
+            if (ziChar === '发') {
+                return (
+                    <div className="flex flex-col items-center justify-center leading-none">
+                        <span className={`font-heiti font-black text-emerald-600 leading-none drop-shadow-[0_0_6px_rgba(5,150,105,0.6)] ${fontZiSize}`}>
+                            發
+                        </span>
+                        <span className="text-[6px] sm:text-[7px] font-orbitron font-extrabold text-emerald-600 tracking-wider mt-0.5">QUANTUM</span>
+                    </div>
+                );
+            }
+            if (ziChar === '白') {
+                const boxDim = size === 'sm' ? 'w-4 h-5 border-[2px]' : size === 'lg' ? 'w-6 h-8 border-[2.5px]' : 'w-5 h-7 border-[2px]';
+                return (
+                    <div className="flex items-center justify-center leading-none select-none h-full w-full">
+                        <div 
+                            className={`${boxDim} rounded-md border-cyan-400 bg-cyan-950/25 flex items-center justify-center`}
+                            style={{
+                                boxShadow: '0 0 8px rgba(0,240,255,0.75), inset 0 0 5px rgba(0,240,255,0.35)'
+                            }}
+                        />
+                    </div>
+                );
+            }
+
+            const enMap = { 东: "EAST", 南: "SOUTH", 西: "WEST", 北: "NORTH" };
+            return (
+                <div className="flex flex-col items-center justify-center leading-none">
+                    <span className={`font-heiti font-black text-slate-900 leading-none ${fontZiSize}`}>
+                        {ziChar}
+                    </span>
+                    <span className="text-[6px] sm:text-[7px] font-orbitron font-extrabold text-slate-500 tracking-wider mt-0.5">
+                        {enMap[ziChar] || "WIND"}
+                    </span>
+                </div>
+            );
+        };
+
+        // 牌面主容器：内部居中且透气
+        const TileFace = ({ tile, size = "md" }) => {
+            const { suit, val } = tile;
+
+            return (
+                <div className="w-full h-full relative flex flex-col items-center justify-center p-0.5 overflow-hidden my-auto">
+                    {suit === 'wan' && <WanTileView val={val} size={size} />}
+                    {suit === 'tiao' && <TiaoTileView val={val} size={size} />}
+                    {suit === 'tong' && <TongTileView val={val} size={size} />}
+                    {suit === 'zi' && <ZiTileView val={val} size={size} />}
+                </div>
+            );
+        };
+
+        // 麻将牌实体外壳容器（黄金 1:1.44 纵横比，绝不拉伸变形）
+        const MahjongTile = ({ tile, isSelected, onClick, size = "md", isDrawn = false, customClass = "", faceDown = false }) => {
+            const sizeStyle = {
+                sm: "w-7 h-10 rounded text-xs",
+                md: "w-10 h-14 sm:w-11 sm:h-15 rounded-md",
+                lg: "w-12 h-16 sm:w-14 sm:h-20 rounded-md",
+            }[size] || "w-10 h-14 rounded-md";
+
+            if (faceDown) {
+                return (
+                    <div className={`mj-tile-back-cyber relative shrink-0 ${sizeStyle} ${customClass} flex items-center justify-center shadow-md border border-cyan-500/40 overflow-hidden`}>
+                        <div className="w-2.5 h-2.5 rounded-full bg-cyan-400/20 border border-cyan-400/60 shadow-[0_0_6px_rgba(0,240,255,0.5)]"></div>
+                    </div>
+                );
+            }
+
+            return (
+                <div 
+                    onClick={onClick}
+                    className={`mj-tile-nano flex flex-col items-center justify-center cursor-pointer shrink-0 ${sizeStyle} ${
+                        isSelected ? 'mj-tile-selected' : ''
+                    } ${isDrawn ? 'ring-2 ring-cyan-400 shadow-[0_0_14px_rgba(0,240,255,0.8)]' : ''} ${customClass}`}
+                >
+                    <div className="w-full h-full flex flex-col items-center justify-center overflow-hidden">
+                        <TileFace tile={tile} size={size} />
+                    </div>
+                </div>
+            );
+        };
+
+        const generateMahjongDeck = () => {
+            const deck = [];
+            for (let c = 0; c < 4; c++) {
+                for (let n = 1; n <= 9; n++) deck.push({ id: `wan_${n}_${c}`, suit: 'wan', val: n, name: `${CHINESE_NUMS[n]}万` });
+                for (let n = 1; n <= 9; n++) deck.push({ id: `tiao_${n}_${c}`, suit: 'tiao', val: n, name: `${n}条` });
+                for (let n = 1; n <= 9; n++) deck.push({ id: `tong_${n}_${c}`, suit: 'tong', val: n, name: `${n}筒` });
+                for (let n = 1; n <= 7; n++) deck.push({ id: `zi_${n}_${c}`, suit: 'zi', val: n, name: ZI_NAMES[n] });
+            }
+            for (let i = deck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [deck[i], deck[j]] = [deck[j], deck[i]];
+            }
+            return deck;
+        };
+
+        const isStandardWin = (tiles) => {
+            if (tiles.length % 3 !== 2) return false;
+
+            const counts = {};
+            tiles.forEach(t => {
+                const key = `${t.suit}_${t.val}`;
+                counts[key] = (counts[key] || 0) + 1;
+            });
+
+            if (tiles.length === 14) {
+                const pairKeys = Object.keys(counts).filter(k => counts[k] === 2);
+                if (pairKeys.length === 7) return { isWin: true, type: '七对子', fan: 4 };
+            }
+
+            const uniqueKeys = Object.keys(counts);
+            for (const pairKey of uniqueKeys) {
+                if (counts[pairKey] >= 2) {
+                    const tempCounts = { ...counts };
+                    tempCounts[pairKey] -= 2;
+
+                    if (canDecomposeMelds(tempCounts)) {
+                        return { isWin: true, type: '平胡/自摸', fan: 1 };
+                    }
+                }
+            }
+            return { isWin: false, fan: 0 };
+        };
+
+        const canDecomposeMelds = (counts) => {
+            let firstKey = null;
+            for (const k of Object.keys(counts).sort()) {
+                if (counts[k] > 0) {
+                    firstKey = k;
+                    break;
+                }
+            }
+            if (!firstKey) return true;
+
+            const [suit, valStr] = firstKey.split('_');
+            const val = parseInt(valStr, 10);
+
+            if (counts[firstKey] >= 3) {
+                counts[firstKey] -= 3;
+                if (canDecomposeMelds(counts)) return true;
+                counts[firstKey] += 3;
+            }
+
+            if (suit !== 'zi' && val <= 7) {
+                const k2 = `${suit}_${val + 1}`;
+                const k3 = `${suit}_${val + 2}`;
+                if ((counts[k2] || 0) > 0 && (counts[k3] || 0) > 0) {
+                    counts[firstKey]--;
+                    counts[k2]--;
+                    counts[k3]--;
+                    if (canDecomposeMelds(counts)) return true;
+                    counts[firstKey]++;
+                    counts[k2]++;
+                    counts[k3]++;
+                }
+            }
+
+            return false;
+        };
+
+        const evaluateFanDetails = (handTiles, melds, winningTile, isSelfDraw) => {
+            const allTiles = [...handTiles, ...melds.flatMap(m => m.tiles)];
+            const fans = [];
+
+            if (isSelfDraw) fans.push({ name: '自摸', fan: 1 });
+            else fans.push({ name: '放铳荣和', fan: 1 });
+
+            if (melds.every(m => m.type === 'an_gang')) {
+                fans.push({ name: '门前清', fan: 1 });
+            }
+
+            const nonZiSuits = new Set(allTiles.filter(t => t.suit !== 'zi').map(t => t.suit));
+            const hasZi = allTiles.some(t => t.suit === 'zi');
+
+            if (nonZiSuits.size === 1 && !hasZi) {
+                fans.push({ name: '清一色', fan: 6 });
+            } else if (nonZiSuits.size === 1 && hasZi) {
+                fans.push({ name: '混一色', fan: 3 });
+            }
+
+            const isTanyao = allTiles.every(t => t.suit !== 'zi' && t.val >= 2 && t.val <= 8);
+            if (isTanyao) fans.push({ name: '断幺九', fan: 1 });
+
+            const counts = {};
+            handTiles.forEach(t => {
+                const k = `${t.suit}_${t.val}`;
+                counts[k] = (counts[k] || 0) + 1;
+            });
+            const isAllTriplets = Object.values(counts).every(c => c === 3 || c === 2) && melds.every(m => m.type === 'peng' || m.type.includes('gang'));
+            if (isAllTriplets && handTiles.length > 2) {
+                fans.push({ name: '碰碰胡', fan: 3 });
+            }
+
+            const zhongCount = allTiles.filter(t => t.suit === 'zi' && t.val === 5).length;
+            const faCount = allTiles.filter(t => t.suit === 'zi' && t.val === 6).length;
+            const baiCount = allTiles.filter(t => t.suit === 'zi' && t.val === 7).length;
+            if (zhongCount >= 3 && faCount >= 3 && baiCount >= 3) {
+                fans.push({ name: '大三元 (满贯)', fan: 8 });
+            }
+
+            const totalFan = fans.reduce((acc, f) => acc + f.fan, 0);
+            return { fans, totalFan, score: totalFan * 1000 + 1000 };
+        };
+
+        const getTenpaiList = (handTiles) => {
+            const waitingTiles = [];
+            const suits = ['wan', 'tiao', 'tong'];
+            const allCandidates = [];
+
+            suits.forEach(suit => {
+                for (let v = 1; v <= 9; v++) allCandidates.push({ suit, val: v, name: `${v}${suit === 'wan' ? '万' : suit === 'tiao' ? '条' : '筒'}` });
+            });
+            for (let v = 1; v <= 7; v++) allCandidates.push({ suit: 'zi', val: v, name: ZI_NAMES[v] });
+
+            for (const cand of allCandidates) {
+                const testHand = [...handTiles, cand];
+                if (isStandardWin(testHand).isWin) {
+                    waitingTiles.push(cand);
+                }
+            }
+            return waitingTiles;
+        };
+
+        const sortMahjongHand = (tiles) => {
+            const suitOrder = { wan: 1, tiao: 2, tong: 3, zi: 4 };
+            return [...tiles].sort((a, b) => {
+                if (suitOrder[a.suit] !== suitOrder[b.suit]) {
+                    return suitOrder[a.suit] - suitOrder[b.suit];
+                }
+                return a.val - b.val;
+            });
+        };
+
+        const evaluateAIDiscard = (rack) => {
+            const counts = {};
+            rack.forEach(t => {
+                const k = `${t.suit}_${t.val}`;
+                counts[k] = (counts[k] || 0) + 1;
+            });
+
+            const singleZi = rack.find(t => t.suit === 'zi' && counts[`${t.suit}_${t.val}`] === 1);
+            if (singleZi) return singleZi;
+
+            const isolatedEdge = rack.find(t => {
+                if (t.suit === 'zi') return false;
+                if (counts[`${t.suit}_${t.val}`] > 1) return false;
+                if (t.val === 1 && !rack.some(x => x.suit === t.suit && (x.val === 2 || x.val === 3))) return true;
+                if (t.val === 9 && !rack.some(x => x.suit === t.suit && (x.val === 8 || x.val === 7))) return true;
+                return false;
+            });
+            if (isolatedEdge) return isolatedEdge;
+
+            const isolatedNormal = rack.find(t => {
+                if (counts[`${t.suit}_${t.val}`] > 1) return false;
+                const hasNeighbor = rack.some(x => x.suit === t.suit && Math.abs(x.val - t.val) <= 2 && x.id !== t.id);
+                return !hasNeighbor;
+            });
+            if (isolatedNormal) return isolatedNormal;
+
+            const singles = rack.filter(t => counts[`${t.suit}_${t.val}`] === 1);
+            if (singles.length > 0) return singles[0];
+            return rack[rack.length - 1];
+        };
+
+        const QuantumCompass = ({ activeTurnIndex, wallCount, roundWind = "东" }) => {
+            return (
+                <div className="quantum-compass w-36 h-36 rounded-2xl flex flex-col items-center justify-center p-2 relative shadow-2xl shrink-0 select-none border border-cyan-500/40">
+                    <div className="text-[10px] font-orbitron font-black tracking-widest text-cyan-400 mb-0.5 flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
+                        {roundWind}风圈 · RADAR
+                    </div>
+                    <div className="grid grid-cols-3 grid-rows-3 gap-1 w-20 h-20 items-center justify-items-center my-0.5 font-bold text-xs font-orbitron">
+                        <div />
+                        <div className={`px-1.5 py-0.5 rounded transition-all ${activeTurnIndex === 2 ? 'bg-cyan-400 text-slate-950 font-black scale-110 shadow-[0_0_12px_#00f0ff]' : 'text-slate-500'}`}>北</div>
+                        <div />
+                        <div className={`px-1.5 py-0.5 rounded transition-all ${activeTurnIndex === 3 ? 'bg-cyan-400 text-slate-950 font-black scale-110 shadow-[0_0_12px_#00f0ff]' : 'text-slate-500'}`}>西</div>
+                        <div className="w-8 h-8 rounded-full bg-slate-950 flex flex-col items-center justify-center border border-cyan-500/50 shadow-inner">
+                            <span className="text-[11px] font-mono font-black text-cyan-300 leading-none">{wallCount}</span>
+                            <span className="text-[6px] text-slate-400 font-orbitron leading-none mt-0.5">TILES</span>
+                        </div>
+                        <div className={`px-1.5 py-0.5 rounded transition-all ${activeTurnIndex === 1 ? 'bg-cyan-400 text-slate-950 font-black scale-110 shadow-[0_0_12px_#00f0ff]' : 'text-slate-500'}`}>东</div>
+                        <div />
+                        <div className={`px-1.5 py-0.5 rounded transition-all ${activeTurnIndex === 0 ? 'bg-cyan-400 text-slate-950 font-black scale-110 shadow-[0_0_12px_#00f0ff]' : 'text-slate-500'}`}>南 (你)</div>
+                        <div />
+                    </div>
+                </div>
+            );
+        };
+
+        const DiscardRiver = ({ discards, lastDiscardId, positionClass = "" }) => {
+            return (
+                <div className={`grid grid-cols-6 gap-1 p-1 bg-black/40 rounded-xl border border-cyan-900/40 min-h-[58px] min-w-[140px] max-w-[210px] content-start backdrop-blur-sm ${positionClass}`}>
+                    {discards.map((tile) => (
+                        <div key={tile.id} className="relative">
+                            <MahjongTile 
+                                tile={tile} 
+                                size="sm" 
+                                customClass={lastDiscardId === tile.id ? 'ring-2 ring-cyan-400 shadow-[0_0_10px_#00f0ff] scale-105' : 'opacity-85'} 
+                            />
+                            {lastDiscardId === tile.id && (
+                                <div className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-rose-500 animate-ping"></div>
+                            )}
+                        </div>
+                    ))}
+                    {discards.length === 0 && (
+                        <div className="col-span-6 text-center text-[10px] text-cyan-600/40 py-2 font-mono">
+                            POOL EMPTY
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const MahjongRulesModal = ({ onClose }) => {
+            return (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 safe-top-padding">
+                    <div className="bg-slate-900 border-2 border-cyan-500/50 rounded-3xl w-full max-w-2xl max-h-[85vh] flex flex-col shadow-2xl overflow-hidden animate-pop">
+                        <div className="px-6 py-4 bg-slate-800 border-b border-slate-700 flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 bg-cyan-500/20 text-cyan-400 rounded-xl border border-cyan-500/40">
+                                    <BookOpen size={24} />
+                                </div>
+                                <div>
+                                    <h2 className="text-xl font-black text-white font-orbitron">赛博国标竞技规则档案</h2>
+                                    <p className="text-xs text-cyan-300/80">Cyber Mahjong Protocol Guide</p>
+                                </div>
+                            </div>
+                            <button onClick={onClose} className="p-2 text-slate-400 hover:text-white rounded-full hover:bg-slate-700">
+                                <XIcon size={22} />
+                            </button>
+                        </div>
+                        <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-4 text-slate-300 text-sm leading-relaxed">
+                            <div className="p-3.5 bg-slate-800/80 rounded-2xl border border-cyan-500/30 space-y-1">
+                                <div className="font-black text-cyan-300 text-base">一、基础胡牌公式 (3n + 2)</div>
+                                <p className="text-xs text-slate-300">
+                                    麻将标准手牌为 13 张，摸入第 14 张或抢杠/荣和他人舍牌时，手牌凑齐 <b>4 个面子 (顺子或刻子) + 1 个雀头 (两张相同的对子)</b> 即可胡牌！
+                                </p>
+                            </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div className="p-3 bg-slate-800/60 rounded-xl border border-slate-700">
+                                    <span className="font-bold text-white text-xs block mb-1">⚡ 吃牌 (Chi)</span>
+                                    <p className="text-xs text-slate-400">仅限上家打出牌时，与手牌中两张牌组成顺子 (如手中 2、3 万，吃上家 1 万或 4 万)。</p>
+                                </div>
+                                <div className="p-3 bg-slate-800/60 rounded-xl border border-slate-700">
+                                    <span className="font-bold text-white text-xs block mb-1">⚡ 碰牌 (Peng)</span>
+                                    <p className="text-xs text-slate-400">任何玩家打出与你手中对子相同的牌时均可碰牌，碰牌后组成刻子并公开置于牌桌右侧。</p>
+                                </div>
+                                <div className="p-3 bg-slate-800/60 rounded-xl border border-slate-700">
+                                    <span className="font-bold text-white text-xs block mb-1">⚡ 杠牌 (Gang)</span>
+                                    <p className="text-xs text-slate-400">凑齐 4 张相同的牌，分为暗杠、明杠及点杠。杠后需从牌尾补摸一张牌！</p>
+                                </div>
+                                <div className="p-3 bg-slate-800/60 rounded-xl border border-slate-700">
+                                    <span className="font-bold text-white text-xs block mb-1">⚡ 听牌 (Tenpai)</span>
+                                    <p className="text-xs text-slate-400">距离胡牌仅差最后一张牌的状态，点击「听牌提示」即可直接查阅听牌列表！</p>
+                                </div>
+                            </div>
+                            <div className="p-3.5 bg-cyan-950/40 rounded-2xl border border-cyan-500/40 space-y-1">
+                                <div className="font-black text-cyan-300 text-sm font-orbitron">二、经典番型一览表</div>
+                                <ul className="list-disc list-inside text-xs text-slate-300 space-y-1">
+                                    <li><b>平胡 / 自摸 (1番)</b>：全顺子或自己从牌墙摸到胡牌。</li>
+                                    <li><b>门前清 (1番)</b>：没有任何吃牌、碰牌、明杠副露。</li>
+                                    <li><b>断幺九 (1番)</b>：手中没有任何 1、9 及字牌。</li>
+                                    <li><b>混一色 (3番)</b>：由同一门花色加字牌组成。</li>
+                                    <li><b>碰碰胡 (3番)</b>：全部由刻子与将牌组成。</li>
+                                    <li><b>七对子 (4番)</b>：由 7 个各不相同的对子组成。</li>
+                                    <li><b>清一色 (6番)</b>：完全由纯粹同一花色组成。</li>
+                                    <li><b>大三元 (8番满贯)</b>：中、发、白三组全部成刻！</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="px-6 py-3.5 bg-slate-950 border-t border-slate-800 flex justify-end">
+                            <button onClick={onClose} className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-black rounded-xl text-sm active:scale-95 shadow-lg">
+                                认证完成，进入对局
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const LogModal = ({ logs, onClose }) => (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 safe-top-padding">
+                <div className="bg-slate-900 border-2 border-slate-700 rounded-3xl w-full max-w-lg max-h-[80vh] flex flex-col shadow-2xl animate-pop">
+                    <div className="px-5 py-3.5 bg-slate-800 border-b border-slate-700 flex items-center justify-between">
+                        <div className="flex items-center gap-2 font-bold text-white text-sm">
+                            <MessageSquare size={18} className="text-cyan-400" />
+                            <span>雀坛矩阵战术日志</span>
+                        </div>
+                        <button onClick={onClose} className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-700">
+                            <XIcon size={18} />
+                        </button>
+                    </div>
+                    <div className="flex-1 overflow-y-auto custom-scrollbar p-4 space-y-2 font-mono text-xs text-slate-300">
+                        {logs.slice().reverse().map((log, idx) => (
+                            <div key={idx} className="p-2 rounded-lg bg-slate-800/60 border border-slate-700/60 leading-relaxed">
+                                {log}
+                            </div>
+                        ))}
+                    </div>
+                    <div className="p-3 bg-slate-950 border-t border-slate-800 text-right">
+                        <button onClick={onClose} className="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-xl text-xs">
+                            关闭
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+
+        const SetupHomeModal = ({ onStartGame, onOpenRules, character, setCharacter }) => {
+            return (
+                <div className="h-full w-full flex flex-col items-center justify-center bg-[#050811] text-white p-4 relative overflow-hidden cyber-table-felt safe-top-padding">
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+                    <div className="relative z-10 flex flex-col items-center mb-8 animate-float">
+                        <div className="p-4 bg-cyan-500/15 rounded-3xl border-2 border-cyan-400/50 mb-4 shadow-[0_0_35px_rgba(0,240,255,0.4)]">
+                            <ArcReactorSVG size="lg" />
+                        </div>
+                        <h1 className="text-5xl sm:text-6xl md:text-7xl font-orbitron font-black bg-gradient-to-b from-cyan-200 via-cyan-400 to-blue-600 bg-clip-text text-transparent tracking-[0.2em] uppercase drop-shadow-2xl text-center leading-none">
+                            CYBER MAHJONG
+                        </h1>
+                        <div className="h-0.5 w-48 bg-gradient-to-r from-transparent via-cyan-400 to-transparent my-3.5 opacity-80"></div>
+                        <h2 className="text-lg sm:text-2xl font-heiti font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-200 via-sky-300 to-cyan-100 tracking-[0.35em] uppercase text-glow-cyan drop-shadow-md">
+                            赛博雀神 · iPad 典藏对战版
+                        </h2>
+                    </div>
+
+                    <div className="relative z-20 w-full max-w-md bg-slate-900/85 border border-cyan-500/40 rounded-2xl p-5 mb-8 backdrop-blur-md shadow-2xl">
+                        <div className="text-xs font-heiti font-black text-cyan-400 tracking-wider mb-3 flex items-center gap-1.5">
+                            <Cpu size={14} /> 驾驶员认证终端 (Pilot Identity)
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                            <button
+                                onClick={() => setCharacter('judy')}
+                                className={`p-3 rounded-xl border flex items-center justify-center gap-3 transition-all ${
+                                    character === 'judy'
+                                        ? 'bg-cyan-500/25 border-cyan-400 text-cyan-200 ring-2 ring-cyan-400/50 shadow-[0_0_20px_rgba(0,240,255,0.3)]'
+                                        : 'bg-slate-800/80 border-slate-700 text-slate-400 hover:bg-slate-750'
+                                }`}
+                            >
+                                <span className="text-3xl">🐰</span>
+                                <div className="text-left">
+                                    <div className="font-heiti font-black text-sm text-white">Judy Hopps</div>
+                                    <div className="text-[10px] text-cyan-300 font-mono">QUANTUM COP</div>
+                                </div>
+                            </button>
+                            <button
+                                onClick={() => setCharacter('nick')}
+                                className={`p-3 rounded-xl border flex items-center justify-center gap-3 transition-all ${
+                                    character === 'nick'
+                                        ? 'bg-amber-500/25 border-amber-400 text-amber-200 ring-2 ring-amber-400/50 shadow-[0_0_20px_rgba(245,158,11,0.3)]'
+                                        : 'bg-slate-800/80 border-slate-700 text-slate-400 hover:bg-slate-750'
+                                }`}
+                            >
+                                <span className="text-3xl">🦊</span>
+                                <div className="text-left">
+                                    <div className="font-heiti font-black text-sm text-white">Nick Wilde</div>
+                                    <div className="text-[10px] text-amber-300 font-mono">CYBER FOX</div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="relative z-20 flex flex-row items-center justify-center gap-4 w-full max-w-md">
+                        <button 
+                            onClick={onStartGame}
+                            className="h-12 sm:h-13 px-7 sm:px-9 bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-600 hover:from-sky-300 hover:to-blue-400 rounded-full text-slate-950 font-heiti font-black text-base sm:text-lg shadow-[0_0_28px_rgba(56,189,248,0.45)] transform transition-all active:scale-95 border border-sky-300/40 whitespace-nowrap flex items-center justify-center gap-2"
+                        >
+                            <Zap size={20} className="fill-current text-slate-950" />
+                            <span>启动雀桌</span>
+                        </button>
+                        <button
+                            onClick={onOpenRules}
+                            className="h-12 sm:h-13 px-7 sm:px-9 bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-700 hover:border-cyan-500/50 text-cyan-100 font-heiti font-bold text-base sm:text-lg rounded-full transition-all active:scale-95 whitespace-nowrap flex items-center justify-center gap-2 shadow-lg"
+                        >
+                            <BookOpen size={20} className="text-cyan-300" />
+                            <span>量子秘典规则</span>
+                        </button>
+                    </div>
+                    
+                    <div className="absolute bottom-4 text-cyan-600/60 text-xs font-orbitron tracking-widest">
+                        CYBER DELUXE EDITION · iPad Pro 12.9"
+                    </div>
+                </div>
+            );
+        };
+
+        function MahjongGame() {
+            const [gameState, setGameState] = useState('home');
+            const [selectedCharacter, setSelectedCharacter] = useState('judy');
+            const [wall, setWall] = useState([]);
+            const [players, setPlayers] = useState([]);
+            const [turnIndex, setTurnIndex] = useState(0);
+            const [selectedTile, setSelectedTile] = useState(null);
+            const [lastDiscardInfo, setLastDiscardInfo] = useState(null);
+            
+            const [pendingAction, setPendingAction] = useState(null); 
+            const [chiOptions, setChiOptions] = useState([]);
+
+            const [showRules, setShowRules] = useState(false);
+            const [showLogs, setShowLogs] = useState(false);
+            const [logs, setLogs] = useState([]);
+            const [roundWinner, setRoundWinner] = useState(null);
+            const [tenpaiWaitList, setTenpaiWaitList] = useState([]);
+            const [notification, setNotification] = useState(null);
+
+            const aiTimerRef = useRef(null);
+
+            const notify = (msg, type = 'info') => {
+                setNotification({ msg, type });
+                setTimeout(() => setNotification(null), 3200);
+            };
+
+            const addLog = (msg) => {
+                setLogs(prev => [...prev, msg].slice(-50));
+            };
+
+            const startNewMatch = () => {
+                if (aiTimerRef.current) clearTimeout(aiTimerRef.current);
+
+                const newDeck = generateMahjongDeck();
+                const humanProfile = selectedCharacter === 'nick'
+                    ? { name: "Nick Wilde", avatar: "🦊" }
+                    : { name: "Judy Hopps", avatar: "🐰" };
+
+                const playerRoster = [
+                    { id: 0, ...humanProfile, isHuman: true, chips: 25000 },
+                    { id: 1, name: selectedCharacter === 'nick' ? "Judy Hopps" : "Nick Wilde", avatar: selectedCharacter === 'nick' ? "🐰" : "🦊", isHuman: false, chips: 25000 },
+                    { id: 2, name: "Chief Bogo", avatar: "🐃", isHuman: false, chips: 25000 },
+                    { id: 3, name: "Flash Sloth", avatar: "🦥", isHuman: false, chips: 25000 }
+                ];
+
+                const initPlayers = playerRoster.map((p, idx) => {
+                    const count = idx === 0 ? 14 : 13;
+                    const hand = sortMahjongHand(newDeck.splice(0, count));
+                    return {
+                        ...p,
+                        hand,
+                        melds: [],
+                        discards: [],
+                        isTenpai: false
+                    };
+                });
+
+                setWall(newDeck);
+                setPlayers(initPlayers);
+                setTurnIndex(0);
+                setSelectedTile(null);
+                setLastDiscardInfo(null);
+                setPendingAction(null);
+                setRoundWinner(null);
+                setGameState('playing');
+
+                addLog("⚡ 赛博四席落座，初始筹码 25000，136 张量子牌墙部署完毕。");
+                notify("牌局开始！你为起手庄家，请点选手牌打出！", "info");
+            };
+
+            useEffect(() => {
+                if (players.length > 0 && players[0].hand) {
+                    const human = players[0];
+                    if (human.hand.length % 3 === 1) {
+                        const waiting = getTenpaiList(human.hand);
+                        setTenpaiWaitList(waiting);
+                    } else {
+                        setTenpaiWaitList([]);
+                    }
+                }
+            }, [players]);
+
+            const currentPlayer = players[turnIndex] || null;
+            const isHumanTurn = currentPlayer && currentPlayer.isHuman && gameState === 'playing';
+
+            const advanceToNextTurn = (nextIdx, currentWall = wall, currentPlayers = players) => {
+                if (currentWall.length === 0) {
+                    addLog("量子牌墙能量耗尽，荒牌流局！");
+                    setRoundWinner({ isDraw: true });
+                    setGameState('round_end');
+                    return;
+                }
+
+                const updatedWall = [...currentWall];
+                const drawnTile = updatedWall.pop();
+
+                const updatedPlayers = currentPlayers.map((p, idx) => {
+                    if (idx === nextIdx) {
+                        return {
+                            ...p,
+                            hand: [...p.hand, drawnTile]
+                        };
+                    }
+                    return p;
+                });
+
+                setWall(updatedWall);
+                setPlayers(updatedPlayers);
+                setTurnIndex(nextIdx);
+                setSelectedTile(null);
+                sfx.playDraw();
+
+                const nextPlayer = updatedPlayers[nextIdx];
+
+                const winCheck = isStandardWin(nextPlayer.hand);
+                if (winCheck.isWin) {
+                    if (nextPlayer.isHuman) {
+                        setPendingAction({
+                            type: 'tsumo',
+                            tile: drawnTile,
+                            playerIndex: nextIdx
+                        });
+                        notify("🎉 绝妙天听，您已自摸！请点击【自摸】完成胜利！", "info");
+                        return;
+                    } else {
+                        handleWinAction(nextIdx, drawnTile, true, updatedPlayers);
+                        return;
+                    }
+                }
+
+                if (!nextPlayer.isHuman) {
+                    aiTimerRef.current = setTimeout(() => {
+                        handleAIDiscardStep(nextIdx, updatedPlayers, updatedWall);
+                    }, 850);
+                } else {
+                    notify("轮到你的回合，摸入新牌，请点选弃置！", "info");
+                }
+            };
+
+            const handlePlayerDiscard = (tile) => {
+                if (!isHumanTurn) return;
+
+                sfx.playDiscard();
+                const newHand = currentPlayer.hand.filter(t => t.id !== tile.id);
+                const sortedHand = sortMahjongHand(newHand);
+                
+                const updatedPlayers = players.map((p, idx) => {
+                    if (idx === 0) {
+                        return {
+                            ...p,
+                            hand: sortedHand,
+                            discards: [...p.discards, tile]
+                        };
+                    }
+                    return p;
+                });
+
+                setPlayers(updatedPlayers);
+                setSelectedTile(null);
+                setLastDiscardInfo({ playerIndex: 0, tile });
+                addLog(`你打出了 【${tile.name}】`);
+
+                checkReactionsToDiscard(0, tile, updatedPlayers, wall);
+            };
+
+            const handleAIDiscardStep = (aiIdx, currentPlayers, currentWall) => {
+                const ai = currentPlayers[aiIdx];
+                const discardTile = evaluateAIDiscard(ai.hand);
+                sfx.playDiscard();
+
+                const newHand = sortMahjongHand(ai.hand.filter(t => t.id !== discardTile.id));
+                const updatedPlayers = currentPlayers.map((p, idx) => {
+                    if (idx === aiIdx) {
+                        return {
+                            ...p,
+                            hand: newHand,
+                            discards: [...p.discards, discardTile]
+                        };
+                    }
+                    return p;
+                });
+
+                setPlayers(updatedPlayers);
+                setLastDiscardInfo({ playerIndex: aiIdx, tile: discardTile });
+                addLog(`${ai.name} 打出了 【${discardTile.name}】`);
+
+                checkReactionsToDiscard(aiIdx, discardTile, updatedPlayers, currentWall);
+            };
+
+            const checkReactionsToDiscard = (discardPlayerIdx, tile, currentPlayers, currentWall) => {
+                const human = currentPlayers[0];
+
+                if (discardPlayerIdx !== 0) {
+                    const testHand = [...human.hand, tile];
+                    if (isStandardWin(testHand).isWin) {
+                        setPendingAction({
+                            type: 'ron',
+                            tile,
+                            fromPlayerIdx: discardPlayerIdx
+                        });
+                        notify("🔥 敌方放铳！您可以直接点击【荣和胡牌】！", "info");
+                        return;
+                    }
+
+                    const sameCount = human.hand.filter(t => t.suit === tile.suit && t.val === tile.val).length;
+                    const canPeng = sameCount >= 2;
+                    const canGang = sameCount === 3;
+
+                    let availableChis = [];
+                    if (discardPlayerIdx === 3 && tile.suit !== 'zi') {
+                        const v = tile.val;
+                        const s = tile.suit;
+                        const h = human.hand;
+                        const hasVal = (n) => h.some(t => t.suit === s && t.val === n);
+
+                        if (hasVal(v - 2) && hasVal(v - 1)) availableChis.push([v - 2, v - 1, v]);
+                        if (hasVal(v - 1) && hasVal(v + 1)) availableChis.push([v - 1, v, v + 1]);
+                        if (hasVal(v + 1) && hasVal(v + 2)) availableChis.push([v, v + 1, v + 2]);
+                    }
+
+                    if (canPeng || canGang || availableChis.length > 0) {
+                        setPendingAction({
+                            type: 'prompt',
+                            tile,
+                            canPeng,
+                            canGang,
+                            canChi: availableChis.length > 0,
+                            chis: availableChis,
+                            fromPlayerIdx: discardPlayerIdx
+                        });
+                        return;
+                    }
+                }
+
+                for (let i = 1; i < 4; i++) {
+                    if (i !== discardPlayerIdx) {
+                        const bot = currentPlayers[i];
+                        if (isStandardWin([...bot.hand, tile]).isWin) {
+                            handleWinAction(i, tile, false, currentPlayers, discardPlayerIdx);
+                            return;
+                        }
+                    }
+                }
+
+                const nextIdx = (discardPlayerIdx + 1) % 4;
+                advanceToNextTurn(nextIdx, currentWall, currentPlayers);
+            };
+
+            const handlePengAction = () => {
+                if (!pendingAction) return;
+                const { tile, fromPlayerIdx } = pendingAction;
+                sfx.playMeldAction();
+
+                const human = players[0];
+                const matching = human.hand.filter(t => t.suit === tile.suit && t.val === tile.val).slice(0, 2);
+                const matchIds = new Set(matching.map(m => m.id));
+
+                const remainingHand = human.hand.filter(t => !matchIds.has(t.id));
+                const newMeld = {
+                    type: 'peng',
+                    tiles: [...matching, tile]
+                };
+
+                const updatedPlayers = players.map((p, idx) => {
+                    if (idx === 0) {
+                        return {
+                            ...p,
+                            hand: remainingHand,
+                            melds: [...p.melds, newMeld]
+                        };
+                    }
+                    return p;
+                });
+
+                setPlayers(updatedPlayers);
+                setPendingAction(null);
+                setTurnIndex(0);
+                addLog(`你【碰】了 ${players[fromPlayerIdx].name} 的 【${tile.name}】！`);
+                notify("碰牌成功！请选择手牌打出一张。", "info");
+            };
+
+            const handleChiAction = (chiPattern) => {
+                if (!pendingAction) return;
+                const { tile } = pendingAction;
+                sfx.playMeldAction();
+
+                const human = players[0];
+                const neededVals = chiPattern.filter(v => v !== tile.val);
+                const usedTiles = [];
+
+                neededVals.forEach(v => {
+                    const match = human.hand.find(t => t.suit === tile.suit && t.val === v && !usedTiles.some(u => u.id === t.id));
+                    if (match) usedTiles.push(match);
+                });
+
+                const usedIds = new Set(usedTiles.map(u => u.id));
+                const remainingHand = human.hand.filter(t => !usedIds.has(t.id));
+                const newMeld = {
+                    type: 'chi',
+                    tiles: sortMahjongHand([...usedTiles, tile])
+                };
+
+                const updatedPlayers = players.map((p, idx) => {
+                    if (idx === 0) {
+                        return {
+                            ...p,
+                            hand: remainingHand,
+                            melds: [...p.melds, newMeld]
+                        };
+                    }
+                    return p;
+                });
+
+                setPlayers(updatedPlayers);
+                setPendingAction(null);
+                setChiOptions([]);
+                setTurnIndex(0);
+                addLog(`你【吃】了 【${tile.name}】！`);
+                notify("吃牌成功！请选择手牌打出一张。", "info");
+            };
+
+            const handleGangAction = () => {
+                if (!pendingAction) return;
+                const { tile } = pendingAction;
+                sfx.playMeldAction();
+
+                const human = players[0];
+                const matching = human.hand.filter(t => t.suit === tile.suit && t.val === tile.val).slice(0, 3);
+                const matchIds = new Set(matching.map(m => m.id));
+
+                const remainingHand = human.hand.filter(t => !matchIds.has(t.id));
+                const newMeld = {
+                    type: 'ming_gang',
+                    tiles: [...matching, tile]
+                };
+
+                if (wall.length === 0) return;
+                const updatedWall = [...wall];
+                const replacementTile = updatedWall.pop();
+
+                const updatedPlayers = players.map((p, idx) => {
+                    if (idx === 0) {
+                        return {
+                            ...p,
+                            hand: [...remainingHand, replacementTile],
+                            melds: [...p.melds, newMeld]
+                        };
+                    }
+                    return p;
+                });
+
+                setWall(updatedWall);
+                setPlayers(updatedPlayers);
+                setPendingAction(null);
+                setTurnIndex(0);
+                addLog(`你【大明杠】了 【${tile.name}】并补摸一张牌！`);
+                notify("杠牌成功！已补摸一张手牌。", "info");
+            };
+
+            const handlePassAction = () => {
+                const lastIdx = pendingAction ? pendingAction.fromPlayerIdx : turnIndex;
+                setPendingAction(null);
+                setChiOptions([]);
+                const nextIdx = (lastIdx + 1) % 4;
+                advanceToNextTurn(nextIdx, wall, players);
+            };
+
+            const handleWinAction = (winnerIdx, winningTile, isSelfDraw, currentPlayers = players, shooterIdx = null) => {
+                sfx.playVictoryHu();
+                const winner = currentPlayers[winnerIdx];
+                const handForEval = isSelfDraw ? winner.hand : [...winner.hand, winningTile];
+                const fanDetails = evaluateFanDetails(handForEval, winner.melds, winningTile, isSelfDraw);
+
+                setRoundWinner({
+                    winner,
+                    winningTile,
+                    isSelfDraw,
+                    shooter: shooterIdx !== null ? currentPlayers[shooterIdx] : null,
+                    fanDetails
+                });
+
+                setGameState('round_end');
+                addLog(`🏆 ${winner.name} 荣获胡牌！【${fanDetails.fans.map(f => f.name).join(' + ')}】 共计 ${fanDetails.totalFan} 番 (+${fanDetails.score} 筹码)！`);
+            };
+
+            const handleAutoSortHand = () => {
+                sfx.playTileClick();
+                const updatedPlayers = [...players];
+                updatedPlayers[0].hand = sortMahjongHand(updatedPlayers[0].hand);
+                setPlayers(updatedPlayers);
+                notify("✨ 手牌已按照【万、条、筒、字】智能理顺！", "info");
+            };
+
+            const handleSmartTenpaiHint = () => {
+                sfx.playTileClick();
+                if (tenpaiWaitList.length > 0) {
+                    notify(`💡 听牌诊断：您已听牌！听牌张为：[${tenpaiWaitList.map(t => t.name).join('、')}]`, "info");
+                } else {
+                    notify("💡 听牌诊断：当前尚未听牌，建议保留对子及联络中张！", "warning");
+                }
+            };
+
+            if (gameState === 'home') {
+                return (
+                    <SetupHomeModal 
+                        onStartGame={startNewMatch} 
+                        onOpenRules={() => setShowRules(true)}
+                        character={selectedCharacter}
+                        setCharacter={setSelectedCharacter}
+                    />
+                );
+            }
+
+            const humanPlayer = players[0] || { hand: [], melds: [], discards: [] };
+            const drawnTileSeparated = humanPlayer.hand.length % 3 === 2 ? humanPlayer.hand[humanPlayer.hand.length - 1] : null;
+            const mainHand = drawnTileSeparated ? humanPlayer.hand.slice(0, humanPlayer.hand.length - 1) : humanPlayer.hand;
+
+            return (
+                <div className="h-full w-full bg-[#050811] text-cyan-100 flex flex-col overflow-hidden font-sans select-none safe-top-padding">
+                    {showRules && <MahjongRulesModal onClose={() => setShowRules(false)} />}
+                    {showLogs && <LogModal logs={logs} onClose={() => setShowLogs(false)} />}
+
+                    <div className="h-14 py-1.5 bg-slate-950/95 border-b border-cyan-500/30 px-3 sm:px-4 flex items-center justify-between z-30 shrink-0 shadow-lg">
+                        <div className="flex items-center gap-2.5">
+                            <span className="text-xl">🀄</span>
+                            <div>
+                                <div className="font-orbitron font-black text-cyan-400 text-sm sm:text-base tracking-wider leading-none text-glow-cyan">
+                                    CYBER MAHJONG
+                                </div>
+                                <div className="text-[10px] text-cyan-300/70 font-mono font-bold leading-none mt-1">
+                                    iPad Pro 12.9" 典藏对战版
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center gap-2 overflow-x-auto custom-scrollbar px-2">
+                            {players.map((p, idx) => (
+                                <div
+                                    key={p.id}
+                                    className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl border text-xs whitespace-nowrap transition-all ${
+                                        idx === turnIndex 
+                                            ? 'bg-cyan-500/20 border-cyan-400 text-cyan-200 ring-2 ring-cyan-400/40 font-bold' 
+                                            : 'bg-slate-900/80 border-slate-800 text-slate-400'
+                                    }`}
+                                >
+                                    <span>{p.avatar}</span>
+                                    <span className="font-bold">{p.name}</span>
+                                    <span className="font-mono text-cyan-300 font-bold text-[11px] bg-slate-950 px-1.5 rounded border border-cyan-500/30">
+                                        {p.chips}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="flex items-center gap-1.5 shrink-0">
+                            <button
+                                onClick={() => setShowLogs(true)}
+                                className="flex items-center gap-1 px-2.5 py-1 bg-slate-900 hover:bg-slate-800 border border-slate-700 rounded-xl text-xs font-bold text-slate-200"
+                            >
+                                <MessageSquare size={13} className="text-cyan-400" />
+                                <span>日志</span>
+                            </button>
+                            <button
+                                onClick={() => setShowRules(true)}
+                                className="flex items-center gap-1 px-2.5 py-1 bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/40 rounded-xl text-xs font-bold text-cyan-300"
+                            >
+                                <BookOpen size={13} />
+                                <span>规则</span>
+                            </button>
+                            <button
+                                onClick={() => setGameState('home')}
+                                className="flex items-center gap-1 px-2.5 py-1 bg-rose-950/60 hover:bg-rose-900 border border-rose-800/80 rounded-xl text-xs font-bold text-rose-300"
+                            >
+                                <HomeIcon size={13} />
+                                <span>主页</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="flex-1 flex flex-col p-2 sm:p-4 overflow-hidden relative cyber-table-felt min-h-0">
+                        {notification && (
+                            <div className="absolute top-3 left-1/2 -translate-x-1/2 z-40 animate-pop pointer-events-none">
+                                <div className={`px-4 py-1.5 rounded-full shadow-2xl border text-xs font-bold flex items-center gap-2 backdrop-blur-md whitespace-nowrap ${
+                                    notification.type === 'warning' ? 'bg-amber-950/95 border-amber-400 text-amber-200' :
+                                    notification.type === 'error' ? 'bg-rose-950/95 border-rose-500 text-rose-200' :
+                                    'bg-slate-950/95 border-cyan-400 text-cyan-300 shadow-[0_0_15px_rgba(0,240,255,0.4)]'
+                                }`}>
+                                    <Sparkles size={14} className="text-cyan-400" />
+                                    <span>{notification.msg}</span>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* 北家 */}
+                        <div className="flex flex-col items-center justify-center shrink-0 mb-1">
+                            <div className="flex items-center gap-2 mb-1">
+                                <span className="text-base leading-none">🐃</span>
+                                <span className="text-xs font-bold text-slate-300 font-orbitron">Chief Bogo (北)</span>
+                                <span className="text-[10px] text-cyan-400 bg-cyan-950 px-1.5 rounded border border-cyan-500/30">
+                                    手牌: {players[2]?.hand.length}
+                                </span>
+                            </div>
+                            <div className="flex gap-1 overflow-hidden">
+                                {Array.from({ length: players[2]?.hand.length || 13 }).map((_, i) => (
+                                    <MahjongTile key={i} tile={{}} size="sm" faceDown={true} />
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* 中层四方台 */}
+                        <div className="flex-1 flex items-center justify-between px-2 min-h-0">
+                            {/* 西家 */}
+                            <div className="flex flex-col items-center justify-center shrink-0 max-w-[100px]">
+                                <div className="text-xs font-bold text-slate-300 mb-1 flex items-center gap-1 font-orbitron">
+                                    <span>🦥</span> Flash (西)
+                                </div>
+                                <div className="grid grid-cols-2 gap-1">
+                                    {Array.from({ length: Math.min(players[3]?.hand.length || 13, 14) }).map((_, i) => (
+                                        <MahjongTile key={i} tile={{}} size="sm" faceDown={true} />
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* 牌池与八卦罗盘 */}
+                            <div className="flex-1 flex flex-col items-center justify-center gap-2">
+                                <DiscardRiver 
+                                    discards={players[2]?.discards || []} 
+                                    lastDiscardId={lastDiscardInfo?.tile?.id} 
+                                />
+
+                                <div className="flex items-center justify-center gap-4">
+                                    <DiscardRiver 
+                                        discards={players[3]?.discards || []} 
+                                        lastDiscardId={lastDiscardInfo?.tile?.id} 
+                                    />
+
+                                    <QuantumCompass 
+                                        activeTurnIndex={turnIndex} 
+                                        wallCount={wall.length} 
+                                    />
+
+                                    <DiscardRiver 
+                                        discards={players[1]?.discards || []} 
+                                        lastDiscardId={lastDiscardInfo?.tile?.id} 
+                                    />
+                                </div>
+
+                                <DiscardRiver 
+                                    discards={players[0]?.discards || []} 
+                                    lastDiscardId={lastDiscardInfo?.tile?.id} 
+                                />
+                            </div>
+
+                            {/* 东家 */}
+                            <div className="flex flex-col items-center justify-center shrink-0 max-w-[100px]">
+                                <div className="text-xs font-bold text-slate-300 mb-1 flex items-center gap-1 font-orbitron">
+                                    <span>{players[1]?.avatar}</span> {players[1]?.name?.split(' ')[0]} (东)
+                                </div>
+                                <div className="grid grid-cols-2 gap-1">
+                                    {Array.from({ length: Math.min(players[1]?.hand.length || 13, 14) }).map((_, i) => (
+                                        <MahjongTile key={i} tile={{}} size="sm" faceDown={true} />
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* 鸣牌响应动作栏 */}
+                        {pendingAction && (
+                            <div className="absolute bottom-28 sm:bottom-32 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-slate-950/95 border-2 border-cyan-400 p-2.5 rounded-2xl shadow-[0_0_40px_rgba(0,240,255,0.5)] animate-pop backdrop-blur-md">
+                                {pendingAction.type === 'tsumo' && (
+                                    <button
+                                        onClick={() => handleWinAction(0, pendingAction.tile, true)}
+                                        className="cyber-action-pulse px-6 py-2.5 bg-gradient-to-r from-rose-600 via-amber-500 to-rose-600 text-white font-black text-lg rounded-xl shadow-xl border border-yellow-200"
+                                    >
+                                        🏆 自摸胡牌！
+                                    </button>
+                                )}
+
+                                {pendingAction.type === 'ron' && (
+                                    <button
+                                        onClick={() => handleWinAction(0, pendingAction.tile, false, players, pendingAction.fromPlayerIdx)}
+                                        className="cyber-action-pulse px-6 py-2.5 bg-gradient-to-r from-rose-600 via-amber-500 to-rose-600 text-white font-black text-lg rounded-xl shadow-xl border border-yellow-200"
+                                    >
+                                        🔥 荣和胡牌！
+                                    </button>
+                                )}
+
+                                {pendingAction.canPeng && (
+                                    <button
+                                        onClick={handlePengAction}
+                                        className="px-5 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-black text-base rounded-xl shadow active:scale-95 border border-cyan-300"
+                                    >
+                                        碰
+                                    </button>
+                                )}
+
+                                {pendingAction.canGang && (
+                                    <button
+                                        onClick={handleGangAction}
+                                        className="px-5 py-2 bg-gradient-to-r from-purple-600 to-violet-600 text-white font-black text-base rounded-xl shadow active:scale-95 border border-purple-300"
+                                    >
+                                        杠
+                                    </button>
+                                )}
+
+                                {pendingAction.canChi && chiOptions.length === 0 && (
+                                    <button
+                                        onClick={() => {
+                                            if (pendingAction.chis.length === 1) {
+                                                handleChiAction(pendingAction.chis[0]);
+                                            } else {
+                                                setChiOptions(pendingAction.chis);
+                                            }
+                                        }}
+                                        className="px-5 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-black text-base rounded-xl shadow active:scale-95 border border-emerald-300"
+                                    >
+                                        吃
+                                    </button>
+                                )}
+
+                                {chiOptions.length > 0 && (
+                                    <div className="flex gap-2 bg-slate-900 p-1.5 rounded-xl border border-cyan-500">
+                                        {chiOptions.map((opt, i) => (
+                                            <button
+                                                key={i}
+                                                onClick={() => handleChiAction(opt)}
+                                                className="px-3 py-1.5 bg-cyan-700 hover:bg-cyan-600 text-white font-bold text-xs rounded-lg shadow"
+                                            >
+                                                {opt.join('-')}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+
+                                <button
+                                    onClick={handlePassAction}
+                                    className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-base rounded-xl active:scale-95 border border-slate-600"
+                                >
+                                    过
+                                </button>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* 底部玩家主牌架 */}
+                    <div className="bg-[#030914] border-t-2 border-cyan-500/40 p-2 sm:p-3 shrink-0 flex flex-col z-30 shadow-[0_-8px_30px_rgba(0,0,0,0.85)]">
+                        <div className="flex items-center justify-between px-2 mb-1.5">
+                            <div className="flex items-center gap-2">
+                                <span className="text-xl">{humanPlayer.avatar}</span>
+                                <span className="font-orbitron font-black text-sm text-cyan-300">
+                                    {humanPlayer.name} (南席)
+                                </span>
+                                {tenpaiWaitList.length > 0 ? (
+                                    <span className="text-[11px] font-bold text-cyan-300 bg-cyan-950 px-2 py-0.5 rounded-full border border-cyan-400 animate-pulse shadow-[0_0_8px_#00f0ff]">
+                                        ✦ 已听牌: {tenpaiWaitList.map(t => t.name).join(' ')}
+                                    </span>
+                                ) : (
+                                    <span className="text-[10px] text-slate-500 font-mono">未听牌</span>
+                                )}
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={handleSmartTenpaiHint}
+                                    className="px-2.5 py-1 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 rounded-lg text-xs font-bold flex items-center gap-1 active:scale-95"
+                                >
+                                    <Lightbulb size={13} />
+                                    <span>听牌提示</span>
+                                </button>
+                                <button
+                                    onClick={handleAutoSortHand}
+                                    className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600 rounded-lg text-xs font-bold flex items-center gap-1 active:scale-95"
+                                >
+                                    <span>理牌</span>
+                                </button>
+                                {selectedTile && isHumanTurn && (
+                                    <button
+                                        onClick={() => handlePlayerDiscard(selectedTile)}
+                                        className="px-4 py-1 bg-gradient-to-r from-cyan-400 to-blue-600 text-slate-950 font-black rounded-lg text-xs shadow-lg active:scale-95 border border-cyan-200 animate-pop"
+                                    >
+                                        打出 【{selectedTile.name}】
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* 手牌排列：主体手牌 + 新摸牌间隔展示 */}
+                        <div className="flex items-end justify-between gap-3 overflow-x-auto custom-scrollbar pt-2 pb-1">
+                            <div className="flex items-end gap-1 sm:gap-1.5 flex-1 min-h-[72px]">
+                                {mainHand.map(tile => (
+                                    <MahjongTile
+                                        key={tile.id}
+                                        tile={tile}
+                                        size="lg"
+                                        isSelected={selectedTile?.id === tile.id}
+                                        onClick={() => {
+                                            sfx.playTileClick();
+                                            if (selectedTile?.id === tile.id && isHumanTurn) {
+                                                handlePlayerDiscard(tile);
+                                            } else {
+                                                setSelectedTile(tile);
+                                            }
+                                        }}
+                                    />
+                                ))}
+
+                                {drawnTileSeparated && (
+                                    <div className="ml-4 flex items-end">
+                                        <MahjongTile
+                                            tile={drawnTileSeparated}
+                                            size="lg"
+                                            isDrawn={true}
+                                            isSelected={selectedTile?.id === drawnTileSeparated.id}
+                                            onClick={() => {
+                                                sfx.playTileClick();
+                                                if (selectedTile?.id === drawnTileSeparated.id && isHumanTurn) {
+                                                    handlePlayerDiscard(drawnTileSeparated);
+                                                } else {
+                                                    setSelectedTile(drawnTileSeparated);
+                                                }
+                                            }}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* 副露区 */}
+                            {humanPlayer.melds.length > 0 && (
+                                <div className="flex items-center gap-2 border-l border-cyan-900/50 pl-3">
+                                    {humanPlayer.melds.map((meld, mIdx) => (
+                                        <div key={mIdx} className="flex gap-0.5 bg-black/50 p-1 rounded-lg border border-cyan-900">
+                                            {meld.tiles.map(t => (
+                                                <MahjongTile key={t.id} tile={t} size="sm" />
+                                            ))}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* 胜局结算弹窗 */}
+                    {gameState === 'round_end' && roundWinner && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 safe-top-padding">
+                            <div className="bg-slate-900 border-2 border-cyan-500 rounded-3xl p-6 sm:p-8 max-w-lg w-full text-center shadow-[0_0_80px_rgba(0,240,255,0.4)] animate-pop">
+                                {roundWinner.isDraw ? (
+                                    <>
+                                        <div className="text-4xl mb-2">🤝</div>
+                                        <h2 className="text-2xl font-black text-cyan-400 mb-2 font-orbitron">荒牌流局！</h2>
+                                        <p className="text-xs text-slate-400 mb-6">量子牌墙已耗尽，四方防御均衡，平分秋色。</p>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Trophy size={64} className="text-cyan-400 mx-auto mb-2 animate-bounce" />
+                                        <h2 className="text-3xl font-black text-white mb-1 font-orbitron">
+                                            {roundWinner.winner.name} 【胡牌】！
+                                        </h2>
+                                        <p className="text-sm font-bold text-cyan-300 mb-4">
+                                            {roundWinner.isSelfDraw ? '自摸天成 · 满堂喝彩' : `点炮放铳 · 胜负分明`}
+                                        </p>
+
+                                        <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 text-left mb-6 space-y-2">
+                                            <div className="text-xs font-bold text-slate-400 uppercase tracking-wider font-orbitron">
+                                                番型结算明细
+                                            </div>
+                                            <div className="flex flex-wrap gap-2 pt-1">
+                                                {roundWinner.fanDetails.fans.map((f, i) => (
+                                                    <span key={i} className="px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 text-xs font-bold border border-cyan-500/30">
+                                                        {f.name} ({f.fan}番)
+                                                    </span>
+                                                ))}
+                                            </div>
+                                            <div className="flex justify-between items-center pt-2 border-t border-slate-800 text-sm font-black">
+                                                <span className="text-slate-300">总番数 / 战果点数：</span>
+                                                <span className="text-cyan-400 font-mono text-lg text-glow-cyan">
+                                                    {roundWinner.fanDetails.totalFan} 番 / +{roundWinner.fanDetails.score} 筹码
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
+
+                                <div className="flex gap-3">
+                                    <button
+                                        onClick={startNewMatch}
+                                        className="w-full py-3.5 bg-gradient-to-r from-cyan-400 to-blue-600 text-slate-950 font-black rounded-xl text-base shadow-xl active:scale-95 font-orbitron"
+                                    >
+                                        再战一局
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<MahjongGame />);
+    </script>
+</body>
+</html>
